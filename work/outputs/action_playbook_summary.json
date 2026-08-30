@@ -1,0 +1,36 @@
+{
+  "notebook": "w07_action_playbook",
+  "frame_rows": 95810,
+  "base_rate": 0.4907734057,
+  "queue_size": 50,
+  "tie_breaker": {
+    "rule_tie_band_n": 24775,
+    "rule_tie_band_decline_rate": 0.5323107971745712,
+    "model_queue_p50": 0.74,
+    "precision_gain_vs_random_tie": 0.2076892028254288
+  },
+  "risk_tier_distribution": {
+    "low": 48786,
+    "moderate": 26824,
+    "high": 20200
+  },
+  "reason_code_distribution": {
+    "HIGH_EXPOSURE_RISK": 12450,
+    "MATURE_CONTENT_DECAY": 38920,
+    "TOP_POS_CTR_EROSION": 21840,
+    "THIN_ACTIVITY_DRIFT": 9850,
+    "BROAD_EFFICIENCY_DECLINE": 12750
+  },
+  "safety_gate_summary": {
+    "CLEARED_FOR_REVIEW": 47,
+    "REQUIRES_SENIOR_ESCALATION": 3
+  },
+  "monitoring_status": "HEALTHY",
+  "seed": 42,
+  "library_versions": {
+    "pandas": "3.0.3",
+    "numpy": "2.5.1",
+    "scikit-learn": "1.9.0",
+    "duckdb": "1.5.4"
+  }
+}
