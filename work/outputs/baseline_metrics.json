@@ -1,12 +1,12 @@
 {
-  "base_rate": 0.4907734057,
-  "precision_at_50": 0.6,
-  "recall_at_50": 0.0006380026,
-  "ndcg_at_50": 0.5381665487661559,
+  "base_rate": 0.4909195282329611,
+  "precision_at_50": 0.56,
+  "recall_at_50": 0.0005953013713192304,
+  "ndcg_at_50": 0.47079382887295934,
   "seed": 42,
   "tie_band": {
-    "n": 24775,
-    "decline_rate": 0.5323107971745712,
+    "n": 24462,
+    "decline_rate": 0.506949554410923,
     "note": "Top-K is drawn from inside this band by arbitrary tie order. The band decline rate is the order-independent baseline."
   },
   "recall_at_50_note": "Structurally capped near 50 / total positives. Reported for continuity with the reference pipeline; it drives no decision."
