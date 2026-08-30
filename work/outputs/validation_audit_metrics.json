@@ -11,8 +11,8 @@
         "2026-04-01",
         "2026-04-30"
       ],
-      "rows": 96268,
-      "base_rate": 0.5106681347903769,
+      "rows": 95810,
+      "base_rate": 0.49077340569877886,
       "clients": 40,
       "largest_client_share": 0.2211430589604022
     },
@@ -423,9 +423,9 @@
   "survivorship": {
     "march_to_april": {
       "pool_candidates": 99000,
-      "labeled": 96268,
+      "labeled": 95810,
       "dropped_absent_outcome": 412,
-      "dropped_thin_outcome": 2320
+      "dropped_thin_outcome": 2778
     },
     "april_to_may": {
       "pool_candidates": 102943,
