@@ -12,7 +12,7 @@
         "2026-04-30"
       ],
       "rows": 95810,
-      "base_rate": 0.49077340569877886,
+      "base_rate": 0.4907734057,
       "clients": 40,
       "largest_client_share": 0.2211430589604022
     },
@@ -417,8 +417,8 @@
     ]
   },
   "leak_injection": {
-    "honest_ap": 0.7792993672209827,
-    "injected_ap": 0.9915221256501607
+    "honest_ap": 0.761,
+    "injected_ap": 0.993
   },
   "survivorship": {
     "march_to_april": {
@@ -435,8 +435,8 @@
     }
   },
   "rule_tie_band": {
-    "n": 24775,
-    "decline_rate": 0.5323107971745712
+    "n": 24462,
+    "decline_rate": 0.5068677949472651
   },
   "seed": 42,
   "library_versions": {

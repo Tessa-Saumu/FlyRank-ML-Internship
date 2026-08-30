@@ -4,10 +4,10 @@
   "base_rate": 0.4907734057,
   "queue_size": 50,
   "tie_breaker": {
-    "rule_tie_band_n": 24775,
-    "rule_tie_band_decline_rate": 0.5323107971745712,
-    "model_queue_p50": 0.74,
-    "precision_gain_vs_random_tie": 0.2076892028254288
+    "rule_tie_band_n": 24462,
+    "rule_tie_band_decline_rate": 0.5068677949472651,
+    "model_queue_p50": 0.608,
+    "precision_gain_vs_random_tie": 0.1011322050527349
   },
   "risk_tier_distribution": {
     "low": 48786,

@@ -1,7 +1,7 @@
 {
   "notebook": "w05_model",
   "frame_rows": 95810,
-  "base_rate": 0.4909195282329611,
+  "base_rate": 0.4907734057,
   "seed": 42,
   "library_versions": {
     "pandas": "3.0.3",
@@ -14,148 +14,143 @@
       "fold": 1,
       "train_rows": 71357,
       "test_rows": 24453,
-      "train_clients": 30,
       "test_clients": 10,
-      "client_overlap": 0,
-      "train_positive_rate": 0.447,
-      "test_positive_rate": 0.62
+      "test_base_rate": 0.6364782431882879
     },
     {
       "fold": 2,
-      "train_rows": 71612,
-      "test_rows": 24198,
-      "train_clients": 30,
+      "train_rows": 70966,
+      "test_rows": 24844,
       "test_clients": 10,
-      "client_overlap": 0,
-      "train_positive_rate": 0.522,
-      "test_positive_rate": 0.398
+      "test_base_rate": 0.420790653667366
     },
     {
       "fold": 3,
-      "train_rows": 28153,
-      "test_rows": 67657,
-      "train_clients": 30,
+      "train_rows": 27825,
+      "test_rows": 67985,
       "test_clients": 10,
-      "client_overlap": 0,
-      "train_positive_rate": 0.558,
-      "test_positive_rate": 0.463
+      "test_base_rate": 0.3804810221387071
     },
     {
       "fold": 4,
       "train_rows": 69811,
       "test_rows": 25999,
-      "train_clients": 30,
       "test_clients": 10,
-      "client_overlap": 0,
-      "train_positive_rate": 0.529,
-      "test_positive_rate": 0.389
+      "test_base_rate": 0.38886111004269397
     },
     {
       "fold": 5,
-      "train_rows": 70511,
-      "test_rows": 25299,
-      "train_clients": 30,
+      "train_rows": 71490,
+      "test_rows": 24320,
       "test_clients": 10,
-      "client_overlap": 0,
-      "train_positive_rate": 0.457,
-      "test_positive_rate": 0.585
+      "test_base_rate": 0.5987593734050489
     }
   ],
   "per_fold": [
     {
       "fold": 1,
-      "base_rate": 0.620415,
-      "baseline_p20": 0.85,
-      "baseline_p50": 0.84,
-      "baseline_r50": 0.002768,
-      "baseline_ndcg50": 0.866648,
-      "baseline_ap": 0.648217,
-      "logistic_regression_p20": 0.7,
-      "logistic_regression_p50": 0.78,
-      "logistic_regression_r50": 0.002571,
-      "logistic_regression_ndcg50": 0.786882,
-      "logistic_regression_ap": 0.720896,
-      "random_forest_p20": 0.85,
-      "random_forest_p50": 0.84,
-      "random_forest_r50": 0.002768,
-      "random_forest_ndcg50": 0.788107,
-      "random_forest_ap": 0.7609
+      "baseline": {
+        "p20": 0.85,
+        "p50": 0.84,
+        "ndcg50": 0.867,
+        "ap": 0.648
+      },
+      "logistic_regression": {
+        "p20": 0.8,
+        "p50": 0.78,
+        "ndcg50": 0.804,
+        "ap": 0.721
+      },
+      "random_forest": {
+        "p20": 0.85,
+        "p50": 0.84,
+        "ndcg50": 0.804,
+        "ap": 0.761
+      }
     },
     {
       "fold": 2,
-      "base_rate": 0.397554,
-      "baseline_p20": 0.25,
-      "baseline_p50": 0.32,
-      "baseline_r50": 0.001663,
-      "baseline_ndcg50": 0.334532,
-      "baseline_ap": 0.398498,
-      "logistic_regression_p20": 0.45,
-      "logistic_regression_p50": 0.48,
-      "logistic_regression_r50": 0.002495,
-      "logistic_regression_ndcg50": 0.44155,
-      "logistic_regression_ap": 0.446711,
-      "random_forest_p20": 0.35,
-      "random_forest_p50": 0.38,
-      "random_forest_r50": 0.001975,
-      "random_forest_ndcg50": 0.365558,
-      "random_forest_ap": 0.414373
+      "baseline": {
+        "p20": 0.25,
+        "p50": 0.32,
+        "ndcg50": 0.335,
+        "ap": 0.418
+      },
+      "logistic_regression": {
+        "p20": 0.45,
+        "p50": 0.48,
+        "ndcg50": 0.448,
+        "ap": 0.474
+      },
+      "random_forest": {
+        "p20": 0.4,
+        "p50": 0.38,
+        "ndcg50": 0.399,
+        "ap": 0.441
+      }
     },
     {
       "fold": 3,
-      "base_rate": 0.46282,
-      "baseline_p20": 0.55,
-      "baseline_p50": 0.38,
-      "baseline_r50": 0.000607,
-      "baseline_ndcg50": 0.406523,
-      "baseline_ap": 0.467347,
-      "logistic_regression_p20": 0.35,
-      "logistic_regression_p50": 0.4,
-      "logistic_regression_r50": 0.000639,
-      "logistic_regression_ndcg50": 0.38208,
-      "logistic_regression_ap": 0.43809,
-      "random_forest_p20": 0.3,
-      "random_forest_p50": 0.38,
-      "random_forest_r50": 0.000607,
-      "random_forest_ndcg50": 0.331106,
-      "random_forest_ap": 0.448972
+      "baseline": {
+        "p20": 0.45,
+        "p50": 0.38,
+        "ndcg50": 0.412,
+        "ap": 0.366
+      },
+      "logistic_regression": {
+        "p20": 0.35,
+        "p50": 0.4,
+        "ndcg50": 0.382,
+        "ap": 0.438
+      },
+      "random_forest": {
+        "p20": 0.3,
+        "p50": 0.38,
+        "ndcg50": 0.331,
+        "ap": 0.414
+      }
     },
     {
       "fold": 4,
-      "base_rate": 0.389284,
-      "baseline_p20": 0.6,
-      "baseline_p50": 0.5,
-      "baseline_r50": 0.00247,
-      "baseline_ndcg50": 0.472131,
-      "baseline_ap": 0.366397,
-      "logistic_regression_p20": 0.55,
-      "logistic_regression_p50": 0.66,
-      "logistic_regression_r50": 0.003261,
-      "logistic_regression_ndcg50": 0.660712,
-      "logistic_regression_ap": 0.503209,
-      "random_forest_p20": 0.45,
-      "random_forest_p50": 0.6,
-      "random_forest_r50": 0.002964,
-      "random_forest_ndcg50": 0.532002,
-      "random_forest_ap": 0.483373
+      "baseline": {
+        "p20": 0.55,
+        "p50": 0.5,
+        "ndcg50": 0.485,
+        "ap": 0.428
+      },
+      "logistic_regression": {
+        "p20": 0.6,
+        "p50": 0.66,
+        "ndcg50": 0.638,
+        "ap": 0.521
+      },
+      "random_forest": {
+        "p20": 0.6,
+        "p50": 0.6,
+        "ndcg50": 0.598,
+        "ap": 0.514
+      }
     },
     {
       "fold": 5,
-      "base_rate": 0.584569,
-      "baseline_p20": 0.65,
-      "baseline_p50": 0.52,
-      "baseline_r50": 0.001758,
-      "baseline_ndcg50": 0.544112,
-      "baseline_ap": 0.581757,
-      "logistic_regression_p20": 0.8,
-      "logistic_regression_p50": 0.86,
-      "logistic_regression_r50": 0.002908,
-      "logistic_regression_ndcg50": 0.86921,
-      "logistic_regression_ap": 0.676506,
-      "random_forest_p20": 0.85,
-      "random_forest_p50": 0.84,
-      "random_forest_r50": 0.00284,
-      "random_forest_ndcg50": 0.804225,
-      "random_forest_ap": 0.698427
+      "baseline": {
+        "p20": 0.8,
+        "p50": 0.52,
+        "ndcg50": 0.527,
+        "ap": 0.599
+      },
+      "logistic_regression": {
+        "p20": 0.65,
+        "p50": 0.86,
+        "ndcg50": 0.869,
+        "ap": 0.628
+      },
+      "random_forest": {
+        "p20": 0.65,
+        "p50": 0.84,
+        "ndcg50": 0.688,
+        "ap": 0.675
+      }
     }
   ],
   "summary": [
@@ -167,12 +162,12 @@
       "p50_mean": 0.512,
       "p50_min": 0.32,
       "p50_max": 0.84,
-      "ndcg50_mean": 0.524789,
-      "ndcg50_min": 0.334532,
-      "ndcg50_max": 0.866648,
-      "ap_mean": 0.492443,
-      "ap_min": 0.366397,
-      "ap_max": 0.648217
+      "ndcg50_mean": 0.525,
+      "ndcg50_min": 0.335,
+      "ndcg50_max": 0.867,
+      "ap_mean": 0.492,
+      "ap_min": 0.366,
+      "ap_max": 0.648
     },
     {
       "scorer": "logistic_regression",
@@ -182,12 +177,12 @@
       "p50_mean": 0.636,
       "p50_min": 0.4,
       "p50_max": 0.86,
-      "ndcg50_mean": 0.628087,
-      "ndcg50_min": 0.38208,
-      "ndcg50_max": 0.86921,
-      "ap_mean": 0.557082,
-      "ap_min": 0.43809,
-      "ap_max": 0.720896
+      "ndcg50_mean": 0.628,
+      "ndcg50_min": 0.382,
+      "ndcg50_max": 0.869,
+      "ap_mean": 0.557,
+      "ap_min": 0.438,
+      "ap_max": 0.721
     },
     {
       "scorer": "random_forest",
@@ -197,17 +192,19 @@
       "p50_mean": 0.608,
       "p50_min": 0.38,
       "p50_max": 0.84,
-      "ndcg50_mean": 0.5642,
-      "ndcg50_min": 0.331106,
-      "ndcg50_max": 0.804225,
-      "ap_mean": 0.561209,
-      "ap_min": 0.414373,
-      "ap_max": 0.7609
+      "ndcg50_mean": 0.564,
+      "ndcg50_min": 0.331,
+      "ndcg50_max": 0.804,
+      "ap_mean": 0.561,
+      "ap_min": 0.414,
+      "ap_max": 0.761
     }
   ],
   "dissection_fold": {
     "fold": 1,
-    "random_forest_ap": 0.7609002923634232,
-    "logistic_regression_ap": 0.7208958266227503
+    "rf_ap": 0.761,
+    "lr_ap": 0.721,
+    "rf_p50": 0.84,
+    "rf_misses_in_top50": 8
   }
 }
