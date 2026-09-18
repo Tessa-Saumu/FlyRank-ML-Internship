@@ -1,0 +1,302 @@
+{
+  "notebook": "w07_action_playbook",
+  "seed": 42,
+  "design": "fit Week-5 models on March frame, score April frame (Week-6 Row 3); order by logistic_regression proba, tie-break April impressions; reason = Week-4 rule flag; gates applied before the budget cut",
+  "budget": 50,
+  "frames": {
+    "train_march": {
+      "feature_month": "month=2026-03",
+      "feature_window": [
+        "2026-03-02",
+        "2026-03-31"
+      ],
+      "future_partitions": [
+        "2026-04"
+      ],
+      "cutoff": "2026-03-31",
+      "label_window": [
+        "2026-04-01",
+        "2026-04-30"
+      ],
+      "rows": 95810,
+      "base_rate": 0.4909195282329611,
+      "clients": 40,
+      "largest_client_share": 0.22116689280868385
+    },
+    "score_april": {
+      "feature_month": "month=2026-04",
+      "feature_window": [
+        "2026-04-01",
+        "2026-04-30"
+      ],
+      "future_partitions": [
+        "2026-05"
+      ],
+      "cutoff": "2026-04-30",
+      "label_window": [
+        "2026-05-01",
+        "2026-05-30"
+      ],
+      "rows": 99279,
+      "base_rate": 0.5596148228729138,
+      "clients": 44,
+      "largest_client_share": 0.2243475458052559
+    }
+  },
+  "train_rows_after_dropna": 95810,
+  "score_rows_after_dropna": 99279,
+  "april_rows_with_march_history": 0.8495653662909578,
+  "rule_tie_band": {
+    "march": {
+      "n": 24462,
+      "decline_rate": 0.506949554410923
+    },
+    "april": {
+      "n": 22906,
+      "decline_rate": 0.5412992229110277
+    }
+  },
+  "time_forward_p50_check": [
+    {
+      "scorer": "baseline",
+      "p50_here": 0.44,
+      "p50_w6": 0.44
+    },
+    {
+      "scorer": "logistic_regression",
+      "p50_here": 0.54,
+      "p50_w6": 0.54
+    },
+    {
+      "scorer": "random_forest",
+      "p50_here": 0.14,
+      "p50_w6": 0.14
+    }
+  ],
+  "april_base_rate": 0.5596148228729138,
+  "grouped_cv_p50_receipt": {
+    "baseline": 0.512,
+    "logistic_regression": 0.636,
+    "random_forest": 0.608
+  },
+  "rule_flag_april": [
+    {
+      "rule_flag": "stale_low_ctr_top10",
+      "n": 22906,
+      "decline_rate": 0.541,
+      "mean_lr_proba": 0.501
+    },
+    {
+      "rule_flag": "stale",
+      "n": 20587,
+      "decline_rate": 0.629,
+      "mean_lr_proba": 0.498
+    },
+    {
+      "rule_flag": "low_ctr_top10",
+      "n": 9174,
+      "decline_rate": 0.536,
+      "mean_lr_proba": 0.488
+    },
+    {
+      "rule_flag": "visible",
+      "n": 7715,
+      "decline_rate": 0.627,
+      "mean_lr_proba": 0.468
+    },
+    {
+      "rule_flag": "low_visibility",
+      "n": 38897,
+      "decline_rate": 0.526,
+      "mean_lr_proba": 0.536
+    }
+  ],
+  "action_distribution_april": {
+    "review_before_revert": 83619,
+    "monitor_only": 14426,
+    "verify_then_review": 1078,
+    "investigate_quiet_risk": 156
+  },
+  "gates": {
+    "status": {
+      "NEW_PAGE": "implemented, exclude",
+      "RISER_1M": "implemented (one month), exclude; durability proposed",
+      "EXTREME_JUMP_20X": "implemented, verify",
+      "TOP2_NEAR_ZERO_CTR": "implemented, senior look first",
+      "BELOW_FLOOR": "implemented upstream in build_frame",
+      "RECENTLY_OPTIMISED": "proposed, no data"
+    },
+    "hits_april": {
+      "NEW_PAGE": 14935,
+      "RISER_1M": 14850,
+      "TOP2_NEAR_ZERO_CTR": 214,
+      "EXTREME_JUMP_20X": 103
+    },
+    "eligible_rows": 69494,
+    "removed_from_ungated_head": 14
+  },
+  "queue": {
+    "size": 50,
+    "top50_decline_rate_before_gates": 0.54,
+    "top50_decline_rate_after_gates": 0.56,
+    "top50_clients": 10,
+    "top50_largest_client_share": 0.48,
+    "rule_flags": {
+      "low_visibility": 50
+    },
+    "actions": {
+      "investigate_quiet_risk": 49,
+      "verify_then_review": 1
+    }
+  },
+  "thresholds": {
+    "verify_ratio": 7,
+    "riser_ratio": 1.5,
+    "quiet_risk_proba": 0.7,
+    "new_page_days": 30,
+    "extreme_jump_ratio": 20
+  },
+  "age_bucket_decline_rate_april": [
+    {
+      "age_bucket": "<30d",
+      "pages": 4094,
+      "decline_rate": 0.37567171470444555,
+      "median_impr": 497.0,
+      "pages_pct": 4.1
+    },
+    {
+      "age_bucket": "30-90d",
+      "pages": 23400,
+      "decline_rate": 0.607991452991453,
+      "median_impr": 834.0,
+      "pages_pct": 23.6
+    },
+    {
+      "age_bucket": "90-180d",
+      "pages": 18645,
+      "decline_rate": 0.6603378921962992,
+      "median_impr": 727.0,
+      "pages_pct": 18.8
+    },
+    {
+      "age_bucket": "180-365d",
+      "pages": 37579,
+      "decline_rate": 0.5820538066473296,
+      "median_impr": 906.0,
+      "pages_pct": 37.9
+    },
+    {
+      "age_bucket": "1-2y",
+      "pages": 15561,
+      "decline_rate": 0.3603881498618341,
+      "median_impr": 600.0,
+      "pages_pct": 15.7
+    }
+  ],
+  "psi_march_to_april": [
+    {
+      "feature": "log_recent30_impressions",
+      "psi_march_to_april": 0.0040921465676567485,
+      "reading": "stable"
+    },
+    {
+      "feature": "recent30_ctr_pct",
+      "psi_march_to_april": 0.00943739693057177,
+      "reading": "stable"
+    },
+    {
+      "feature": "recent30_avg_position",
+      "psi_march_to_april": 0.10763317051669678,
+      "reading": "watch"
+    },
+    {
+      "feature": "recent30_active_days",
+      "psi_march_to_april": 0.09901462732667846,
+      "reading": "stable"
+    },
+    {
+      "feature": "content_age_days",
+      "psi_march_to_april": 0.17851759495378047,
+      "reading": "watch"
+    }
+  ],
+  "monitoring": [
+    {
+      "clock": "pre",
+      "trigger": "feature PSI (worst feature)",
+      "value": "content_age_days 0.179",
+      "threshold": "< 0.25",
+      "status": "PASS"
+    },
+    {
+      "clock": "pre",
+      "trigger": "schema: five features present, no nulls",
+      "value": "ok",
+      "threshold": "ok",
+      "status": "PASS"
+    },
+    {
+      "clock": "pre",
+      "trigger": "base-rate drift (April vs March)",
+      "value": "0.069",
+      "threshold": "<= 0.10",
+      "status": "PASS"
+    },
+    {
+      "clock": "pre",
+      "trigger": "client concentration (top-50)",
+      "value": "48%",
+      "threshold": "<= 35%",
+      "status": "TRIGGERED"
+    },
+    {
+      "clock": "post",
+      "trigger": "true base rate of the labelled month",
+      "value": "0.560",
+      "threshold": "recorded",
+      "status": "PASS"
+    },
+    {
+      "clock": "post",
+      "trigger": "fall-back: model P@50 below rule for 2 consecutive months (LR)",
+      "value": "LR 0.54 vs rule 0.44, months below: 0",
+      "threshold": "< 2 months",
+      "status": "PASS"
+    },
+    {
+      "clock": "post",
+      "trigger": "fall-back: model P@50 below rule for 2 consecutive months (RF)",
+      "value": "RF 0.14 vs rule 0.44, months below: 1",
+      "threshold": "< 2 months",
+      "status": "PASS"
+    },
+    {
+      "clock": "post",
+      "trigger": "stricter: LR P@50 clears base + 0.05",
+      "value": "0.54 vs 0.61",
+      "threshold": ">= base + 0.05",
+      "status": "TRIGGERED"
+    }
+  ],
+  "monitoring_triggered": [
+    "client concentration (top-50)",
+    "stricter: LR P@50 clears base + 0.05"
+  ],
+  "effort_hours_assumed": {
+    "review_before_revert": 3.0,
+    "investigate_quiet_risk": 1.0,
+    "verify_then_review": 0.5,
+    "monitor_only": 0.0
+  },
+  "top50_total_est_hours": 49.5,
+  "figures": [
+    "work\\figures\\w07_fig1_decay_age_and_model.png",
+    "work\\figures\\w07_fig2_queue_rule_flags.png"
+  ],
+  "library_versions": {
+    "pandas": "3.0.3",
+    "numpy": "2.5.1",
+    "scikit-learn": "1.9.0",
+    "duckdb": "1.5.4"
+  }
+}
