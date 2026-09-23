@@ -1,10 +1,12 @@
 """Make the capstone paper's figures from the committed receipts.
 
 Reads the JSON receipts in work/outputs/ (produced by the executed w04-w07
-notebooks) and writes the paper's charts as PNG files:
+notebooks), then:
 
-  work/figures/paper_fig*.png   (repo copies)
-  docs/images/paper_fig*.png    (copies served by the deployed page)
+  1. writes the paper's charts to work/figures/paper_fig*.png, and
+  2. embeds them into docs/index.html (the deployed page) as base64 data,
+     so the page is one self-contained file - the only file this project
+     keeps outside work/, because GitHub Pages needs it under /docs.
 
 No warehouse access is needed: every number comes from a receipt, so the
 figures always match the committed run. Run from the repo root:
@@ -12,9 +14,10 @@ figures always match the committed run. Run from the repo root:
   python work/scripts/make_paper_figures.py
 """
 
+import base64
 import json
 import os
-import shutil
+import re
 
 import matplotlib
 
@@ -24,7 +27,14 @@ import matplotlib.pyplot as plt
 REPO = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 OUTS = os.path.join(REPO, "work", "outputs")
 FIG_DIR = os.path.join(REPO, "work", "figures")
-DOCS_IMG = os.path.join(REPO, "docs", "images")
+PAGE = os.path.join(REPO, "docs", "index.html")
+FIG_NAMES = [
+    "paper_fig1_results.png",
+    "paper_fig2_walkforward.png",
+    "paper_fig3_age_decay.png",
+    "paper_fig4_playbook.png",
+    "paper_fig5_leak_check.png",
+]
 
 # One colour per scorer, used in every chart so the paper reads consistently.
 C_RULE = "#94a3b8"   # slate  - the hand-written rule
@@ -59,9 +69,7 @@ def save(fig, name):
     path = os.path.join(FIG_DIR, name)
     fig.savefig(path, dpi=200, bbox_inches="tight")
     plt.close(fig)
-    os.makedirs(DOCS_IMG, exist_ok=True)
-    shutil.copyfile(path, os.path.join(DOCS_IMG, name))
-    print("wrote", os.path.relpath(path, REPO), "+ docs/images/" + name)
+    print("wrote", os.path.relpath(path, REPO))
 
 
 def label_bars(ax, bars, fmt="{:.2f}", dy=0.015):
@@ -262,6 +270,29 @@ ax.annotate("0.99 = the score a leak buys.\nRemoved; every reported number\nuses
             arrowprops=dict(arrowstyle="->", color="#b91c1c", lw=1.4))
 strip(ax)
 save(fig, "paper_fig5_leak_check.png")
+
+# ---------------------------------------------------------------------------
+# Embed the figures into the deployed page (docs/index.html stays self-contained).
+# ---------------------------------------------------------------------------
+if os.path.exists(PAGE):
+    with open(PAGE, encoding="utf-8") as f:
+        html = f.read()
+    for name in FIG_NAMES:
+        with open(os.path.join(FIG_DIR, name), "rb") as f:
+            b64 = base64.b64encode(f.read()).decode("ascii")
+
+        def repl(m, b64=b64):
+            return re.sub(r'src="[^"]*"', f'src="data:image/png;base64,{b64}"', m.group(0), count=1)
+
+        html, n = re.subn(rf'<img[^>]*data-fig="{re.escape(name)}"[^>]*>', repl, html, count=1)
+        if n != 1:
+            raise SystemExit(f'could not find <img data-fig="{name}"> in docs/index.html')
+    with open(PAGE, "w", encoding="utf-8") as f:
+        f.write(html)
+    print(f"embedded {len(FIG_NAMES)} figures into docs/index.html "
+          f"({os.path.getsize(PAGE):,} bytes) - the page needs no other files")
+else:
+    print("docs/index.html not found - figures left in work/figures/ only")
 
 # ---------------------------------------------------------------------------
 # Receipt check: print the exact numbers the paper quotes, straight from JSON.
