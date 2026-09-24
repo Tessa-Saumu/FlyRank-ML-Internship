@@ -4,9 +4,11 @@ Reads the JSON receipts in work/outputs/ (produced by the executed w04-w07
 notebooks), then:
 
   1. writes the paper's charts to work/figures/paper_fig*.png, and
-  2. embeds them into docs/index.html (the deployed page) as base64 data,
-     so the page is one self-contained file - the only file this project
-     keeps outside work/, because GitHub Pages needs it under /docs.
+  2. re-embeds them into work/paper/index.html (the paper's single,
+     self-contained source file) as base64 data.
+
+Publish the page afterwards with work/scripts/deploy_paper.py, which copies
+it to the gh-pages branch that GitHub Pages serves.
 
 No warehouse access is needed: every number comes from a receipt, so the
 figures always match the committed run. Run from the repo root:
@@ -27,7 +29,7 @@ import matplotlib.pyplot as plt
 REPO = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 OUTS = os.path.join(REPO, "work", "outputs")
 FIG_DIR = os.path.join(REPO, "work", "figures")
-PAGE = os.path.join(REPO, "docs", "index.html")
+PAGE = os.path.join(REPO, "work", "paper", "index.html")
 FIG_NAMES = [
     "paper_fig1_results.png",
     "paper_fig2_walkforward.png",
@@ -272,7 +274,7 @@ strip(ax)
 save(fig, "paper_fig5_leak_check.png")
 
 # ---------------------------------------------------------------------------
-# Embed the figures into the deployed page (docs/index.html stays self-contained).
+# Embed the figures into the paper's source page (work/paper/index.html).
 # ---------------------------------------------------------------------------
 if os.path.exists(PAGE):
     with open(PAGE, encoding="utf-8") as f:
@@ -289,10 +291,10 @@ if os.path.exists(PAGE):
             raise SystemExit(f'could not find <img data-fig="{name}"> in docs/index.html')
     with open(PAGE, "w", encoding="utf-8") as f:
         f.write(html)
-    print(f"embedded {len(FIG_NAMES)} figures into docs/index.html "
+    print(f"embedded {len(FIG_NAMES)} figures into work/paper/index.html "
           f"({os.path.getsize(PAGE):,} bytes) - the page needs no other files")
 else:
-    print("docs/index.html not found - figures left in work/figures/ only")
+    print("work/paper/index.html not found - figures left in work/figures/ only")
 
 # ---------------------------------------------------------------------------
 # Receipt check: print the exact numbers the paper quotes, straight from JSON.
