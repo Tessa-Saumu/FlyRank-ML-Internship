@@ -1,4 +1,45 @@
-# FlyRank ML Internship — Starter Repo
+# FlyRank: Content Review Ranking and Validation
+
+A research capstone testing whether five month-end signals can prioritize a human editor's 50-page review budget before next-month search impressions decline.
+
+## What I did
+
+My capstone work is under [`work/`](work/): problem framing, data-contract notebooks, a transparent rule baseline, logistic-regression/random-forest comparisons, client-grouped and time-forward evaluation, leakage and survivorship diagnostics, and a gated human-review playbook. FlyRank supplied the curriculum, research warehouse and starter pipeline; `scripts/`, root `notebooks/` and starter `outputs/` are reference material, not my capstone results.
+
+## Method and evaluation
+
+The label is a next-month impressions drop of more than 20%. Five month-end features are compared against a hand rule under identical evaluation conditions. Client IDs group the validation splits; they are not model inputs. The entry floor (100 impressions and tracking coverage) and the rule's visibility cut (500 impressions) serve different purposes.
+
+| Evaluation | Logistic regression P@50 | Rule P@50 | Population base rate |
+|---|---:|---:|---:|
+| March, mean of five client-grouped splits | 0.636 | 0.512 | about 0.491 |
+| Fit March, score April | 0.54 | 0.44 | about 0.56 |
+
+**Key finding:** the grouped mean advantage did not translate into forward lift over the population base rate at the 50-page budget. Logistic regression beat the rule on four grouped folds and lost on one. The folds are correlated and have uneven client populations. A high random-split result is a leakage diagnostic, not a headline performance claim.
+
+## Evidence and limitations
+
+- [Model receipts](work/outputs/model_metrics.json), [validation and survivorship receipts](work/outputs/validation_audit_metrics.json), and [action-playbook receipts](work/outputs/action_playbook_summary.json).
+- [Public research paper](https://tessa-saumu.github.io/FlyRank-ML-Internship/) (static report, browser-checked 27 September 2026). Its expanded report/notebook links currently point to the existing PR #5 branch, not `main`; this README does not merge that work.
+- [Personal notebooks](work/notebooks/) and [figure generator](work/scripts/make_paper_figures.py).
+
+Results describe retained, measurable pages: 2.6% of March candidates and 3.6% of April candidates were excluded for absent/thin outcome tracking. Client concentration and tracking coverage limit interpretation. No experiment establishes traffic recovery, revenue impact, editor adoption or durable forward advantage. The 79-million-row figure in the starter guide describes the hosted source release, not the number of rows I trained on locally.
+
+The public receipts and figures are inspectable without warehouse access. A fresh warehouse rebuild requires authorized access; it was not performed for this documentation update. Existing Actions failures remain unresolved; no green CI or full test-suite claim is made. Where older notebook prose conflicts with printed tables or receipts, use the latter and the qualifications above.
+
+## Running the evidence workflow
+
+From the repository root, with the documented dependencies installed:
+
+```bash
+python work/scripts/make_paper_figures.py
+```
+
+This regenerates figures from saved receipts, not model results from raw data. `work/notebooks/capstone.ipynb` assembles/checks existing evidence. The starter's `python scripts/run_all.py` is a separate sample-data demonstration. Follow [DATA_USE.md](DATA_USE.md) for warehouse access and publication boundaries.
+
+---
+
+## Original internship starter guide
 
 **Applied Search Intelligence: Google Search Ranking & Discoverability**
 
@@ -20,13 +61,13 @@ no private client data, no setup headaches.
 
 The fastest path is Google Colab (one click, zero install). Open Notebook 1 and run all cells:
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/flyrank-bih/flyrank-ml-internship-starter/blob/main/notebooks/01_first_look_and_discovery.ipynb?flush_cache=true)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Tessa-Saumu/FlyRank-ML-Internship/blob/main/notebooks/01_first_look_and_discovery.ipynb?flush_cache=true)
  **Week 1 — Run it, then discover a real truth yourself**
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/flyrank-bih/flyrank-ml-internship-starter/blob/main/notebooks/02_your_first_readable_model.ipynb?flush_cache=true)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Tessa-Saumu/FlyRank-ML-Internship/blob/main/notebooks/02_your_first_readable_model.ipynb?flush_cache=true)
  **Week 2 — The model is just a rule you can read**
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/flyrank-bih/flyrank-ml-internship-starter/blob/main/notebooks/03_working_with_the_full_release.ipynb?flush_cache=true)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Tessa-Saumu/FlyRank-ML-Internship/blob/main/notebooks/03_working_with_the_full_release.ipynb?flush_cache=true)
  **Weeks 3+ — The full release (~79M rows) via DuckDB, no download needed** — hosted at
  [`FlyRank/internship-warehouse`](https://huggingface.co/datasets/FlyRank/internship-warehouse) (gated: request access + accept the data-use terms, approval is instant)
 
@@ -46,16 +87,16 @@ already pre-filled with your repo and the right path.
 
 | Week | Card | Notebook | Open |
 |---|---|---|---|
-| 1 | ML-02 | `w01_research_question` | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/flyrank-bih/flyrank-ml-internship-starter/blob/main/work/notebooks/w01_research_question.ipynb?flush_cache=true) |
-| 2 | ML-03 | `w02_ml_task_framing` | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/flyrank-bih/flyrank-ml-internship-starter/blob/main/work/notebooks/w02_ml_task_framing.ipynb?flush_cache=true) |
-| 3 | ML-04 | `w03_data_contract` | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/flyrank-bih/flyrank-ml-internship-starter/blob/main/work/notebooks/w03_data_contract.ipynb?flush_cache=true) |
-| 3 | ML-05 | `w03_feature_leakage_check` | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/flyrank-bih/flyrank-ml-internship-starter/blob/main/work/notebooks/w03_feature_leakage_check.ipynb?flush_cache=true) |
-| 4 | ML-06 | `w04_signal_audit` | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/flyrank-bih/flyrank-ml-internship-starter/blob/main/work/notebooks/w04_signal_audit.ipynb?flush_cache=true) |
-| 4 | ML-07 | `w04_baseline_score` | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/flyrank-bih/flyrank-ml-internship-starter/blob/main/work/notebooks/w04_baseline_score.ipynb?flush_cache=true) |
-| 5 | ML-08 | `w05_model` | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/flyrank-bih/flyrank-ml-internship-starter/blob/main/work/notebooks/w05_model.ipynb?flush_cache=true) |
-| 6 | ML-09 | `w06_validation_audit` | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/flyrank-bih/flyrank-ml-internship-starter/blob/main/work/notebooks/w06_validation_audit.ipynb?flush_cache=true) |
-| 7 | ML-10 | `w07_action_playbook` | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/flyrank-bih/flyrank-ml-internship-starter/blob/main/work/notebooks/w07_action_playbook.ipynb?flush_cache=true) |
-| 8 | ML-11 | `capstone` | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/flyrank-bih/flyrank-ml-internship-starter/blob/main/work/notebooks/capstone.ipynb?flush_cache=true) |
+| 1 | ML-02 | `w01_research_question` | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Tessa-Saumu/FlyRank-ML-Internship/blob/main/work/notebooks/w01_research_question.ipynb?flush_cache=true) |
+| 2 | ML-03 | `w02_ml_task_framing` | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Tessa-Saumu/FlyRank-ML-Internship/blob/main/work/notebooks/w02_ml_task_framing.ipynb?flush_cache=true) |
+| 3 | ML-04 | `w03_data_contract` | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Tessa-Saumu/FlyRank-ML-Internship/blob/main/work/notebooks/w03_data_contract.ipynb?flush_cache=true) |
+| 3 | ML-05 | `w03_feature_leakage_check` | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Tessa-Saumu/FlyRank-ML-Internship/blob/main/work/notebooks/w03_feature_leakage_check.ipynb?flush_cache=true) |
+| 4 | ML-06 | `w04_signal_audit` | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Tessa-Saumu/FlyRank-ML-Internship/blob/main/work/notebooks/w04_signal_audit.ipynb?flush_cache=true) |
+| 4 | ML-07 | `w04_baseline_score` | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Tessa-Saumu/FlyRank-ML-Internship/blob/main/work/notebooks/w04_baseline_score.ipynb?flush_cache=true) |
+| 5 | ML-08 | `w05_model` | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Tessa-Saumu/FlyRank-ML-Internship/blob/main/work/notebooks/w05_model.ipynb?flush_cache=true) |
+| 6 | ML-09 | `w06_validation_audit` | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Tessa-Saumu/FlyRank-ML-Internship/blob/main/work/notebooks/w06_validation_audit.ipynb?flush_cache=true) |
+| 7 | ML-10 | `w07_action_playbook` | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Tessa-Saumu/FlyRank-ML-Internship/blob/main/work/notebooks/w07_action_playbook.ipynb?flush_cache=true) |
+| 8 | ML-11 | `capstone` | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Tessa-Saumu/FlyRank-ML-Internship/blob/main/work/notebooks/capstone.ipynb?flush_cache=true) |
 
 Badges not opening *your* copy? Colab's built-in opener always works: **File → Open notebook
 → GitHub tab** → paste `github.com/you/your-repo` → pick the notebook.
@@ -63,8 +104,8 @@ Badges not opening *your* copy? Colab's built-in opener always works: **File →
 ### Prefer local?
 
 ```bash
-git clone <this-repo-url>
-cd flyrank-ml-internship-starter
+git clone https://github.com/Tessa-Saumu/FlyRank-ML-Internship.git
+cd FlyRank-ML-Internship
 pip install -r requirements.txt          # or: uv pip install -r requirements.txt
 python scripts/run_all.py
 ```
