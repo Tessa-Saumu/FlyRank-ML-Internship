@@ -39,21 +39,34 @@ FIG_NAMES = [
 ]
 
 # One colour per scorer, used in every chart so the paper reads consistently.
-C_RULE = "#94a3b8"   # slate  - the hand-written rule
-C_LR = "#4338ca"     # indigo - logistic regression
-C_RF = "#0f766e"     # teal   - random forest
-C_BASE = "#d97706"   # amber  - the base rate (picking at random)
-C_TEXT = "#1e293b"
+# Palette follows the Data-first Dashboard design tokens:
+#   Model 1 (logistic regression) = --accent-2 #1d4ed8
+#   Model 2 (random forest)       = --accent    #0f766e
+#   Baseline / hand rule          = --muted     #6b7280
+#   Base rate (random guessing)   = --warn      #b45309
+#   Positive / negative status    = --good      #166534 / --danger #b91c1c
+C_RULE = "#6b7280"   # muted  - the hand-written rule
+C_LR = "#1d4ed8"     # accent-2 - logistic regression (Model 1)
+C_RF = "#0f766e"     # accent - random forest (Model 2)
+C_BASE = "#b45309"   # warn   - the base rate (picking at random)
+C_TEXT = "#0b1720"   # ink    - primary text
+C_TICK = "#6b7280"   # muted  - axis ticks / notes
+C_GRID = "#e6eef5"   # line   - subtle 1px gridlines
+C_EDGE = "#d7e3ec"   # line+  - axis edges
+C_GOOD = "#166534"   # good   - positive / honest
+C_DANGER = "#b91c1c"  # danger - negative / leaked
+C_TINT = "#bbcaf4"   # accent-2 @30% - context bars
 
 plt.rcParams.update({
     "font.size": 11,
-    "axes.edgecolor": "#cbd5e1",
-    "axes.labelcolor": C_TEXT,
+    "axes.edgecolor": C_EDGE,
+    "axes.labelcolor": C_TICK,
     "text.color": C_TEXT,
-    "xtick.color": "#475569",
-    "ytick.color": "#475569",
+    "xtick.color": C_TICK,
+    "ytick.color": C_TICK,
+    "axes.labelsize": 10.5,
     "axes.grid": True,
-    "grid.color": "#e2e8f0",
+    "grid.color": C_GRID,
     "grid.linewidth": 0.8,
     "axes.axisbelow": True,
     "figure.facecolor": "white",
@@ -84,6 +97,39 @@ def label_bars(ax, bars, fmt="{:.2f}", dy=0.015):
 def strip(ax):
     for s in ("top", "right"):
         ax.spines[s].set_visible(False)
+
+
+# The page renders figures fluidly at about this width (left column, --content-max
+# minus gutter and rail); spec asks for bar corners rounded to at most 6 CSS px.
+DISPLAY_W = 768
+
+
+def round_bars(ax, bars, r_px=6):
+    """Round bar corners to <= r_px display pixels (linear axes only)."""
+    from matplotlib.patches import BoxStyle, FancyBboxPatch
+
+    fw, fh = ax.figure.get_size_inches()
+    pos = ax.get_position()
+    w_css = DISPLAY_W * pos.width
+    h_css = DISPLAY_W * (fh / fw) * pos.height
+    x0, x1 = ax.get_xlim()
+    y0, y1 = ax.get_ylim()
+    sx = abs(x1 - x0) / max(w_css, 1)      # data units per display px (x)
+    sy = abs(y1 - y0) / max(h_css, 1)      # data units per display px (y)
+    r = r_px * sx
+    for b in list(bars):
+        x, y, w, h = b.get_x(), b.get_y(), b.get_width(), b.get_height()
+        rr = min(r, abs(w) / 2, abs(h) / 2)
+        if rr <= 0:
+            continue
+        fancy = FancyBboxPatch(
+            (x, y), w, h,
+            boxstyle=BoxStyle("Round", pad=0, rounding_size=rr),
+            mutation_aspect=(sy / sx),
+            facecolor=b.get_facecolor(), edgecolor=b.get_edgecolor(),
+            linewidth=b.get_linewidth(), zorder=b.get_zorder())
+        b.remove()
+        ax.add_patch(fancy)
 
 
 val = load("validation_audit_metrics.json")
@@ -122,12 +168,14 @@ for ax, (title, vals_p, base, note), err in zip(axes, panels, errs):
     label_bars(ax, bars)
     ax.axhline(base, color=C_BASE, linestyle="--", linewidth=1.6)
     ax.text(2.42, base + 0.015, f"base rate\n{base:.2f}", color=C_BASE,
-            fontsize=8.5, ha="right", fontweight="bold")
+            fontsize=8.5, ha="right", fontweight="bold",
+            bbox=dict(facecolor="white", edgecolor="none", alpha=0.85, pad=1.2))
     ax.set_xticks(list(xs))
     ax.set_xticklabels(["Rule", "Logistic\nregression", "Random\nforest"], fontsize=9.5)
     ax.set_title(title, fontsize=11.5, fontweight="bold", pad=10)
     ax.set_ylim(0, 1.12)
-    ax.text(0.5, -0.30, note, transform=ax.transAxes, ha="center", fontsize=9, color="#64748b")
+    ax.text(0.5, -0.30, note, transform=ax.transAxes, ha="center", fontsize=9, color=C_TICK)
+    round_bars(ax, bars)
     strip(ax)
 axes[0].set_ylabel("Precision@50", fontweight="bold")
 fig.suptitle("The same three scorers, three increasingly honest tests",
@@ -135,7 +183,7 @@ fig.suptitle("The same three scorers, three increasingly honest tests",
 fig.text(0.035, -0.055,
          "Precision@50 = share of the 50 highest-ranked pages that really declined next month. "
          "Bars above the dashed base-rate line beat picking pages at random.",
-         fontsize=9.5, color="#64748b")
+         fontsize=9.5, color=C_TICK)
 save(fig, "paper_fig1_results.png")
 
 # ---------------------------------------------------------------------------
@@ -149,10 +197,10 @@ rule = [o["metrics"]["baseline"]["p50"] for o in wf]
 wf_base = wf[0]["test_base_rate"]
 
 fig, ax = plt.subplots(figsize=(8.6, 4.3))
-ax.plot(depth, lr, "-o", color=C_LR, linewidth=2.4, markersize=7, label="Logistic regression")
-ax.plot(depth, rf, "-o", color=C_RF, linewidth=2.4, markersize=7, label="Random forest")
-ax.plot(depth, rule, "-s", color="#64748b", linewidth=2.0, markersize=6, label="Hand rule")
-ax.axhline(wf_base, color=C_BASE, linestyle="--", linewidth=1.8)
+ax.plot(depth, lr, "-o", color=C_LR, linewidth=2.0, markersize=4.5, label="Logistic regression")
+ax.plot(depth, rf, "-o", color=C_RF, linewidth=2.0, markersize=4.5, label="Random forest")
+ax.plot(depth, rule, "-s", color=C_RULE, linewidth=1.4, markersize=4, label="Hand rule")
+ax.axhline(wf_base, color=C_BASE, linestyle="--", linewidth=1.6)
 ax.text(4.02, wf_base + 0.012, f"base rate {wf_base:.2f}", color=C_BASE,
         fontsize=9.5, fontweight="bold", ha="right")
 for d, y in zip(depth, lr):
@@ -167,12 +215,12 @@ ax.set_xlabel("Training history (frames ending Feb, Jan, Dec, Nov 2025 -> March 
 ax.set_ylabel("Precision@50 on the same April test", fontweight="bold")
 ax.set_ylim(0.2, 0.85)
 ax.set_title("More history helps briefly, then stops helping", fontsize=13, fontweight="bold", pad=10)
-ax.legend(loc="upper right", frameon=True, edgecolor="#e2e8f0", fontsize=9.5)
+ax.legend(loc="upper right", frameon=True, edgecolor=C_GRID, fontsize=9.5)
 strip(ax)
 fig.text(0.01, -0.04,
          "Fixed panel: the clients present in every frame (20 clients per training side); the test side is the same April rows throughout. "
          "Rule flat at 0.38 by construction of the fixed test.",
-         fontsize=9, color="#64748b")
+         fontsize=9, color=C_TICK)
 save(fig, "paper_fig2_walkforward.png")
 
 # ---------------------------------------------------------------------------
@@ -185,10 +233,10 @@ shares = [b["pages_pct"] for b in buckets]
 apr_base = play["frames"]["score_april"]["base_rate"]
 
 fig, ax = plt.subplots(figsize=(8.6, 4.3))
-colors = ["#c7d2fe" if r != max(rates) else C_LR for r in rates]
+colors = [C_TINT if r != max(rates) else C_LR for r in rates]
 bars = ax.bar(range(len(names)), rates, width=0.62, color=colors, edgecolor="white", linewidth=1.2)
 label_bars(ax, bars, fmt="{:.2f}")
-ax.axhline(apr_base, color=C_BASE, linestyle="--", linewidth=1.8)
+ax.axhline(apr_base, color=C_BASE, linestyle="--", linewidth=1.6)
 ax.text(4.45, apr_base + 0.012, f"April base rate {apr_base:.2f}", color=C_BASE,
         fontsize=9.5, fontweight="bold", ha="right")
 ax.set_xticks(range(len(names)))
@@ -197,11 +245,12 @@ ax.set_xlabel("Content age at the start of the month", fontweight="bold")
 ax.set_ylabel("Share that declined next month", fontweight="bold")
 ax.set_ylim(0, 0.78)
 ax.set_title("Decline risk peaks at 3-6 months of age, then falls", fontsize=13, fontweight="bold", pad=10)
+round_bars(ax, bars)
 strip(ax)
-fig.text(0.01, -0.04,
+fig.text(0.01, -0.105,
          "April 2026 frame (99,279 pages). A straight-line age term cannot represent this shape - "
          "which is why the linear model's age coefficient came out with the wrong sign.",
-         fontsize=9, color="#64748b")
+         fontsize=9, color=C_TICK)
 save(fig, "paper_fig3_age_decay.png")
 
 # ---------------------------------------------------------------------------
@@ -218,7 +267,7 @@ ax = axes[0]
 stages = ["Pages in the\nApril frame", "Eligible after\ngates", "Budget queue\n(top 50)", "Really\ndeclined"]
 nums = [april_rows, eligible, queue_size, queue_hits]
 ypos = range(len(stages))[::-1]
-bars = ax.barh(list(ypos), nums, height=0.62, color=["#a5b4fc", "#818cf8", C_LR, "#312e81"],
+bars = ax.barh(list(ypos), nums, height=0.62, color=["#d3ddf9", "#a5b7f1", "#6d8ae9", C_LR],
                edgecolor="white", linewidth=1.2)
 ax.set_xscale("log")
 ax.set_yticks(list(ypos))
@@ -229,7 +278,7 @@ gate_note = (f"gates removed: new pages {gates['NEW_PAGE']:,} - risers {gates['R
              f"senior-look {gates['TOP2_NEAR_ZERO_CTR']:,} - verify {gates['EXTREME_JUMP_20X']:,}")
 ax.set_title("From the month's pages to a 50-row queue", fontsize=12, fontweight="bold", pad=10)
 ax.set_xlabel("pages (log scale)", fontweight="bold")
-ax.text(0.5, -0.24, gate_note, transform=ax.transAxes, ha="center", fontsize=8.5, color="#64748b")
+ax.text(0.5, -0.24, gate_note, transform=ax.transAxes, ha="center", fontsize=8.5, color=C_TICK)
 strip(ax)
 
 ax = axes[1]
@@ -238,7 +287,7 @@ anames = list(actions.keys())
 avals = [actions[k] for k in anames]
 ypos = range(len(anames))[::-1]
 bars = ax.barh(list(ypos), avals, height=0.62,
-               color=["#818cf8", "#34d399", "#fbbf24", "#f87171"], edgecolor="white", linewidth=1.2)
+               color=[C_LR, C_GOOD, C_BASE, C_DANGER], edgecolor="white", linewidth=1.2)
 ax.set_xscale("log")
 ax.set_yticks(list(ypos))
 ax.set_yticklabels([a.replace("_", "\n") for a in anames], fontsize=9)
@@ -247,7 +296,7 @@ for y, v in zip(ypos, avals):
 ax.set_title("The action attached to each April page", fontsize=12, fontweight="bold", pad=10)
 ax.set_xlabel("pages (log scale)", fontweight="bold")
 ax.text(0.5, -0.24, "Actions are assigned before the budget cut; only the top 50 eligible rows reach an editor.",
-        transform=ax.transAxes, ha="center", fontsize=8.5, color="#64748b")
+        transform=ax.transAxes, ha="center", fontsize=8.5, color=C_TICK)
 strip(ax)
 fig.suptitle("What the playbook produced for May 2026", fontsize=13.5, fontweight="bold", y=1.03)
 save(fig, "paper_fig4_playbook.png")
@@ -259,7 +308,7 @@ leak = val["leak_injection"]
 
 fig, ax = plt.subplots(figsize=(6.8, 3.5))
 bars = ax.bar([0, 1], [leak["honest_ap"], leak["injected_ap"]], width=0.5,
-              color=[C_RF, "#dc2626"], edgecolor="white", linewidth=1.2)
+              color=[C_GOOD, C_DANGER], edgecolor="white", linewidth=1.2)
 label_bars(ax, bars)
 ax.set_xticks([0, 1])
 ax.set_xticklabels(["Honest five features", "With the label's own\ncolumn planted in"], fontsize=10)
@@ -268,8 +317,9 @@ ax.set_ylim(0, 1.12)
 ax.set_title("The check can catch a leak", fontsize=12.5, fontweight="bold", pad=10)
 ax.annotate("0.99 = the score a leak buys.\nRemoved; every reported number\nuses the honest five.",
             xy=(1, leak["injected_ap"]), xytext=(0.32, 0.88),
-            fontsize=9.5, color="#b91c1c",
-            arrowprops=dict(arrowstyle="->", color="#b91c1c", lw=1.4))
+            fontsize=9.5, color=C_DANGER,
+            arrowprops=dict(arrowstyle="->", color=C_DANGER, lw=1.4))
+round_bars(ax, bars)
 strip(ax)
 save(fig, "paper_fig5_leak_check.png")
 
