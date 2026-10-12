@@ -133,27 +133,23 @@ grouped_base = sum(fold_bases) / len(fold_bases)
 fig, axes = plt.subplots(1, 3, figsize=(11.5, 4.1), sharey=True)
 panels = [
     ("A. Random split\n(the trap)", [rand["baseline"]["p50"], rand["logistic_regression"]["p50"], rand["random_forest"]["p50"]], rand_base,
-     "34 of 40 clients on both sides"),
-    ("B. Clients kept separate\n(5 folds, mean +/- spread)",
+     "34 of 40 clients on both sides  ·  base rate 0.49"),
+    ("B. Clients kept separate\n(5 folds, mean)",
      [grouped["baseline"]["p50_mean"], grouped["logistic_regression"]["p50_mean"], grouped["random_forest"]["p50_mean"]], grouped_base,
-     "0 clients shared per fold"),
+     "0 clients shared per fold  ·  base rate 0.49"),
     ("C. One month forward\n(fit March, score April)",
      [fwd["baseline"]["p50"], fwd["logistic_regression"]["p50"], fwd["random_forest"]["p50"]], fwd_base,
-     "0.56 base rate in April"),
+     "nothing retrained  ·  base rate 0.56"),
 ]
-errs = [None,
-        [grouped["baseline"]["p50_sd"], grouped["logistic_regression"]["p50_sd"], grouped["random_forest"]["p50_sd"]],
-        None]
-for ax, (title, vals_p, base, note), err in zip(axes, panels, errs):
+# no error bars: the fold spread is reported in Table 3, and vertical whiskers
+# only crossed the value labels and cut through the bar faces.
+fmts = ["{:.2f}", "{:.3f}", "{:.2f}"]
+for ax, (title, vals_p, base, note), fmt in zip(axes, panels, fmts):
     xs = range(3)
     bars = ax.bar(xs, vals_p, width=0.62,
-                  color=[C_RULE, C_LR, C_RF], edgecolor="white", linewidth=1.2,
-                  yerr=err, error_kw=dict(ecolor=C_TEXT, lw=1.4, capsize=5, capthick=1.4))
-    label_bars(ax, bars)
+                  color=[C_RULE, C_LR, C_RF], edgecolor="white", linewidth=1.2)
+    label_bars(ax, bars, fmt=fmt)
     ax.axhline(base, color=C_REF, linestyle="--", linewidth=1.4)
-    ax.text(2.42, base + 0.015, f"base rate\n{base:.2f}", color=C_REF,
-            fontsize=8.5, ha="right", fontweight="bold", **MONO,
-            bbox=dict(facecolor="white", edgecolor="none", alpha=0.85, pad=1.2))
     ax.set_xticks(list(xs))
     ax.set_xticklabels(["Rule", "Logistic\nregression", "Random\nforest"], fontsize=9.5)
     ax.set_title(title, fontsize=11.5, fontweight="bold", pad=10, color=C_TEXT)
@@ -268,9 +264,10 @@ actions = play["action_distribution_april"]
 anames = list(actions.keys())
 avals = [actions[k] for k in anames]
 action_colors = {
-    "review_before_revert": C_RF,
-    "monitor_only": C_GOOD,
-    "verify_then_review": C_DANGER,
+    # blue ramp, light -> dark as counts shrink, matching the funnel beside it
+    "review_before_revert": C_TINT,
+    "monitor_only": C_TINT2,
+    "verify_then_review": C_TINT3,
     "investigate_quiet_risk": C_LR,
 }
 ypos = range(len(anames))[::-1]
@@ -296,17 +293,17 @@ leak = val["leak_injection"]
 
 fig, ax = plt.subplots(figsize=(6.8, 3.5))
 bars = ax.bar([0, 1], [leak["honest_ap"], leak["injected_ap"]], width=0.5,
-              color=[C_GOOD, C_DANGER], edgecolor="white", linewidth=1.2)
-label_bars(ax, bars)
+              color=[C_LR, C_TINT], edgecolor="white", linewidth=1.2)
+label_bars(ax, bars, fmt="{:.3f}")
 ax.set_xticks([0, 1])
 ax.set_xticklabels(["Honest five features", "With the label's own\ncolumn planted in"], fontsize=10)
 ax.set_ylabel("Average precision (one fold)", fontweight="bold")
 ax.set_ylim(0, 1.12)
 ax.set_title("The check can catch a leak", fontsize=12.5, fontweight="bold", pad=10, color=C_TEXT)
-ax.annotate("0.99 = the score a leak\nbuys. Removed; every\nreported number uses\nthe honest five.",
+ax.annotate("0.993 = the score a leak\nbuys. Removed; every\nreported number uses\nthe honest five.",
             xy=(0.93, leak["injected_ap"] - 0.02), xytext=(0.30, 0.58),
-            fontsize=8.5, color=C_DANGER,
-            arrowprops=dict(arrowstyle="->", color=C_DANGER, lw=1.4))
+            fontsize=8.5, color=C_TEXT,
+            arrowprops=dict(arrowstyle="->", color=C_REF, lw=1.4))
 strip(ax)
 save(fig, "paper_fig5_leak_check.png")
 
