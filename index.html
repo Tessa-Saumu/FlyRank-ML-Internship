@@ -126,7 +126,10 @@ code{font-family:var(--mono);background:var(--canvas-tint);padding:.08em .32em;b
 .hero-inner{
   max-width:var(--maxw);margin:0 auto;
   padding:64px var(--gutter) 40px;
+  display:grid;grid-template-columns:minmax(0,1.06fr) minmax(0,.94fr);
+  gap:40px;align-items:center;
 }
+.hero-text{min-width:0}
 .kicker{
   font-family:var(--mono);font-size:11px;font-weight:500;
   letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);
@@ -156,7 +159,7 @@ code{font-family:var(--mono);background:var(--canvas-tint);padding:.08em .32em;b
 
 /* ---------- hero: validation chart (one panel per test) ---------- */
 .chart{
-  margin:34px 0 4px;
+  margin:0;
   padding:22px 22px 18px;
   background:var(--canvas-soft);
   border:1px solid var(--rule);
@@ -167,7 +170,7 @@ code{font-family:var(--mono);background:var(--canvas-tint);padding:.08em .32em;b
   letter-spacing:.13em;text-transform:uppercase;color:var(--ink-soft);
   margin:0 0 12px;
 }
-.chart svg{display:block;width:100%;height:260px}
+.chart svg{display:block;width:100%;height:auto}
 .chart .mono{font-family:var(--mono)}
 .chart .panel-label{font-family:var(--sans);font-size:12px;font-weight:600;fill:var(--ink)}
 .chart .sublabel{font-family:var(--sans);font-size:11px;fill:var(--ink-soft)}
@@ -378,6 +381,7 @@ footer .credit{font-family:var(--mono);font-size:11px;letter-spacing:.05em;color
 }
 @media (max-width:900px){
   .cards{grid-template-columns:1fr}
+  .hero-inner{grid-template-columns:1fr;gap:26px;align-items:start}
 }
 @media (max-width:860px){
   .layout{grid-template-columns:1fr}
@@ -386,7 +390,6 @@ footer .credit{font-family:var(--mono);font-size:11px;letter-spacing:.05em;color
 @media (max-width:620px){
   body{font-size:15px}
   .hero-inner{padding:40px var(--gutter) 28px}
-  .chart svg{height:200px}
   .kpis{grid-template-columns:1fr 1fr}
   .tldr dl{grid-template-columns:1fr}
   .tldr dt{padding-top:0}
@@ -416,6 +419,7 @@ footer .credit{font-family:var(--mono);font-size:11px;letter-spacing:.05em;color
 
 <header class="hero">
   <div class="hero-inner">
+    <div class="hero-text">
     <p class="kicker">Research paper · FlyRank ML Internship · Capstone</p>
     <h1>Which Pages to Review First: Predicting Next-Month Search Traffic Decline with Five Features, Tested Across Clients and Months</h1>
     <p class="byline">Theresia Saumu <span class="dot">·</span> September 2026</p>
@@ -426,60 +430,58 @@ footer .credit{font-family:var(--mono);font-size:11px;letter-spacing:.05em;color
       <a class="chip" href="#repro">How to rerun</a>
       <a class="chip" href="#ack">Data credit</a>
     </div>
+    </div><!-- /.hero-text -->
 
     <div class="chart">
       <h2>The validation picture at a glance</h2>
-      <svg viewBox="0 0 864 268" role="img" aria-label="Three tests, one metric: random split 0.74, client-grouped 0.636, one month forward 0.54 for logistic regression, each against its hand-rule and base-rate readings; a dashed line at 0.98 marks the random forest's leaked random-split score.">
+      <svg viewBox="0 0 460 380" role="img" aria-label="Three tests, one metric: random split 0.74, client-grouped 0.636, one month forward 0.54 for logistic regression, each against its hand-rule and base-rate readings; a dashed line at 0.98 marks the random forest's leaked random-split score.">
         <title>Three tests, one metric</title>
 
-        <!-- Panel A: random split -->
-        <rect x="30" y="30" width="252" height="176" fill="#fafafa" stroke="#e5e5e5"/>
-        <rect x="80" y="68" width="42" height="122" fill="#2878cf"/>
-        <rect x="134" y="117" width="42" height="73" fill="#383838"/>
-        <rect x="188" y="109" width="42" height="81" fill="#c9c9c9"/>
-        <text class="value" x="101" y="58" text-anchor="middle">0.74</text>
-        <text class="value" x="155" y="107" text-anchor="middle">0.44</text>
-        <text class="value" x="209" y="99" text-anchor="middle">0.49</text>
-        <text class="panel-label" x="156" y="222" text-anchor="middle">Random split</text>
-        <text class="sublabel" x="156" y="238" text-anchor="middle">(the trap)</text>
+        <!-- leak reference -->
+        <text class="mono" x="456" y="14" text-anchor="end" font-size="9" fill="#7a7a7a">0.98 — RF on the naive split (leak demo)</text>
+        <line x1="377.6" y1="22" x2="377.6" y2="332" stroke="#7a7a7a" stroke-width="1.2" stroke-dasharray="6 5"/>
 
-        <!-- Panel B: client-grouped -->
-        <rect x="306" y="30" width="252" height="176" fill="#fafafa" stroke="#e5e5e5"/>
-        <rect x="356" y="85" width="42" height="105" fill="#2878cf"/>
-        <rect x="410" y="106" width="42" height="84" fill="#383838"/>
-        <rect x="464" y="109" width="42" height="81" fill="#c9c9c9"/>
-        <text class="value" x="377" y="75" text-anchor="middle">0.636</text>
-        <text class="value" x="431" y="96" text-anchor="middle">0.512</text>
-        <text class="value" x="485" y="99" text-anchor="middle">0.49</text>
-        <text class="panel-label" x="432" y="222" text-anchor="middle">Client-grouped</text>
-        <text class="sublabel" x="432" y="238" text-anchor="middle">(5 folds, March 2026)</text>
+        <!-- zero rule -->
+        <line x1="64" y1="48" x2="64" y2="332" stroke="#e5e5e5" stroke-width="1.2"/>
 
-        <!-- Panel C: one month forward -->
-        <rect x="582" y="30" width="252" height="176" fill="#fafafa" stroke="#e5e5e5"/>
-        <rect x="632" y="101" width="42" height="89" fill="#2878cf"/>
-        <rect x="686" y="117" width="42" height="73" fill="#383838"/>
-        <rect x="740" y="98" width="42" height="92" fill="#c9c9c9"/>
-        <text class="value" x="653" y="91" text-anchor="middle">0.54</text>
-        <text class="value" x="707" y="107" text-anchor="middle">0.44</text>
-        <text class="value" x="761" y="88" text-anchor="middle">0.56</text>
-        <text class="panel-label" x="708" y="222" text-anchor="middle">One month forward</text>
-        <text class="sublabel" x="708" y="238" text-anchor="middle">(fit March, score April)</text>
+        <!-- Group A: random split -->
+        <text class="panel-label" x="24" y="42">Random split <tspan class="sublabel">(the trap)</tspan></text>
+        <text class="mono" x="56" y="65" text-anchor="end" font-size="9" fill="#7a7a7a">Model</text>
+        <rect x="64" y="54" width="236.8" height="14" fill="#2878cf"/>
+        <text class="mono" x="308.8" y="65" font-size="11.5" font-weight="700" fill="#383838">0.74</text>
+        <text class="mono" x="56" y="89" text-anchor="end" font-size="9" fill="#7a7a7a">Rule</text>
+        <rect x="64" y="78" width="140.8" height="14" fill="#383838"/>
+        <text class="mono" x="212.8" y="89" font-size="11.5" font-weight="700" fill="#383838">0.44</text>
+        <text class="mono" x="56" y="113" text-anchor="end" font-size="9" fill="#7a7a7a">Base rate</text>
+        <rect x="64" y="102" width="156.8" height="14" fill="#c9c9c9"/>
+        <text class="mono" x="228.8" y="113" font-size="11.5" font-weight="700" fill="#383838">0.49</text>
 
-        <!-- Leak line -->
-        <line x1="30" y1="28" x2="834" y2="28" stroke="#7a7a7a" stroke-width="1.2" stroke-dasharray="6 5"/>
-        <text class="mono" x="834" y="22" text-anchor="end" font-size="11" fill="#7a7a7a">0.98 — RF on the naive split (leak demo)</text>
+        <!-- Group B: client-grouped -->
+        <text class="panel-label" x="24" y="150">Client-grouped <tspan class="sublabel">(5 folds, mean)</tspan></text>
+        <text class="mono" x="56" y="173" text-anchor="end" font-size="9" fill="#7a7a7a">Model</text>
+        <rect x="64" y="162" width="203.5" height="14" fill="#2878cf"/>
+        <text class="mono" x="275.5" y="173" font-size="11.5" font-weight="700" fill="#383838">0.636</text>
+        <text class="mono" x="56" y="197" text-anchor="end" font-size="9" fill="#7a7a7a">Rule</text>
+        <rect x="64" y="186" width="163.8" height="14" fill="#383838"/>
+        <text class="mono" x="235.8" y="197" font-size="11.5" font-weight="700" fill="#383838">0.512</text>
+        <text class="mono" x="56" y="221" text-anchor="end" font-size="9" fill="#7a7a7a">Base rate</text>
+        <rect x="64" y="210" width="156.8" height="14" fill="#c9c9c9"/>
+        <text class="mono" x="228.8" y="221" font-size="11.5" font-weight="700" fill="#383838">0.49</text>
 
-        <!-- Baseline rule -->
-        <line x1="30" y1="190" x2="834" y2="190" stroke="#e5e5e5" stroke-width="1.2"/>
-        <text class="baseline" x="36" y="33">BASELINE RULE</text>
+        <!-- Group C: one month forward -->
+        <text class="panel-label" x="24" y="258">One month forward <tspan class="sublabel">(fit March, score April)</tspan></text>
+        <text class="mono" x="56" y="281" text-anchor="end" font-size="9" fill="#7a7a7a">Model</text>
+        <rect x="64" y="270" width="172.8" height="14" fill="#2878cf"/>
+        <text class="mono" x="244.8" y="281" font-size="11.5" font-weight="700" fill="#383838">0.54</text>
+        <text class="mono" x="56" y="305" text-anchor="end" font-size="9" fill="#7a7a7a">Rule</text>
+        <rect x="64" y="294" width="140.8" height="14" fill="#383838"/>
+        <text class="mono" x="212.8" y="305" font-size="11.5" font-weight="700" fill="#383838">0.44</text>
+        <text class="mono" x="56" y="329" text-anchor="end" font-size="9" fill="#7a7a7a">Base rate</text>
+        <rect x="64" y="318" width="179.2" height="14" fill="#c9c9c9"/>
+        <text class="mono" x="251.2" y="329" font-size="11.5" font-weight="700" fill="#383838">0.56</text>
 
-        <!-- Legend -->
-        <rect x="262" y="255" width="11" height="11" fill="#2878cf"/>
-        <text class="legend" x="280" y="264">Model (logistic regression)</text>
-        <rect x="470" y="255" width="11" height="11" fill="#383838"/>
-        <text class="legend" x="488" y="264">Hand rule</text>
-        <rect x="570" y="255" width="11" height="11" fill="#c9c9c9"/>
-        <text class="legend" x="588" y="264">Base rate (random pick)</text>
+        <!-- key -->
+        <text class="mono" x="24" y="362" font-size="9.5" fill="#7a7a7a">Model = logistic regression · Base rate = random pick</text>
       </svg>
       <p class="chart-note"><b>Interpretation:</b> the 0.98 random-split score (random forest) is a leakage demonstration, not evidence of forecasting skill. The honest within-month number is <b>0.636</b> against the <b>0.512</b> hand-rule baseline (base rate 0.49); one month forward the model holds <b>0.54</b> against the rule's 0.44, against a 0.56 base rate. Bars above the dashed base-rate line beat picking pages at random.</p>
     </div>
