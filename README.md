@@ -1,238 +1,95 @@
 # FlyRank: Ranking Pages for Content Review
 
-I used this research capstone to test a practical question: can five signals
-available at month-end help an editor choose 50 pages to review before their
-search impressions decline the following month? Search impressions are the
-number of times a page appears in search results.
+This research capstone ranks pages for a limited editorial review budget using month-end signals to estimate next-month search-impression decline.
 
-## What I contributed
+## The problem
 
-My work is under [`work/`](work/): problem framing, rules for building the
-analysis data, a transparent rule-based ranking, logistic regression and random
-forest comparisons, validation experiments, and a human-review playbook. I also
-assembled the research paper and its evidence checks, using AI assistance in
-implementation and documentation.
+An editor can review only about 50 pages per month. I tested whether a learned ranking selects more pages that subsequently decline than a transparent rule. Search impressions count how often a page appears in search results; the task is review prioritization, not predicting Google's algorithm or proving that an edit restores traffic.
 
-FlyRank supplied the curriculum, research warehouse and starter pipeline. Root
-`scripts/`, root `notebooks/` and starter `outputs/` are supplied reference
-material. Their sample-data results are separate from my capstone results.
+## What I built
 
-## What I found
+My work under `work/` defines the task and data contract, builds monthly analysis frames, compares a rule with logistic regression and random forest, audits validation and translates the findings into a human-review playbook. I assembled a research paper, saved metric receipts, figures and an offline evidence checker. FlyRank supplied the curriculum, warehouse and starter pipeline.
 
-The target is an observed drop of more than 20% in next-month impressions.
-**Precision at 50 (P@50)** is the fraction of the 50 highest-ranked pages that
-actually had that decline. The **base rate** is the fraction of all retained
-pages that declined; it gives context for whether prioritizing pages helps.
+## Architecture
 
-| Evaluation | Logistic regression P@50 | Rule P@50 | Base rate |
+```mermaid
+flowchart LR
+    A[Authorized pseudonymized warehouse] --> B[DuckDB monthly frame queries]
+    B --> C[Five month-end features and future label]
+    C --> D[Rule and learned model rankings]
+    D --> E[Client-grouped and forward validation]
+    E --> F[Saved metrics and review playbook]
+    F --> G[Figures and static research paper]
+```
+
+## How it works
+
+The personal notebooks query the authorized warehouse with DuckDB, a SQL analytics engine, and build one row per page per month. Eligibility and tracking checks determine the evaluated population. A rule and two models score the retained pages; evaluation compares the top 50 with observed next-month outcomes. Saved receipts feed the figures and paper. The offline checker validates these recorded results without warehouse access or retraining.
+
+## ML / AI methodology
+
+- **Target:** next-30-day impressions below 80% of the last-30-day value, an observed decline greater than 20%.
+- **Features:** logged recent impressions, click-through rate, average search position, active days and content age, all known at month-end. Click-through rate is clicks divided by impressions.
+- **Baseline/models:** transparent rule score, logistic regression and random forest.
+- **Validation:** five March splits holding out whole clients, then March training with April scoring. Pages from the same client stay on one side of each grouped split.
+- **Primary metric:** precision at 50 (P@50), the fraction of the 50 selected pages that actually declined. The population decline rate provides context.
+
+## Engineering
+
+The personal notebooks assert feature/label timing, schema and client separation. JSON receipts record metrics and populations. A pinned offline environment runs capstone cells, checks 31 headline numbers and fold counts, and regenerates five figures in a temporary directory. Figure generation and the deployment script maintain a single static paper. GitHub Actions workflows include personal-evidence checks and Pages publishing. This is batch research, with no live prediction API or automated editorial deployment.
+
+## Results
+
+| Evaluation | Logistic regression P@50 | Rule P@50 | Population decline rate |
 |---|---:|---:|---:|
-| March: mean of five splits holding out whole clients | 63.6% | 51.2% | about 49.1% |
-| Train on March, score April | 54% | 44% | about 56% |
+| March: mean of five client-grouped splits | 63.6% | 51.2% | about 49.1% |
+| Train March, score April | 54% | 44% | about 56% |
 
-The March comparison kept each client's pages on one side of each split, so
-training and evaluation did not share clients. Logistic regression beat the rule
-on four splits and lost on one. Random forest won three and tied two. These
-repeated splits overlap and have uneven client populations, so their mean is
-not five independent confirmations.
+Logistic regression won four grouped splits and lost one; random forest won three and tied two. The mean logistic-regression advantage over the rule was **12.4 percentage points**, but these overlapping splits are not independent confirmations. The grouped advantage did **not** translate into forward lift above April's population rate at the 50-page budget.
 
-**The main finding is the limitation:** the grouped March advantage did not
-translate into forward lift over April's base rate at the 50-page budget.
-The ranking supports cautious human investigation; it does not establish that
-refreshing a page will recover traffic. High results from random splits and a
-deliberately injected data leak are diagnostic experiments, not performance claims.
+The retained March/April frames contain **95,810/99,279 pages** across **40/44 clients**. Missing or thin outcome tracking excluded **2.6%/3.6%** of candidate pages. These filters and uneven client populations constrain interpretation. [Model metrics](work/outputs/model_metrics.json) and [validation receipts](work/outputs/validation_audit_metrics.json) contain the measured details.
 
-## Inspect the evidence
+## Demo
 
-- [Research paper](https://tessa-saumu.github.io/FlyRank-ML-Internship/) and
-  [personal capstone report](work/capstone_report.md).
-- [Saved model metrics](work/outputs/model_metrics.json),
-  [validation results](work/outputs/validation_audit_metrics.json), and
-  [review-playbook results](work/outputs/action_playbook_summary.json).
-- [Personal notebooks](work/notebooks/) and
-  [figure generator](work/scripts/make_paper_figures.py).
+The [published research paper](https://tessa-saumu.github.io/FlyRank-ML-Internship/) is live, including the corrected split comparisons and five figures. It is a static research presentation, not an interactive model service.
 
-The retained March and April analysis frames contain 95,810 and 99,279 pages.
-Missing or insufficient outcome tracking excluded 2.6% and 3.6% of candidate
-pages respectively; those exclusions limit whose results I can describe. Client
-concentration also limits interpretation. No experiment establishes editor
-adoption, traffic recovery, revenue impact or durable forward advantage. The
-79-million-row figure in the starter guide describes the hosted source release,
-not the number of rows I trained on locally.
+![Grouped model comparison from saved research receipts](work/figures/paper_fig1_results.png)
 
-## Run the offline evidence check
+[Personal capstone report](work/capstone_report.md) · [Review-playbook results](work/outputs/action_playbook_summary.json)
 
-Use Python 3.12 from the repository root:
+## Run locally
+
+From the repository root, use Python 3.12, preferably in a virtual environment:
 
 ```bash
 python -m pip install -r work/requirements-evidence.txt
 python work/scripts/verify_evidence.py
 ```
 
-This runs every capstone code cell against saved results, checks 31 headline
-numbers and the fold counts, and regenerates the five figures in a temporary
-directory. It does not change the source paper, access the warehouse or retrain
-models. This workflow passed locally on 13 October 2026.
+This workflow passed on 13 October 2026. It checks saved evidence and generates temporary figures; it does not access the warehouse, change the paper or retrain models. A full data-to-model rebuild requires authorized access and the `w03`–`w07` notebooks; it was not rerun in this update. Historical modelling versions remain recorded separately in the receipts.
 
-A full data-to-model rebuild requires authorized warehouse access and the
-`w03`-`w07` notebook sequence; it was not rerun in this portfolio update. The
-historical modelling versions are recorded in the saved results, separately from
-the offline-check environment. Follow [DATA_USE.md](DATA_USE.md) for access and
-publication boundaries. Hosted continuous integration (CI) checks remain a
-separate gate; a local pass is not a claim that GitHub checks are green.
+## Repository structure
 
-<details>
-<summary>Supplied internship starter guide and assignment links</summary>
-
-The material below is the original starter guidance, retained as context and
-attributed to FlyRank. My personal work and results are summarized above.
-
-## Original internship starter guide
-
-**Applied Search Intelligence: Google Search Ranking & Discoverability**
-
-This is the starting point for the FlyRank ML Internship. You **clone it into your own public
-repo** (one click — *Use this template*), build everything there, and submit that repo URL on
-each assignment in your portal — it's your workspace, your submission, and your portfolio all
-at once. The rhythm is simple: do the work, commit it, submit on the card. Done.
-
-Everything here runs on a small **anonymized** slice of real FlyRank search data. No credentials,
-no private client data, no setup headaches.
-
-> **New here?** Two reads: **[SETUP.md](SETUP.md)** (GitHub, Colab, and data access — ten
-> minutes, with every silent pitfall flagged), then **[GUIDE.md](GUIDE.md)** (every file
-> explained, what to edit vs. leave alone, and where your own work goes — five minutes).
-
----
-
-## Quickstart — first win in 2 minutes
-
-The fastest path is Google Colab (one click, zero install). Open Notebook 1 and run all cells:
-
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Tessa-Saumu/FlyRank-ML-Internship/blob/main/notebooks/01_first_look_and_discovery.ipynb?flush_cache=true)
- **Week 1 — Run it, then discover a real truth yourself**
-
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Tessa-Saumu/FlyRank-ML-Internship/blob/main/notebooks/02_your_first_readable_model.ipynb?flush_cache=true)
- **Week 2 — The model is just a rule you can read**
-
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Tessa-Saumu/FlyRank-ML-Internship/blob/main/notebooks/03_working_with_the_full_release.ipynb?flush_cache=true)
- **Weeks 3+ — The full release (~79M rows) via DuckDB, no download needed** — hosted at
- [`FlyRank/internship-warehouse`](https://huggingface.co/datasets/FlyRank/internship-warehouse) (gated: request access + accept the data-use terms, approval is instant)
-
----
-
-## Your assignment notebooks — open, fill, save, done
-
-Every assignment is one pre-named skeleton notebook in `work/notebooks/`. Click its badge,
-fill the sections in order, then **File → Save a copy in GitHub → OK** — the dialog is
-already pre-filled with your repo and the right path.
-
-> **The badges know whose repo they're in.** About 30 seconds after you create your copy, an
-> automatic commit ("Point Colab badges at this copy") rewires every badge in it to open
-> **your** notebooks — with your saved work — instead of the shared read-only ones. Reading
-> this on the shared starter page? The badges below open blank previews; make your copy
-> first ([SETUP.md](SETUP.md), Moment 1).
-
-| Week | Card | Notebook | Open |
-|---|---|---|---|
-| 1 | ML-02 | `w01_research_question` | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Tessa-Saumu/FlyRank-ML-Internship/blob/main/work/notebooks/w01_research_question.ipynb?flush_cache=true) |
-| 2 | ML-03 | `w02_ml_task_framing` | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Tessa-Saumu/FlyRank-ML-Internship/blob/main/work/notebooks/w02_ml_task_framing.ipynb?flush_cache=true) |
-| 3 | ML-04 | `w03_data_contract` | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Tessa-Saumu/FlyRank-ML-Internship/blob/main/work/notebooks/w03_data_contract.ipynb?flush_cache=true) |
-| 3 | ML-05 | `w03_feature_leakage_check` | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Tessa-Saumu/FlyRank-ML-Internship/blob/main/work/notebooks/w03_feature_leakage_check.ipynb?flush_cache=true) |
-| 4 | ML-06 | `w04_signal_audit` | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Tessa-Saumu/FlyRank-ML-Internship/blob/main/work/notebooks/w04_signal_audit.ipynb?flush_cache=true) |
-| 4 | ML-07 | `w04_baseline_score` | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Tessa-Saumu/FlyRank-ML-Internship/blob/main/work/notebooks/w04_baseline_score.ipynb?flush_cache=true) |
-| 5 | ML-08 | `w05_model` | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Tessa-Saumu/FlyRank-ML-Internship/blob/main/work/notebooks/w05_model.ipynb?flush_cache=true) |
-| 6 | ML-09 | `w06_validation_audit` | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Tessa-Saumu/FlyRank-ML-Internship/blob/main/work/notebooks/w06_validation_audit.ipynb?flush_cache=true) |
-| 7 | ML-10 | `w07_action_playbook` | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Tessa-Saumu/FlyRank-ML-Internship/blob/main/work/notebooks/w07_action_playbook.ipynb?flush_cache=true) |
-| 8 | ML-11 | `capstone` | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Tessa-Saumu/FlyRank-ML-Internship/blob/main/work/notebooks/capstone.ipynb?flush_cache=true) |
-
-Badges not opening *your* copy? Colab's built-in opener always works: **File → Open notebook
-→ GitHub tab** → paste `github.com/you/your-repo` → pick the notebook.
-
-### Prefer local?
-
-```bash
-git clone https://github.com/Tessa-Saumu/FlyRank-ML-Internship.git
-cd FlyRank-ML-Internship
-pip install -r requirements.txt          # or: uv pip install -r requirements.txt
-python scripts/run_all.py
-```
-
-That runs the whole pipeline on the bundled sample and writes results to `outputs/`.
-
----
-
-## What you get
-
-| Path | What it is |
+| Path | Purpose |
 |---|---|
-| `notebooks/` | Week 1–2 **first-win notebooks** (Colab-ready). Start here. |
-| `scripts/01–05` + `run_all.py` | The runnable reference pipeline: prepare → baseline → train → evaluate → PDF. |
-| `data/raw/content_refresh_anonymized.csv` | The anonymized starter dataset (~30k pages). |
-| `outputs/` | Example outputs so you can see the **target shape** (`model_report.md`, `refresh_queue_sample.csv`, `charts/`). |
-| `work/` | **Your space.** Lane experiments and your capstone live here — see `work/README.md`. |
-| `docs/` | The core docs + the data dictionary (see below). |
+| `work/notebooks/` | My task framing, data contract, model, validation and capstone |
+| `work/outputs/` | Saved personal research receipts |
+| `work/scripts/`, `work/figures/`, `work/paper/` | Evidence verification, figures and deployable paper |
+| Root `scripts/`, `notebooks/`, `outputs/` | Supplied starter pipeline and example results |
+| `docs/`, `DATA_USE.md` | Supplied reference documentation and data-use boundaries |
 
-### Read these (in `docs/`)
+[Starter setup](SETUP.md), [repository guide](GUIDE.md) and [personal work index](work/README.md) retain assignment context. Starter sample metrics describe a different target and are not my capstone results.
 
-1. **`ml-core-foundation-framework.md`** — the first-principles map of ML as a whole system. The backbone of the live sessions.
-2. **`ml-intern-dataset-and-lane-guide.md`** — how to use the data safely, the capstone workflow, and the analysis "lanes" you can pick from.
-3. **`intern-free-tooling-guide.md`** — the zero-budget tool stack (Python, Colab, free AI assistants). You never need to pay for anything.
-4. **`data-dictionary.md`** — all 44 columns: meaning, scale, and gotchas. Keep it open while you work.
+## Limitations
 
----
+No controlled content-refresh experiment, editor adoption or revenue effect was measured. Random-split and deliberately leaked results are diagnostics, not headline performance. The approximate 79-million-row source release is not my local training scale. Access and publication boundaries remain governed by [DATA_USE.md](DATA_USE.md). A fresh warehouse/training rebuild and durable advantage across later months remain unverified.
 
-## The pipeline (what `run_all.py` does)
+## What I would improve next
 
-```text
-01_prepare_features.py   clean + build the feature vector, define the label
-02_baseline_score.py     a transparent hand-rule "fix this first" score
-03_train_model.py        logistic regression, decision tree, random forest (client-holdout split)
-04_evaluate_and_export.py  ranked queue + charts + Markdown report
-05_build_pdf_report.py   a shareable PDF summary
-```
+1. Evaluate additional future months without changing selection against already-used test periods.
+2. Report performance and review coverage by client to expose concentration and uneven tracking.
+3. Test the review playbook with editors and a controlled intervention before making impact claims.
 
-On the bundled sample, the learned model clearly beats the hand-written rule at picking the right
-pages to review first (**Precision@50 ≈ 0.24 → 0.74**; the model number can land 0.68–0.74
-depending on library versions — the ~3x lift is the point). The notebooks compute these numbers
-live, so they always reflect the current data and environment.
+## My contribution
 
-**Teaching point:** the model is the capstone, but the *workflow* is the lesson —
-`problem framing → data cleaning → baseline → first model → evaluation → explainable recommendation`.
-
----
-
-## Data safety (read `DATA_USE.md`)
-
-- Only the small **anonymized** CSV ships here — no client names, domains, URLs, titles, or keywords.
-- **Never** add raw private client data to this repo or your fork. Need more data? Request an approved
-  release from your mentor — never export it yourself.
-- Don't paste client data into third-party AI tools.
-- Frame every result as **observed / measured / directional / decision-support** — never
-  "I predicted Google's algorithm."
-
-The `.gitignore` blocks datasets by default, and CI fails any commit that includes a dataset.
-
----
-
-## Assignments & schedule
-
-Weekly assignments, live events, and the capstone live on **your portal board** (your
-enrollment email has your access link). This repo is the shared technical foundation they all
-build on — and the `skills/` folder here is the instruction library for your AI assistant
-(start at [skills/README.md](skills/README.md)).
-
-**First time with GitHub?** You need exactly four things (full walkthrough: [SETUP.md](SETUP.md)):
-1. A free account at github.com.
-2. Your own copy of this repo: **Use this template → Create a new repository** → public.
-   (One click — brings the notebooks, `work/`, and the CI leak-guard with it.)
-3. In Colab: *File → Save a copy in GitHub* — opened from your copy's badges, the dialog is
-   already pre-filled with your repo and path, so it's just OK (Colab handles auth).
-4. That's your submission repo — share its **github.com/you/your-repo** URL with Assignment 1
-   (never a colab.research.google.com or drive.google.com link).
-
----
-
-*Track leads: Mirza Ašćerić (ML) · Hole (data engineering). Code under MIT (see `LICENSE`); data under `DATA_USE.md`.*
-
-
-</details>
+This is my individual internship capstone, with AI assistance in implementation and documentation. My work is the personal research under `work/`; FlyRank supplied the curriculum, data warehouse and reference material elsewhere. This boundary follows the documented template convention; the bundled original history cannot independently prove every authorship detail. The repository supports capstone work, not employer-verified tenure or business impact.
