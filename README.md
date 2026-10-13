@@ -1,44 +1,90 @@
-# FlyRank: Content Review Ranking and Validation
+# FlyRank: Ranking Pages for Content Review
 
-A research capstone testing whether five month-end signals can prioritize a human editor's 50-page review budget before next-month search impressions decline.
+I used this research capstone to test a practical question: can five signals
+available at month-end help an editor choose 50 pages to review before their
+search impressions decline the following month? Search impressions are the
+number of times a page appears in search results.
 
-## What I did
+## What I contributed
 
-My capstone work is under [`work/`](work/): problem framing, data-contract notebooks, a transparent rule baseline, logistic-regression/random-forest comparisons, client-grouped and time-forward evaluation, leakage and survivorship diagnostics, and a gated human-review playbook. FlyRank supplied the curriculum, research warehouse and starter pipeline; `scripts/`, root `notebooks/` and starter `outputs/` are reference material, not my capstone results.
+My work is under [`work/`](work/): problem framing, rules for building the
+analysis data, a transparent rule-based ranking, logistic regression and random
+forest comparisons, validation experiments, and a human-review playbook. I also
+assembled the research paper and its evidence checks, using AI assistance in
+implementation and documentation.
 
-## Method and evaluation
+FlyRank supplied the curriculum, research warehouse and starter pipeline. Root
+`scripts/`, root `notebooks/` and starter `outputs/` are supplied reference
+material. Their sample-data results are separate from my capstone results.
 
-The label is a next-month impressions drop of more than 20%. Five month-end features are compared against a hand rule under identical evaluation conditions. Client IDs group the validation splits; they are not model inputs. The entry floor (100 impressions and tracking coverage) and the rule's visibility cut (500 impressions) serve different purposes.
+## What I found
 
-| Evaluation | Logistic regression P@50 | Rule P@50 | Population base rate |
+The target is an observed drop of more than 20% in next-month impressions.
+**Precision at 50 (P@50)** is the fraction of the 50 highest-ranked pages that
+actually had that decline. The **base rate** is the fraction of all retained
+pages that declined; it gives context for whether prioritizing pages helps.
+
+| Evaluation | Logistic regression P@50 | Rule P@50 | Base rate |
 |---|---:|---:|---:|
-| March, mean of five client-grouped splits | 0.636 | 0.512 | about 0.491 |
-| Fit March, score April | 0.54 | 0.44 | about 0.56 |
+| March: mean of five splits holding out whole clients | 63.6% | 51.2% | about 49.1% |
+| Train on March, score April | 54% | 44% | about 56% |
 
-**Key finding:** the grouped mean advantage did not translate into forward lift over the population base rate at the 50-page budget. Logistic regression beat the rule on four grouped folds and lost on one. The folds are correlated and have uneven client populations. A high random-split result is a leakage diagnostic, not a headline performance claim.
+The March comparison kept each client's pages on one side of each split, so
+training and evaluation did not share clients. Logistic regression beat the rule
+on four splits and lost on one. Random forest won three and tied two. These
+repeated splits overlap and have uneven client populations, so their mean is
+not five independent confirmations.
 
-## Evidence and limitations
+**The main finding is the limitation:** the grouped March advantage did not
+translate into forward lift over April's base rate at the 50-page budget.
+The ranking supports cautious human investigation; it does not establish that
+refreshing a page will recover traffic. High results from random splits and a
+deliberately injected data leak are diagnostic experiments, not performance claims.
 
-- [Model receipts](work/outputs/model_metrics.json), [validation and survivorship receipts](work/outputs/validation_audit_metrics.json), and [action-playbook receipts](work/outputs/action_playbook_summary.json).
-- [Public research paper](https://tessa-saumu.github.io/FlyRank-ML-Internship/) (static report, browser-checked 27 September 2026). Current paper source links to notebooks on `main`; HTTP reachability and the FlyRank data credit were checked again on 13 October 2026.
-- [Personal notebooks](work/notebooks/) and [figure generator](work/scripts/make_paper_figures.py). See the [capstone report](work/capstone_report.md) for the concise personal work narrative.
+## Inspect the evidence
 
-Results describe retained, measurable pages: 2.6% of March candidates and 3.6% of April candidates were excluded for absent/thin outcome tracking. Client concentration and tracking coverage limit interpretation. No experiment establishes traffic recovery, revenue impact, editor adoption or durable forward advantage. The 79-million-row figure in the starter guide describes the hosted source release, not the number of rows I trained on locally.
+- [Research paper](https://tessa-saumu.github.io/FlyRank-ML-Internship/) and
+  [personal capstone report](work/capstone_report.md).
+- [Saved model metrics](work/outputs/model_metrics.json),
+  [validation results](work/outputs/validation_audit_metrics.json), and
+  [review-playbook results](work/outputs/action_playbook_summary.json).
+- [Personal notebooks](work/notebooks/) and
+  [figure generator](work/scripts/make_paper_figures.py).
 
-The public receipts and figures are inspectable without warehouse access. A fresh warehouse rebuild requires authorized access; it was not performed for this documentation update. Existing hosted Actions failures remain unresolved; inspected failed jobs contain no executed steps and unavailable logs, so a code cause is unproven. An offline personal-evidence check is supplied; no hosted green-CI claim is made. Where older notebook prose conflicts with printed tables or receipts, use the latter and the qualifications above.
+The retained March and April analysis frames contain 95,810 and 99,279 pages.
+Missing or insufficient outcome tracking excluded 2.6% and 3.6% of candidate
+pages respectively; those exclusions limit whose results I can describe. Client
+concentration also limits interpretation. No experiment establishes editor
+adoption, traffic recovery, revenue impact or durable forward advantage. The
+79-million-row figure in the starter guide describes the hosted source release,
+not the number of rows I trained on locally.
 
-## Running the evidence workflow
+## Run the offline evidence check
 
-From the repository root, with the documented dependencies installed:
+Use Python 3.12 from the repository root:
 
 ```bash
 python -m pip install -r work/requirements-evidence.txt
 python work/scripts/verify_evidence.py
 ```
 
-This executes the capstone, checks 31 receipt numbers and regenerates figures in a temporary directory; it does not rebuild model results from raw data. `work/notebooks/capstone.ipynb` assembles/checks existing evidence. The starter's `python scripts/run_all.py` is a separate sample-data demonstration. Follow [DATA_USE.md](DATA_USE.md) for warehouse access and publication boundaries.
+This runs every capstone code cell against saved results, checks 31 headline
+numbers and the fold counts, and regenerates the five figures in a temporary
+directory. It does not change the source paper, access the warehouse or retrain
+models. This workflow passed locally on 13 October 2026.
 
----
+A full data-to-model rebuild requires authorized warehouse access and the
+`w03`-`w07` notebook sequence; it was not rerun in this portfolio update. The
+historical modelling versions are recorded in the saved results, separately from
+the offline-check environment. Follow [DATA_USE.md](DATA_USE.md) for access and
+publication boundaries. Hosted continuous integration (CI) checks remain a
+separate gate; a local pass is not a claim that GitHub checks are green.
+
+<details>
+<summary>Supplied internship starter guide and assignment links</summary>
+
+The material below is the original starter guidance, retained as context and
+attributed to FlyRank. My personal work and results are summarized above.
 
 ## Original internship starter guide
 
@@ -187,3 +233,6 @@ build on — and the `skills/` folder here is the instruction library for your A
 ---
 
 *Track leads: Mirza Ašćerić (ML) · Hole (data engineering). Code under MIT (see `LICENSE`); data under `DATA_USE.md`.*
+
+
+</details>
