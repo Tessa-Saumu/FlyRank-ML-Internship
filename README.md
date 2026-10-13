@@ -20,22 +20,23 @@ The label is a next-month impressions drop of more than 20%. Five month-end feat
 ## Evidence and limitations
 
 - [Model receipts](work/outputs/model_metrics.json), [validation and survivorship receipts](work/outputs/validation_audit_metrics.json), and [action-playbook receipts](work/outputs/action_playbook_summary.json).
-- [Public research paper](https://tessa-saumu.github.io/FlyRank-ML-Internship/) (static report, browser-checked 27 September 2026). Its expanded report/notebook links currently point to the existing PR #5 branch, not `main`; this README does not merge that work.
-- [Personal notebooks](work/notebooks/) and [figure generator](work/scripts/make_paper_figures.py).
+- [Public research paper](https://tessa-saumu.github.io/FlyRank-ML-Internship/) (static report, browser-checked 27 September 2026). Current paper source links to notebooks on `main`; HTTP reachability and the FlyRank data credit were checked again on 13 October 2026.
+- [Personal notebooks](work/notebooks/) and [figure generator](work/scripts/make_paper_figures.py). See the [capstone report](work/capstone_report.md) for the concise personal work narrative.
 
 Results describe retained, measurable pages: 2.6% of March candidates and 3.6% of April candidates were excluded for absent/thin outcome tracking. Client concentration and tracking coverage limit interpretation. No experiment establishes traffic recovery, revenue impact, editor adoption or durable forward advantage. The 79-million-row figure in the starter guide describes the hosted source release, not the number of rows I trained on locally.
 
-The public receipts and figures are inspectable without warehouse access. A fresh warehouse rebuild requires authorized access; it was not performed for this documentation update. Existing Actions failures remain unresolved; no green CI or full test-suite claim is made. Where older notebook prose conflicts with printed tables or receipts, use the latter and the qualifications above.
+The public receipts and figures are inspectable without warehouse access. A fresh warehouse rebuild requires authorized access; it was not performed for this documentation update. Existing hosted Actions failures remain unresolved; inspected failed jobs contain no executed steps and unavailable logs, so a code cause is unproven. An offline personal-evidence check is supplied; no hosted green-CI claim is made. Where older notebook prose conflicts with printed tables or receipts, use the latter and the qualifications above.
 
 ## Running the evidence workflow
 
 From the repository root, with the documented dependencies installed:
 
 ```bash
-python work/scripts/make_paper_figures.py
+python -m pip install -r work/requirements-evidence.txt
+python work/scripts/verify_evidence.py
 ```
 
-This regenerates figures from saved receipts, not model results from raw data. `work/notebooks/capstone.ipynb` assembles/checks existing evidence. The starter's `python scripts/run_all.py` is a separate sample-data demonstration. Follow [DATA_USE.md](DATA_USE.md) for warehouse access and publication boundaries.
+This executes the capstone, checks 31 receipt numbers and regenerates figures in a temporary directory; it does not rebuild model results from raw data. `work/notebooks/capstone.ipynb` assembles/checks existing evidence. The starter's `python scripts/run_all.py` is a separate sample-data demonstration. Follow [DATA_USE.md](DATA_USE.md) for warehouse access and publication boundaries.
 
 ---
 
