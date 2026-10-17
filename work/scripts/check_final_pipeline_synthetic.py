@@ -36,4 +36,15 @@ with tempfile.TemporaryDirectory(prefix='flyrank_final_check_') as tmp:
   finally:
    if km.has_kernel: km.shutdown_kernel(now=True)
   print('PASS',name,flush=True)
- print('Synthetic warehouse query and eight notebooks passed. No synthetic receipts retained.',flush=True)
+ validation=json.loads((base/'receipts/validation.json').read_text())
+ assert validation['primary_baseline']=='static_rule'
+ baseline_rows=json.loads((base/'receipts/baselines.json').read_text())['results']
+ assert {'static_rule','acceleration_rule','coverage_adjusted_acceleration_rule'}.issubset({r['candidate'] for r in baseline_rows})
+ static={r['origin']:r['p_at_50_confirmed_lower'] for r in baseline_rows if r['candidate']=='static_rule'}
+ model_rows=json.loads((base/'receipts/models.json').read_text())['results']
+ for decision in validation['paired_comparisons']:
+  matches=[r for r in model_rows if r['candidate']==decision['candidate'] and r['model']==decision['model']]
+  expected=sum(r['p_at_50_confirmed_lower']-static[r['origin']] for r in matches)/len(matches)
+  assert abs(expected-decision['mean_delta'])<1e-12
+ assert json.loads((base/'receipts/playbook.json').read_text())['selected_rule']=='static_rule'
+ print('Synthetic warehouse query, eight notebooks and frozen-baseline comparisons passed. No synthetic receipts retained.',flush=True)

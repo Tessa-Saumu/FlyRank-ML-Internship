@@ -19,7 +19,8 @@ OUT = Path(os.environ.get('FLYRANK_FINAL_OUTPUT', ROOT / 'work/outputs/final_pip
 CONFIG = study.ExperimentConfig(reporting_lag_sensitivity_days=())
 EXPERIMENT = ROOT / 'work/outputs/warehouse_feature_experiments/experiment_results.json'
 REVISION = json.loads(EXPERIMENT.read_text(encoding='utf-8'))['source']['huggingface_revision']
-RULE = 'coverage_adjusted_acceleration_rule'
+RULE = 'static_rule'
+ACCELERATION_COMPARATOR = 'coverage_adjusted_acceleration_rule'
 
 
 def save(name, value):
@@ -112,7 +113,7 @@ def signals():
             rows.append({'origin': month, 'score_quartile': str(name), 'n': len(g), 'measurable': n,
                          'decline_rate': float(g[study.TARGET].mean()) if n else None,
                          'verdict_status': 'REVIEW_TABLE' if n >= 50 else 'INSUFFICIENT_DATA'})
-    return save('signals', {'tables': rows, 'note': 'Larger scores mean faster recent deterioration. Review direction across months before writing a verdict.'})
+    return save('signals', {'tables': rows, 'note': 'Static-rule score buckets; review associations across months before writing a verdict. Acceleration is a separate comparator.'})
 
 
 def evaluate(models=False):
@@ -127,7 +128,7 @@ def evaluate(models=False):
         else:
             months = ()
             candidates = [(name, 'rule', values) for name, values in study._rule_scores(f).items()
-                          if name in ('static_rule', 'acceleration_rule', RULE)]
+                          if name in (RULE, 'acceleration_rule', ACCELERATION_COMPARATOR)]
             candidates.append(('random_reference', 'random', np.random.default_rng(CONFIG.seed).random(len(f))))
         for candidate, model, scores in candidates:
             row, _ = study._metric_row(f, scores, origin=origin, candidate=candidate,
@@ -154,11 +155,12 @@ def validation():
     decisions = []
     for (candidate, model), g in table[table.model.isin(study.MODELS)].groupby(['candidate','model']):
         delta = g.set_index('origin').p_at_50_confirmed_lower - baseline
-        decisions.append({'candidate': candidate, 'model': model, 'mean_delta': float(delta.mean()),
+        decisions.append({'candidate': candidate, 'model': model, 'primary_baseline': RULE, 'mean_delta': float(delta.mean()),
                           'positive_origins': int(delta.gt(0).sum()),
                           'development_hurdle_met': bool(delta.mean() >= .10 and delta.gt(0).sum() >= 4),
                           'adopt': False})
-    return save('validation', {'summary': summary.to_dict('records'), 'paired_comparisons': decisions,
+    return save('validation', {'primary_baseline': RULE, 'additional_comparator': ACCELERATION_COMPARATOR,
+                               'summary': summary.to_dict('records'), 'paired_comparisons': decisions,
                                'scope': 'Development rerun after selection on these months. No sealed holdout. Hurdle: +5 cases per 50 on average and positive in at least 4 origins. A new prospective evaluation is required for adoption.'})
 
 
@@ -168,9 +170,13 @@ def playbook():
     f = fs[month]
     scores = study._rule_scores(f)[RULE]
     queue = f.iloc[study._rank_indices(f, scores, 50)].copy()
-    queue['reason'] = np.where(queue.recent7_days.lt(3), 'insufficient_recent7_tracking_neutral_score',
-                              np.where(scores[study._rank_indices(f, scores, 50)] > -1,
-                                       'recent_daily_impressions_falling', 'no_recent_deterioration'))
+    visible = queue.recent30_impressions.ge(500)
+    ctr_flag = queue.recent30_avg_position.between(1, 10) & queue.recent30_ctr_pct.lt(1)
+    stale = queue.content_age_days.ge(91)
+    queue['reason'] = np.select(
+        [visible & ctr_flag & stale, visible & ctr_flag, visible & stale, visible],
+        ['stale_low_ctr_top10', 'low_ctr_top10', 'stale_visible', 'visible_only'],
+        default='below_visibility_floor')
     queue['review_action'] = 'Check tracking, search demand, indexing and content relevance before recommending an edit.'
     queue['confidence_note'] = 'Development ranking; not a calibrated probability or an estimate of edit impact.'
     queue['manual_review_note'] = 'INPUT AFTER PRIVATE REVIEW: evidence, likely false alarm, proposed action and reason.'
@@ -178,7 +184,7 @@ def playbook():
     cols = ['client_hash_id','content_hash_id','recent30_impressions','recent30_days','recent7_days',
             'reason','review_action','confidence_note','manual_review_note']
     queue[cols].to_csv(LOCAL / 'private_review_queue.csv', index=False)
-    return save('playbook', {'origin': month, 'selected_rule': RULE, 'queue_size': len(queue),
+    return save('playbook', {'origin': month, 'selected_rule': RULE, 'queue_role': 'Frozen baseline queue for comparison and manual review; not an automatic winner selection.', 'queue_size': len(queue),
                              'diagnostics': study._queue_diagnostics(f, scores),
                              'manual_review_status': 'PENDING: review at least top 20 privately; document weak picks and 3 wrong cases without identifiers.',
                              'action': 'Human review only; no automatic refresh or causal traffic claim.'})

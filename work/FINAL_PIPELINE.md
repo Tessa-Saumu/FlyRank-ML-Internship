@@ -2,7 +2,7 @@
 
 I keep the original W03â€“W07 notebooks byte-for-byte in `work/archive/pre-warehouse-temporal/notebooks/`. Their old metrics, capstone and published paper describe my earlier analysis. They are not the revised pipeline results.
 
-The completed development experiment is in `work/notebooks/warehouse_feature_experiments.ipynb`, its runner in `work/scripts/warehouse_feature_experiments.py`, and its aggregate receipt in `work/outputs/warehouse_feature_experiments/experiment_results.json`. It motivated a coverage-adjusted acceleration rule, with LR/RF control and momentum models retained as challengers. I have not demonstrated a model advantage or editorial impact.
+The completed development experiment is in `work/notebooks/warehouse_feature_experiments.ipynb`, its runner in `work/scripts/warehouse_feature_experiments.py`, and its aggregate receipt in `work/outputs/warehouse_feature_experiments/experiment_results.json`. The original static visibility/CTR/age rule remains the frozen primary baseline. LR/RF control and momentum models are compared against it; acceleration rules are additional comparators. The previous static-rule mean conservative P@50 was 36.4%, not a promised 20–30%. No score is forced into a target range. Model lift against the static rule does not establish superiority over acceleration or an editorial impact.
 
 ## Local run
 
@@ -46,3 +46,5 @@ My main claim will remain review prioritization from observed data. The December
 `python work/scripts/check_final_pipeline_synthetic.py` builds temporary synthetic Parquet partitions, exercises the real query and executes all eight notebooks in temporary kernels. All test receipts and queues are temporary. Passing this check does not establish real warehouse performance. The committed working notebooks deliberately retain empty outputs and descriptive result placeholders.
 
 Verification on 17 October 2026: all eight notebooks executed top to bottom against the synthetic warehouse fixture, including eligible candidates with unknown future outcomes. Experiment receipt invariants, archive-content comparison, Python compilation and git whitespace checks passed. The revised pipeline has not yet been rerun against the real warehouse.
+
+Baseline correction: W06 paired deltas now use the original static rule. W07 writes that baseline queue for inspection, without automatically selecting a winner. Rebuild W03 if a previous local cache exists, then rerun the downstream notebooks because source provenance has changed. The raw-total target is unchanged; daily-rate and complete-coverage sensitivities must be reviewed for tracking artifacts.
