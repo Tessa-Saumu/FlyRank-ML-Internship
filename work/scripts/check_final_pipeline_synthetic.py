@@ -12,15 +12,20 @@ with tempfile.TemporaryDirectory(prefix='flyrank_final_check_') as tmp:
  con.execute("""CREATE TABLE fact AS SELECT CAST(d AS DATE) report_date,
  'client_'||CAST(i%12 AS VARCHAR) client_hash_id,'page_'||CAST(i AS VARCHAR) content_hash_id,
  CASE WHEN i%10=0 AND month(d)=2 THEN day(d)<=10 ELSE TRUE END gsc_data_available,
- CAST(10000*exp((CASE WHEN i%2=0 THEN -0.01 ELSE 0.002 END)*date_diff('day',DATE '2025-08-01',CAST(d AS DATE))) + i AS INTEGER) gsc_impressions,
+ CAST(CASE WHEN i>=120 THEN i-87 ELSE 10000*exp((CASE WHEN i%2=0 THEN -0.01 ELSE 0.002 END)*date_diff('day',DATE '2025-08-01',CAST(d AS DATE))) + i END AS INTEGER) gsc_impressions,
  4 gsc_clicks,8.0 gsc_avg_position,TRUE ga4_data_available,3 ga4_sessions,
  4 ga4_pageviews,2 ga4_engaged_sessions,1 scroll_events
- FROM generate_series(DATE '2025-08-01',DATE '2026-05-31',INTERVAL 1 DAY) ds(d) CROSS JOIN range(120) r(i)""")
+ FROM generate_series(DATE '2025-08-01',DATE '2026-05-31',INTERVAL 1 DAY) ds(d) CROSS JOIN range(122) r(i)""")
  files={}
  for month in p.study.months_between(p.study.date(2025,8,1),p.study.date(2026,5,31)):
   path=facts/(month+'.parquet'); con.execute(f"COPY (SELECT * FROM fact WHERE strftime(report_date,'%Y-%m')='{month}') TO '{path.as_posix()}' (FORMAT PARQUET)"); files[month]=path.as_posix()
  dim=base/'dim.parquet';con.execute(f"COPY (SELECT DISTINCT client_hash_id,content_hash_id,DATE '2020-01-01' content_created_date FROM fact) TO '{dim.as_posix()}' (FORMAT PARQUET)")
  fs=p.study.load_origin_frames(con,p.CONFIG.feature_months,p.CONFIG,(7,),files,dim.as_posix())[7];con.close()
+ assert p.CONFIG.minimum_impressions==1000
+ for f in fs.values():
+  assert f.recent30_impressions.ge(1000).all()
+  assert 'page_120' not in set(f.content_hash_id), '990-impression page must be excluded'
+  assert 'page_121' in set(f.content_hash_id), '1020-impression page must remain eligible'
  assert any(f[p.study.TARGET].isna().any() for f in fs.values()), 'Fixture must exercise unknown outcomes'
  for month,f in fs.items():f.to_parquet(cache/(month+'.parquet'),index=False)
  (cache/'manifest.json').write_text(json.dumps({'provenance':p.provenance()},default=str))

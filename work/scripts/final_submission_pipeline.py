@@ -16,7 +16,7 @@ import warehouse_feature_experiments as study
 ROOT = study.ROOT
 LOCAL = Path(os.environ.get('FLYRANK_FINAL_CACHE', ROOT / 'work/local_final_pipeline'))
 OUT = Path(os.environ.get('FLYRANK_FINAL_OUTPUT', ROOT / 'work/outputs/final_pipeline'))
-CONFIG = study.ExperimentConfig(reporting_lag_sensitivity_days=())
+CONFIG = study.ExperimentConfig(minimum_impressions=1000, reporting_lag_sensitivity_days=())
 EXPERIMENT = ROOT / 'work/outputs/warehouse_feature_experiments/experiment_results.json'
 REVISION = json.loads(EXPERIMENT.read_text(encoding='utf-8'))['source']['huggingface_revision']
 RULE = 'static_rule'
@@ -70,7 +70,7 @@ def contract(rebuild=False):
     audit = []
     for month, f in frames().items():
         assert not f.duplicated(['client_hash_id', 'content_hash_id']).any()
-        assert f.recent30_days.ge(14).all() and f.recent30_impressions.ge(100).all()
+        assert f.recent30_days.ge(14).all() and f.recent30_impressions.ge(CONFIG.minimum_impressions).all()
         assert (pd.to_datetime(f.feature_cutoff_date) < pd.to_datetime(f.outcome_start)).all()
         assert f.loc[f.future30_days.lt(14), study.TARGET].isna().all()
         expected = f.future30_impressions < .8 * f.recent30_impressions
@@ -170,7 +170,7 @@ def playbook():
     f = fs[month]
     scores = study._rule_scores(f)[RULE]
     queue = f.iloc[study._rank_indices(f, scores, 50)].copy()
-    visible = queue.recent30_impressions.ge(500)
+    visible = queue.recent30_impressions.ge(CONFIG.minimum_impressions)
     ctr_flag = queue.recent30_avg_position.between(1, 10) & queue.recent30_ctr_pct.lt(1)
     stale = queue.content_age_days.ge(91)
     queue['reason'] = np.select(
