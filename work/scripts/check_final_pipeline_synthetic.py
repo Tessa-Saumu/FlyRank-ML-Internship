@@ -37,5 +37,3 @@ with tempfile.TemporaryDirectory(prefix='flyrank_final_check_') as tmp:
    if km.has_kernel: km.shutdown_kernel(now=True)
   print('PASS',name,flush=True)
  print('Synthetic warehouse query and eight notebooks passed. No synthetic receipts retained.',flush=True)
-
-
