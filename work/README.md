@@ -1,3 +1,5 @@
+> **Revised pipeline awaiting local run:** [Run W03–W07 and complete the result placeholders](FINAL_PIPELINE.md). The results below describe the archived analysis and have not been replaced with unmeasured numbers.
+
 # Personal content-review ranking capstone
 
 Start with [the capstone report](capstone_report.md), [research paper](paper/index.html), and [committed receipts](outputs/). Grouped LR P@50 0.636 versus rule 0.512 did not yield forward lift over the April base rate (LR 0.54; base about 0.56). This is decision-support research with no causal or production-impact claim.

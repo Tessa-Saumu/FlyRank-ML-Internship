@@ -1,3 +1,5 @@
+> **Revised pipeline awaiting local run:** [Run W03–W07 and complete the result placeholders](work/FINAL_PIPELINE.md). The results below describe the archived analysis and have not been replaced with unmeasured numbers.
+
 # FlyRank: Ranking Pages for Content Review
 
 This research capstone ranks pages for a limited editorial review budget using month-end signals to estimate next-month search-impression decline.

@@ -34,3 +34,6 @@ __pycache__/
 .venv/
 venv/
 .env
+
+# Private local final-pipeline frames and review queues
+work/local_final_pipeline/

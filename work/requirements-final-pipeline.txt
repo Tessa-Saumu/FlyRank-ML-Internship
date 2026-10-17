@@ -1,0 +1,10 @@
+# Python 3.12; final submission rerun environment.
+duckdb==1.5.4
+numpy==2.5.1
+pandas==3.0.3
+scikit-learn==1.9.0
+huggingface-hub==1.24.0
+pyarrow==26.0.0
+nbformat==5.11.1
+nbclient==0.11.0
+ipykernel==7.3.0
