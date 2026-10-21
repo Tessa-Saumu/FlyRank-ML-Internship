@@ -1,0 +1,95 @@
+{
+  "checks": [
+    {
+      "origin": "2025-12",
+      "training_months": [
+        "2025-10"
+      ],
+      "features": [
+        "log_recent30_impressions",
+        "recent30_ctr_pct",
+        "recent30_avg_position",
+        "recent30_active_days",
+        "content_age_days",
+        "traffic_velocity_30d",
+        "traffic_acceleration_7d",
+        "has_prior30_gsc_coverage"
+      ],
+      "training_rows": 9524,
+      "test_rows": 19073
+    },
+    {
+      "origin": "2026-01",
+      "training_months": [
+        "2025-11"
+      ],
+      "features": [
+        "log_recent30_impressions",
+        "recent30_ctr_pct",
+        "recent30_avg_position",
+        "recent30_active_days",
+        "content_age_days",
+        "traffic_velocity_30d",
+        "traffic_acceleration_7d",
+        "has_prior30_gsc_coverage"
+      ],
+      "training_rows": 13721,
+      "test_rows": 22340
+    },
+    {
+      "origin": "2026-02",
+      "training_months": [
+        "2025-12"
+      ],
+      "features": [
+        "log_recent30_impressions",
+        "recent30_ctr_pct",
+        "recent30_avg_position",
+        "recent30_active_days",
+        "content_age_days",
+        "traffic_velocity_30d",
+        "traffic_acceleration_7d",
+        "has_prior30_gsc_coverage"
+      ],
+      "training_rows": 19022,
+      "test_rows": 30275
+    },
+    {
+      "origin": "2026-03",
+      "training_months": [
+        "2026-01"
+      ],
+      "features": [
+        "log_recent30_impressions",
+        "recent30_ctr_pct",
+        "recent30_avg_position",
+        "recent30_active_days",
+        "content_age_days",
+        "traffic_velocity_30d",
+        "traffic_acceleration_7d",
+        "has_prior30_gsc_coverage"
+      ],
+      "training_rows": 22316,
+      "test_rows": 41931
+    },
+    {
+      "origin": "2026-04",
+      "training_months": [
+        "2026-02"
+      ],
+      "features": [
+        "log_recent30_impressions",
+        "recent30_ctr_pct",
+        "recent30_avg_position",
+        "recent30_active_days",
+        "content_age_days",
+        "traffic_velocity_30d",
+        "traffic_acceleration_7d",
+        "has_prior30_gsc_coverage"
+      ],
+      "training_rows": 29638,
+      "test_rows": 45664
+    }
+  ],
+  "scope": "Forward time validation; repeated clients are allowed. No unseen-client claim."
+}
