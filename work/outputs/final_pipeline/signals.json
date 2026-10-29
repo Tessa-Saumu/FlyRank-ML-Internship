@@ -1,0 +1,165 @@
+{
+  "tables": [
+    {
+      "origin": "2025-10",
+      "score_quartile": "(-0.001, 0.25]",
+      "n": 1879,
+      "measurable": 1878,
+      "decline_rate": 0.154419595314164,
+      "verdict_status": "REVIEW_TABLE"
+    },
+    {
+      "origin": "2025-10",
+      "score_quartile": "(0.25, 0.5]",
+      "n": 3303,
+      "measurable": 3302,
+      "decline_rate": 0.2549969715324046,
+      "verdict_status": "REVIEW_TABLE"
+    },
+    {
+      "origin": "2025-10",
+      "score_quartile": "(0.75, 1.0]",
+      "n": 4344,
+      "measurable": 4344,
+      "decline_rate": 0.21823204419889503,
+      "verdict_status": "REVIEW_TABLE"
+    },
+    {
+      "origin": "2025-11",
+      "score_quartile": "(-0.001, 0.25]",
+      "n": 2538,
+      "measurable": 2535,
+      "decline_rate": 0.43984220907297833,
+      "verdict_status": "REVIEW_TABLE"
+    },
+    {
+      "origin": "2025-11",
+      "score_quartile": "(0.25, 0.5]",
+      "n": 3251,
+      "measurable": 3248,
+      "decline_rate": 0.3103448275862069,
+      "verdict_status": "REVIEW_TABLE"
+    },
+    {
+      "origin": "2025-11",
+      "score_quartile": "(0.5, 0.75]",
+      "n": 7940,
+      "measurable": 7938,
+      "decline_rate": 0.3379944570420761,
+      "verdict_status": "REVIEW_TABLE"
+    },
+    {
+      "origin": "2025-12",
+      "score_quartile": "(-0.001, 0.25]",
+      "n": 4413,
+      "measurable": 4387,
+      "decline_rate": 0.32687485753362205,
+      "verdict_status": "REVIEW_TABLE"
+    },
+    {
+      "origin": "2025-12",
+      "score_quartile": "(0.25, 0.5]",
+      "n": 2287,
+      "measurable": 2286,
+      "decline_rate": 0.3460192475940507,
+      "verdict_status": "REVIEW_TABLE"
+    },
+    {
+      "origin": "2025-12",
+      "score_quartile": "(0.5, 0.75]",
+      "n": 12373,
+      "measurable": 12349,
+      "decline_rate": 0.2657705077334197,
+      "verdict_status": "REVIEW_TABLE"
+    },
+    {
+      "origin": "2026-01",
+      "score_quartile": "(-0.001, 0.25]",
+      "n": 6501,
+      "measurable": 6492,
+      "decline_rate": 0.16096734442390634,
+      "verdict_status": "REVIEW_TABLE"
+    },
+    {
+      "origin": "2026-01",
+      "score_quartile": "(0.5, 0.75]",
+      "n": 15839,
+      "measurable": 15824,
+      "decline_rate": 0.20835439838220424,
+      "verdict_status": "REVIEW_TABLE"
+    },
+    {
+      "origin": "2026-02",
+      "score_quartile": "(-0.001, 0.25]",
+      "n": 8301,
+      "measurable": 7919,
+      "decline_rate": 0.14054804899608536,
+      "verdict_status": "REVIEW_TABLE"
+    },
+    {
+      "origin": "2026-02",
+      "score_quartile": "(0.25, 0.5]",
+      "n": 3954,
+      "measurable": 3950,
+      "decline_rate": 0.17873417721518986,
+      "verdict_status": "REVIEW_TABLE"
+    },
+    {
+      "origin": "2026-02",
+      "score_quartile": "(0.5, 0.75]",
+      "n": 18020,
+      "measurable": 17769,
+      "decline_rate": 0.26180426585626654,
+      "verdict_status": "REVIEW_TABLE"
+    },
+    {
+      "origin": "2026-03",
+      "score_quartile": "(-0.001, 0.25]",
+      "n": 15097,
+      "measurable": 15057,
+      "decline_rate": 0.4581257886697217,
+      "verdict_status": "REVIEW_TABLE"
+    },
+    {
+      "origin": "2026-03",
+      "score_quartile": "(0.25, 0.5]",
+      "n": 7376,
+      "measurable": 7349,
+      "decline_rate": 0.4211457341134848,
+      "verdict_status": "REVIEW_TABLE"
+    },
+    {
+      "origin": "2026-03",
+      "score_quartile": "(0.75, 1.0]",
+      "n": 19458,
+      "measurable": 19409,
+      "decline_rate": 0.503477768045752,
+      "verdict_status": "REVIEW_TABLE"
+    },
+    {
+      "origin": "2026-04",
+      "score_quartile": "(-0.001, 0.25]",
+      "n": 4633,
+      "measurable": 4616,
+      "decline_rate": 0.6826256499133448,
+      "verdict_status": "REVIEW_TABLE"
+    },
+    {
+      "origin": "2026-04",
+      "score_quartile": "(0.25, 0.5]",
+      "n": 21064,
+      "measurable": 20995,
+      "decline_rate": 0.6632055251250297,
+      "verdict_status": "REVIEW_TABLE"
+    },
+    {
+      "origin": "2026-04",
+      "score_quartile": "(0.75, 1.0]",
+      "n": 19967,
+      "measurable": 19661,
+      "decline_rate": 0.6138039774172219,
+      "verdict_status": "REVIEW_TABLE"
+    }
+  ],
+  "note": "Static-rule score buckets; review associations across months before writing a verdict. Acceleration is a separate comparator."
+}

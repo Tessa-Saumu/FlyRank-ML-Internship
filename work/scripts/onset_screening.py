@@ -15,8 +15,8 @@ WP2  Sensitivity        onset thresholds, coverage requirements, impression floo
 
 Outputs
 -------
-``work/outputs/diagnostics/onset_screening.json``   every table and the claim checks
-``work/outputs/diagnostics/onset_headline.md``      the sentence block, numbers filled in
+``work/outputs/onset_screening.json``   every table and the claim checks
+``work/outputs/onset_headline.md``      the sentence block, numbers filled in
 
 Usage
 -----
@@ -483,6 +483,24 @@ def sensitivity(
     return rows
 
 
+def load_or_run(
+    out_dir: Path | str,
+    frames: dict[str, pd.DataFrame] | None = None,
+    origins: list[str] | None = None,
+    **kwargs: Any,
+) -> tuple[dict[str, Any], bool]:
+    """Read the audit receipt when it exists, otherwise run the audit."""
+    path = Path(out_dir) / "onset_screening.json"
+    if path.exists():
+        return json.loads(path.read_text(encoding="utf-8")), True
+    if frames is None:
+        raise SystemExit(
+            f"No receipt at {path}. Run Week 5 section 3c, or run "
+            "work/scripts/onset_screening.py, before this cell."
+        )
+    return run(frames, origins or list(DEFAULT_ORIGINS), out_dir=Path(out_dir), **kwargs), False
+
+
 # --------------------------------------------------------------------------- #
 # Queue construction
 # --------------------------------------------------------------------------- #
@@ -603,7 +621,8 @@ def build_queues(
 
     mask = onset_pool(test, DEFAULT_THRESHOLD, DEFAULT_MIN_DAYS)
     pool = test.loc[mask].reset_index(drop=True)
-    model_scores = study._fit_score(train, pool, "momentum", "logistic_regression")
+    train_pool = train.loc[onset_pool(train, DEFAULT_THRESHOLD, DEFAULT_MIN_DAYS)].reset_index(drop=True)
+    model_scores = study._fit_score(train_pool, pool, "momentum", "logistic_regression")
     onset = _lane(pool, model_scores, k, cap, "onset")
 
     return {
@@ -649,15 +668,18 @@ def run(
         mask = onset_pool(test, threshold, min_days)
         pool = test.loc[mask].reset_index(drop=True)
         rules_pool = study._rule_scores(pool)
-        scores = score_all(train, pool, rules_pool)
 
-        # Second training policy: fit on onset-eligible training rows only. This is what
-        # the diagnostic receipt used, so it lets us cross-check the two scripts.
+        # Primary training policy: the model is fitted on onset-eligible rows only, so the
+        # population it learns from is the population it ranks. Fitting on every row would
+        # teach it how a collapse looks, which is the signal this design exists to exclude.
         train_pool = train.loc[onset_pool(train, threshold, min_days)].reset_index(drop=True)
-        if train_pool[TARGET].nunique() == 2 and len(train_pool) >= 100:
-            scores_pool_only = score_all(train_pool, pool, rules_pool)
-        else:
-            scores_pool_only = {}
+        if train_pool[TARGET].nunique() != 2 or len(train_pool) < 100:
+            raise SystemExit(
+                f"{origin}: only {len(train_pool)} onset-eligible training rows with both "
+                "classes. Use the 1,000-impression frame or a later origin."
+            )
+        scores = score_all(train_pool, pool, rules_pool)
+        scores_all_rows = score_all(train, pool, rules_pool)
 
         entry: dict[str, Any] = {
             "origin": origin,
@@ -677,9 +699,9 @@ def run(
                 name: {f"p_at_{k}": precision_block(pool, score, k) for k in k_values}
                 for name, score in scores.items()
             },
-            "metrics_pool_only_training": {
+            "metrics_all_training_rows": {
                 name: {f"p_at_{k}": precision_block(pool, score, k) for k in k_values}
-                for name, score in scores_pool_only.items()
+                for name, score in scores_all_rows.items()
             },
             "bootstrap": {
                 f"p_at_{k}": {
@@ -696,9 +718,9 @@ def run(
                 }
                 for k in k_values
             },
-            "mechanism": mechanism_test(train, pool, DEFAULT_K),
+            "mechanism": mechanism_test(train_pool, pool, DEFAULT_K),
             "robustness": robustness(pool, scores, DEFAULT_K),
-            "diagnostics": coefficients_and_importance(train, pool, seed),
+            "diagnostics": coefficients_and_importance(train_pool, pool, seed),
         }
         per_origin[origin] = entry
         print(f"  origin {origin}: pool {len(pool):,} of {len(test):,} "
@@ -832,12 +854,13 @@ def claim_checks(per_origin: dict[str, Any], summary: dict[str, Any], k_values: 
     spreads = []
     for entry in per_origin.values():
         full = entry["metrics"].get("momentum:logistic_regression", {}).get("p_at_50", {})
-        limited = entry.get("metrics_pool_only_training", {}).get("momentum:logistic_regression", {})
-        if full.get("available") and limited.get("available"):
-            spreads.append(abs(full["precision_lower"] - limited["precision_lower"]))
+        other = entry.get("metrics_all_training_rows", {}).get(
+            "momentum:logistic_regression", {}).get("p_at_50", {})
+        if full.get("available") and other.get("available"):
+            spreads.append(abs(full["precision_lower"] - other["precision_lower"]))
     if spreads:
         checks["training_population"] = {
-            "max_abs_difference_full_vs_pool_only": float(max(spreads)),
+            "max_abs_difference_pool_vs_all_training": float(max(spreads)),
             "stable_across_training_population": bool(max(spreads) <= 0.10),
         }
 
@@ -876,7 +899,7 @@ def cross_check_diagnosis(per_origin: dict[str, Any], k: int) -> dict[str, Any]:
         previous = prior.get(origin, {}).get("D4_onset")
         if not previous:
             continue
-        source = entry.get("metrics_pool_only_training") or entry["metrics"]
+        source = entry["metrics"]
         for name in watched:
             current = source.get(name, {}).get(f"p_at_{k}", {})
             old = previous.get(name, {}).get("p_at_k")
@@ -1063,7 +1086,7 @@ def main() -> None:
         frames, provenance = load_cached_frames(cache)
 
     origins = args.origins.split(",") if args.origins else list(DEFAULT_ORIGINS)
-    out = Path(args.out or ROOT / "work/outputs/diagnostics")
+    out = Path(args.out or ROOT / "work/outputs")
     k_values = tuple(int(value) for value in args.k.split(","))
 
     payload = run(

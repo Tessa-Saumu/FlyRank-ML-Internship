@@ -1,0 +1,117 @@
+{
+  "primary_baseline": "static_rule",
+  "additional_comparator": "coverage_adjusted_acceleration_rule",
+  "summary": [
+    {
+      "candidate": "acceleration_rule",
+      "model": "rule",
+      "mean_p50": 0.8119999999999999,
+      "worst_p50": 0.54,
+      "mean_p20": 0.8,
+      "mean_p100": 0.8640000000000001,
+      "origins": 5
+    },
+    {
+      "candidate": "control",
+      "model": "logistic_regression",
+      "mean_p50": 0.496,
+      "worst_p50": 0.16,
+      "mean_p20": 0.53,
+      "mean_p100": 0.48600000000000004,
+      "origins": 5
+    },
+    {
+      "candidate": "control",
+      "model": "random_forest",
+      "mean_p50": 0.46799999999999997,
+      "worst_p50": 0.1,
+      "mean_p20": 0.51,
+      "mean_p100": 0.446,
+      "origins": 5
+    },
+    {
+      "candidate": "coverage_adjusted_acceleration_rule",
+      "model": "rule",
+      "mean_p50": 0.8240000000000001,
+      "worst_p50": 0.6,
+      "mean_p20": 0.77,
+      "mean_p100": 0.8699999999999999,
+      "origins": 5
+    },
+    {
+      "candidate": "momentum",
+      "model": "logistic_regression",
+      "mean_p50": 0.704,
+      "worst_p50": 0.56,
+      "mean_p20": 0.77,
+      "mean_p100": 0.718,
+      "origins": 5
+    },
+    {
+      "candidate": "momentum",
+      "model": "random_forest",
+      "mean_p50": 0.76,
+      "worst_p50": 0.36,
+      "mean_p20": 0.74,
+      "mean_p100": 0.734,
+      "origins": 5
+    },
+    {
+      "candidate": "random_reference",
+      "model": "random",
+      "mean_p50": 0.352,
+      "worst_p50": 0.18,
+      "mean_p20": 0.45,
+      "mean_p100": 0.386,
+      "origins": 5
+    },
+    {
+      "candidate": "static_rule",
+      "model": "rule",
+      "mean_p50": 0.372,
+      "worst_p50": 0.16,
+      "mean_p20": 0.35,
+      "mean_p100": 0.35,
+      "origins": 5
+    }
+  ],
+  "paired_comparisons": [
+    {
+      "candidate": "control",
+      "model": "logistic_regression",
+      "primary_baseline": "static_rule",
+      "mean_delta": 0.12399999999999997,
+      "positive_origins": 4,
+      "development_hurdle_met": true,
+      "adopt": false
+    },
+    {
+      "candidate": "control",
+      "model": "random_forest",
+      "primary_baseline": "static_rule",
+      "mean_delta": 0.096,
+      "positive_origins": 3,
+      "development_hurdle_met": false,
+      "adopt": false
+    },
+    {
+      "candidate": "momentum",
+      "model": "logistic_regression",
+      "primary_baseline": "static_rule",
+      "mean_delta": 0.33199999999999996,
+      "positive_origins": 5,
+      "development_hurdle_met": true,
+      "adopt": false
+    },
+    {
+      "candidate": "momentum",
+      "model": "random_forest",
+      "primary_baseline": "static_rule",
+      "mean_delta": 0.388,
+      "positive_origins": 5,
+      "development_hurdle_met": true,
+      "adopt": false
+    }
+  ],
+  "scope": "Development rerun after selection on these months. No sealed holdout. Hurdle: +5 cases per 50 on average and positive in at least 4 origins. A new prospective evaluation is required for adoption."
+}
