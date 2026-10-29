@@ -11,7 +11,7 @@ content team can review only fifty pages a month before their impressions fall. 
 from the FlyRank warehouse release, at a shared floor of 1,000 recent impressions, show two different
 answers depending on the question asked. On the full candidate population the hand rule does not rank
 at all: 43 to 71 percent of candidates share its top score, and its observed precision@50 of 0.372
-matches the order-independent expectation of 0.371. A two-line momentum rule reaches 0.812 there and
+matches the order-independent expectation of 0.368, a gap of two tenths of one case in fifty. A two-line momentum rule reaches 0.812 there and
 no learned model beats it, because the label compares the next 30 days with a trailing window that
 already contains the fall. Restricted to pages still flat or growing, where that shortcut cannot
 apply, logistic regression beats the hand rule in all five origins (mean 0.508 against 0.212, pool
@@ -41,7 +41,7 @@ fair comparator, and the audit found that it is not one. Because each condition 
 score takes four values, and at the 1,000-impression floor between 43 and 71 percent of candidates
 share the top value. The top fifty is therefore a draw from that band rather than an ordering, and
 its precision moves with row order. Measured across the five origins, observed precision@50 is 0.372
-against an order-independent expectation of 0.371, a difference of one case in fifty. The rule
+against an order-independent expectation of 0.368, a gap of two tenths of one case in fifty. The diagnostic run, which counts the boundary at the band rate rather than as a lower bound, puts the same expectation at 0.371, and the conclusion does not depend on which of the two is used. The rule
 behaves as a filter for visible, stale, low-CTR pages, not as a ranker. Notebook section 1b carries
 the per-origin numbers.
 
