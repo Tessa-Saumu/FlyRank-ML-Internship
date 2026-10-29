@@ -13,6 +13,13 @@ from nbclient import NotebookClient
 
 def main():
     repo = Path(__file__).resolve().parents[2]
+    # Check the onset receipt up front: the capstone reads it, and a missing file would
+    # otherwise surface as a download error from inside the notebook.
+    if not (repo / 'work/outputs/onset_screening.json').exists():
+        raise SystemExit(
+            'work/outputs/onset_screening.json is missing. Run Week 5 section 3c, or '
+            'python work/scripts/onset_screening.py, then run this check again.'
+        )
     with tempfile.TemporaryDirectory(prefix='flyrank-evidence-') as scratch:
         root = Path(scratch)
         for folder in ('outputs', 'paper', 'scripts'):
