@@ -683,7 +683,8 @@
 <section id="recs">
   <h2 class="sec"><span class="secnum">6</span>Ranked recommendations — the action playbook</h2>
 
-  <p>The output is a monthly <strong>review queue</strong>, built the way Test C validated it: models fit on March, scoring April. <strong>The rule explains, the model orders.</strong> Each of the 50 rows carries the scrambled page code, the model probability (the order), the rule flag (the reason), one of four actions, and a refresh hint pointing at the kind of work the features suggest.</p>
+  <p>The subsections below describe the queue as it shipped on the 100-impression population, with models fit on March and scoring April. Read them as the historical design: the four actions and the gates carry over unchanged, and the two-lane revision further down replaces the single ordered list, because a list that puts one action on 49 of 50 rows does not tell an editor what to do.</p>
+  <p>The original output is a monthly <strong>review queue</strong>, built the way Test C validated it: models fit on March, scoring April. <strong>The rule explains, the model orders.</strong> Each of the 50 rows carries the scrambled page code, the model probability (the order), the rule flag (the reason), one of four actions, and a refresh hint pointing at the kind of work the features suggest.</p>
 
   <h3>The four actions</h3>
   <dl class="actions-list">
@@ -719,7 +720,7 @@
 
   <h3>The two-lane queue</h3>
   <p>The revised playbook splits the review budget instead of ranking one list. Lane 1 holds pages already falling, ordered by the momentum rule, and every row starts with a tracking and indexing check rather than a content brief, because a page that is falling with a healthy recent run rate is often a measurement problem. Lane 2 holds pages still flat or growing, ordered by the model, and is a watch list for the following month. Both lanes cap rows per client, both carry the rule flag as a reason code, and both record the run-rate band that produced the action.</p>
-  <p>The earlier queue failed two checks that this design removes by construction: it spanned ten clients with one client holding 48 percent of the rows, and it carried the same action on 49 of 50 rows. A queue where nine rows in ten say the same thing is not a decision aid. Each lane now asserts more than one action and no client over the cap, and the notebook fails loudly if either breaks. In the reference run the triage lane spreads across <code>review_before_revert</code>, <code>verify_then_review</code> and <code>monitor_only</code>, and the onset lane spreads across <code>watch_for_resume</code>, <code>review_before_revert</code> and <code>verify_then_review</code>.</p>
+  <p>The earlier queue failed two checks that this design removes by construction: it spanned ten clients with one client holding 48 percent of the rows, and it carried the same action on 49 of 50 rows. A queue where nine rows in ten say the same thing is not a decision aid. Each lane now asserts more than one action and no client over the cap, and the notebook fails loudly if either breaks. The triage lane keeps the three original actions, <code>review_before_revert</code>, <code>verify_then_review</code> and <code>monitor_only</code>. The onset lane adds <code>watch_for_resume</code> for a healthy page with no reason to intervene yet, and <code>investigate_collapse</code> for a sharp seven-day fall that needs a tracking check before anyone touches the copy.</p>
 
   <h3>The ranked actions, in order</h3>
   <ol>
