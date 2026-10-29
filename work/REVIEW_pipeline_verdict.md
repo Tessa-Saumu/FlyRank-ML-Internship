@@ -7,8 +7,10 @@ I read both notebook sets, the scripts, the receipts, the paper and the starter 
 (`scripts/`, `outputs/model_report.md`). No warehouse access was needed: every number below is
 already committed, and I re-derived the comparisons from the receipts.
 
-**Bottom line.** The new experimental pipeline is a real methodological upgrade and its lift numbers
-are real, but you are reading the lift against the wrong object. The frozen rule never ranked at all
+**Bottom line.** (Revised after the audit ran — see §12 for the measured result, which upgrades this
+verdict from "no lift" to "lift on the onset population".) The new experimental pipeline is a real
+methodological upgrade and its lift numbers are real, but you are reading the lift against the wrong
+object. The frozen rule never ranked at all
 (its top-50 is a lottery draw from a 44–71% tie band), so "0.372 → 0.704" is lift over a lottery, not
 over a rule. And the 0.81–0.94 head precision that looks like the win is mostly a two-number momentum
 signal that is close to a restatement of the label. The useful news: your model's lift over the base
@@ -132,9 +134,14 @@ say plainly that the rule is a filter, not a ranker.
 
 ---
 
-## 3. Finding 2 — the label mostly records a step-down that has already happened
+## 3. Finding 2 — the label partly records a step-down that has already happened
 
-This is the most important paragraph in the review.
+> **Corrected in §12.** This section was written as a hypothesis before the audit ran. The measurement
+> confirms the mechanism for the acceleration rule's queue (100% of its top-50 is persistence-implied)
+> but **refutes the strong version** for the population: persistence explains only 33–52% of observed
+> declines, and its calibration flips sign across months. The circularity is real but partial, and the
+> gap it leaves is exactly where the model wins. Read this section as the mechanism, §12 as the
+> verdict.
 
 The label is
 
@@ -164,8 +171,11 @@ the higher level. Two mechanical consequences:
   breakthrough.
 
 The seven-day reporting gap between the feature cutoff and the outcome window does not remove this.
-It means the rule is forecasting 7–37 days ahead, so persistence has to hold — and the receipts say it
-does. That is a finding, but it is "traffic collapses persist", not "the model predicts decay".
+It means the rule is forecasting 7–37 days ahead, so persistence has to hold. Measured (§12), it holds
+for about half of the declines: persistence-implied recall is 0.33–0.52, and the realised/persistence
+ratio runs 1.24 (December, traffic rebounds) down to 0.71 (April, traffic falls further than the trend
+implied). So momentum is a lagging indicator with unstable calibration, not a restatement of the label
+for the whole population. It is a restatement for the *queue*, which is why that queue scores 0.82–0.94.
 
 This explains, in one stroke: why no model beats the acceleration rule; why the control models (no
 momentum) only add 10–13 points; and why the "combined" model in the earlier run hit 100% at P@50 —
@@ -397,3 +407,129 @@ left to win.
 The work is not mediocre. It is a good experiment sitting behind a comparator that cannot lose or win,
 and a label that answers a narrower question than the one written on the paper. Fix those two things
 and the submission is stronger than what is currently published.
+
+---
+
+## 12. What the audit returned on the real frames
+
+Run on the cached frames on 29 October 2026; receipts in `work/outputs/diagnostics/ranking_diagnosis.json`.
+Five development origins, December 2025–April 2026, K = 50, conservative labels (unknown outcomes count
+as non-declines).
+
+### D1 — the rule does not rank. Confirmed, beyond argument.
+
+| Origin | Rows sharing the top score | Share of population | Band decline rate | Order-independent P@50 | Observed P@50 | Distinct scores |
+|---|---:|---:|---:|---:|---:|---:|
+| 2025-12 | 12,373 | 64.9% | 0.266 | 0.266 | 0.340 | 4 |
+| 2026-01 | 15,839 | 70.9% | 0.208 | 0.208 | 0.160 | 4 |
+| 2026-02 | 18,020 | 59.5% | 0.262 | 0.262 | 0.200 | 4 |
+| 2026-03 | 19,458 | 46.4% | 0.503 | 0.503 | 0.480 | 4 |
+| 2026-04 | 19,967 | 43.7% | 0.614 | 0.614 | 0.680 | 4 |
+| **Mean** | | | | **0.371** | **0.372** | |
+
+Four distinct values, 44–71% of the population in one band, observed = expected to within one case.
+The baseline is a filter with a lottery attached. Every "model beats baseline" sentence in the current
+paper has to be re-read with that in mind.
+
+### D2 — the label is momentum-correlated, not momentum-defined. I was half wrong, usefully.
+
+| Origin | Base | Implied | Agreement | Precision | Recall | Realised ÷ persistence (median) | Accel queue already implied |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| 2025-12 | 0.289 | 0.304 | 0.705 | 0.490 | 0.516 | 1.237 | 1.000 |
+| 2026-01 | 0.195 | 0.150 | 0.845 | 0.631 | 0.488 | 1.163 | 1.000 |
+| 2026-02 | 0.218 | 0.141 | 0.785 | 0.513 | 0.331 | 1.058 | 1.000 |
+| 2026-03 | 0.473 | 0.288 | 0.646 | 0.706 | 0.430 | 0.876 | 1.000 |
+| 2026-04 | 0.644 | 0.330 | 0.592 | 0.857 | 0.440 | 0.706 | 1.000 |
+
+Three things this settles:
+
+1. **For the acceleration rule's queue, the circularity is total.** 100% of its top-50 is composed of
+   pages whose own last-seven-day rate already implies a decline. Its 0.812 is detection of a collapse
+   in progress, not forecasting. That claim is now measured, not inferred.
+2. **For the population, it is not.** Persistence catches only 33–52% of the pages that actually
+   decline, and it misses 15–41% of the labels outright. Roughly half of the decline population is
+   invisible to momentum — and that half is the addressable question.
+3. **The calibration flips sign across months.** Median `realised ÷ persistence` runs 1.24 in December
+   (traffic recovers relative to the recent run rate, so momentum over-flags) down to 0.71 in April
+   (traffic falls further than the trend implied, so momentum under-flags). This is why the momentum
+   models swing between 0.36 and 0.98 across origins: they inherit a signal whose bias changes sign
+   every quarter. Any pipeline that ships momentum needs that disclosure.
+
+### D3 — no meaningful lift inside the momentum pool. Do not build tier-2 on this.
+
+| Origin | Pool base | Acceleration rule | Momentum LR | Momentum RF |
+|---|---:|---:|---:|---:|
+| 2025-12 | 0.821 | 0.940 | 0.920 | 0.920 |
+| 2026-01 | 0.763 | 0.920 | 0.780 | 0.600 |
+| 2026-02 | 0.572 | 0.820 | 0.900 | 0.680 |
+| 2026-03 | 0.815 | 0.540 | 0.880 | 0.920 |
+| 2026-04 | 0.937 | 0.840 | 0.960 | 0.980 |
+
+LR wins 3/5 for a mean of +0.076; RF wins 2/5 for +0.008, and the wins concentrate in March, where the
+rule itself fell to 0.54 on 15 unknown outcomes. Verdict: no reordering margin worth a product.
+
+### D4 — the onset population is where ML earns its place. This is the finding.
+
+Restricted to pages that are *not* already collapsing (acceleration ratio ≥ 1.0, at least 3 covered days
+in the last 7). Within this pool the label requires traffic to fall 20% below a currently healthy level,
+so it is genuinely forward-looking and momentum has no structural edge — confirmed by the acceleration
+rule landing at the base rate.
+
+| Origin | n | Base | Static rule | Accel rule | Momentum LR | Momentum RF | LR − rule | LR − base |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| 2025-12 | 8,395 | 0.215 | 0.140 | 0.000 | 0.260 | 0.340 | +0.120 | +0.045 |
+| 2026-01 | 15,138 | 0.093 | 0.120 | 0.140 | **0.780** | 0.020 | +0.660 | +0.687 |
+| 2026-02 | 19,781 | 0.140 | 0.140 | 0.140 | 0.280 | 0.180 | +0.140 | +0.140 |
+| 2026-03 | 20,398 | 0.319 | 0.300 | 0.480 | 0.500 | 0.620 | +0.200 | +0.181 |
+| 2026-04 | 19,850 | 0.517 | 0.360 | 0.640 | 0.720 | 0.480 | +0.360 | +0.203 |
+| **Mean** | | 0.257 | 0.212 | 0.280 | **0.508** | 0.328 | **+0.296** | **+0.251** |
+| **Median** | | | | | | | **+0.200** | **+0.181** |
+
+- **LR beats the frozen rule in 5/5 origins.** Mean +29.6 points, median +20.0, i.e. roughly 15 and 10
+  extra correct picks out of 50. Leave-one-out means range 0.205–0.340, so it is not one month.
+- **LR beats the base rate in 5/5 origins** — the test the published pipeline failed forward.
+- **RF is unstable** (0.020 in January, 0.620 in March): report it as unstable rather than averaging it
+  into a claim.
+- **Internal validity check passes:** the acceleration rule scores 0.000–0.640 here against a 0.257 mean
+  base rate, i.e. momentum's structural edge is gone once you exclude collapsed pages. The comparison is
+  therefore not contaminated by the label twin.
+
+### D5 — concentration is real and must be published with the queue.
+
+| Ranker | Mean P@50 | Mean client-capped P@50 | Change | Mean largest-client share |
+|---|---:|---:|---:|---:|
+| Static rule | 0.372 | 0.440 | **+0.068** | 0.35 |
+| Acceleration rule | 0.812 | 0.740 | −0.072 | 0.40 (0.70 in December) |
+| Momentum LR | 0.704 | 0.644 | −0.060 | 0.38 |
+| Momentum RF | 0.760 | 0.684 | −0.076 | 0.38 |
+
+Capping at five rows per client *improves* the rule and *reduces* every stronger ranker, which is the
+honest reading: part of the momentum head precision is a small number of clients, and part of the rule's
+weakness is that it spreads thin. Report both numbers side by side, and add the cap to the shipped queue.
+
+### Revised verdict
+
+The project is no longer "no lift". It is two results on two populations:
+
+1. **Triage (any trajectory): the model adds nothing over a two-line momentum rule.** Mean P@50 0.704–0.760
+   vs 0.812–0.824, and the momentum queue is 100% persistence-implied. Negative result, worth publishing.
+2. **Onset screening (healthy pages): the model is the best ranker in the study**, +29.6 points mean and
+   +20 median over the frozen rule, 5/5 origins, above the base rate in 5/5. It wins precisely where the
+   label stops being a momentum restatement.
+
+That is a coherent thesis: *momentum detects decline already in progress; the learned model is what finds
+the next one.* It is also the version the rubric rewards, because the ML is doing work no rule in the
+study can do.
+
+### Before that becomes the headline, four audits
+
+1. **The January anomaly.** Base 0.093 with LR at 0.780 (39/50 vs 4.7 expected) while RF sits at 0.020 is
+   an 8× lift with a model that fails on the same rows. It must be explained: coefficient signs, permutation
+   importance, and whether the top-50 survives excluding the largest client and thin-coverage pages. The
+   likely benign story — a page in a 30-day downtrend that ticks up in the last seven days (velocity < 1,
+   acceleration ≥ 1) tends to resume falling — is testable and would itself be the paper's mechanism.
+2. **Threshold sensitivity.** 1.0 is the natural cut ("flat or growing"), not a tuned one, so pre-register it
+   and show the lift at 0.9 and 1.2, and with 3/5/7 covered days required.
+3. **Unknown outcomes in the onset queue**, reported per origin as lower/measurable/upper like everything else.
+4. **Bootstrap confidence intervals on the paired per-origin deltas**, resampling pages within origin, so the
+   +0.20 median arrives with an interval rather than a point.
