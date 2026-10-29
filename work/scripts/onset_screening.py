@@ -75,11 +75,17 @@ def load_cached_frames(cache: Path) -> tuple[dict[str, pd.DataFrame], dict[str, 
         )
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     config = manifest.get("provenance", {}).get("config", manifest.get("config", {}))
-    months = config.get("feature_months") or sorted(
-        path.stem for path in cache.glob("*.parquet")
-    )
+    # The cache holds whichever months were actually written. The manifest records the
+    # configured feature months, which can be wider, so the files on disk are the truth.
+    months = sorted(path.stem for path in cache.glob("*.parquet"))
+    if not months:
+        raise SystemExit(
+            f"{manifest_path} exists but no monthly parquet files do. Run with "
+            "--warehouse to rebuild the frames, or point --cache at a populated cache."
+        )
     frames = {month: pd.read_parquet(cache / f"{month}.parquet") for month in months}
-    return frames, {"source": "cache", "cache": str(cache), "config": config}
+    return frames, {"source": "cache", "cache": str(cache), "config": config,
+                    "months": months}
 
 
 def build_frames_from_warehouse(
@@ -136,6 +142,7 @@ def build_frames_from_warehouse(
         frame.to_parquet(cache / f"{month}.parquet", index=False)
     manifest = {
         "provenance": {
+            "frames": sorted(built),
             "revision": revision,
             "config": {**study.asdict(config), "feature_months": list(config.feature_months)},
             "source": "onset_screening.build_frames_from_warehouse",
@@ -158,8 +165,10 @@ def resolve_frames(
     """
     cache_path = Path(cache or os.environ.get(
         "FLYRANK_FINAL_CACHE", ROOT / "work/local_final_pipeline"))
-    if (cache_path / "manifest.json").exists():
+    if sorted(cache_path.glob("*.parquet")):
         return load_cached_frames(cache_path)
+    if (cache_path / "manifest.json").exists():
+        print(f"No monthly frames in {cache_path}, so the release is read once to build them.")
     if revision is None:
         contract = ROOT / "work/outputs/final_pipeline/contract.json"
         if contract.exists():
