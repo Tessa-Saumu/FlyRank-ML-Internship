@@ -1,6 +1,6 @@
 # Personal content-review ranking capstone
 
-Start with [the capstone report](capstone_report.md), [research paper](paper/index.html), and [committed receipts](outputs/). Grouped LR P@50 0.636 versus rule 0.512 did not yield forward lift over the April base rate (LR 0.54; base about 0.56). This is decision-support research with no causal or production-impact claim.
+Start with [the capstone report](capstone_report.md), [research paper](paper/index.html), and [committed receipts](outputs/). The hand rule never ranks: 43 to 71 percent of candidates share its top score at the 1,000-impression floor and its observed P@50 of 0.372 sits one case in fifty from the 0.371 a random draw from the same tie band returns. On the full five-origin population a two-line momentum rule scores 0.812 and beats both learned models, because the label's trailing window already contains the recent fall. Restricted to pages still flat or growing, logistic regression beats the rule in five of five origins (mean P@50 0.508 versus 0.212, pool base rate 0.257). The earlier grouped result (LR 0.636 versus rule 0.512) and the one-month-forward result (LR 0.54 against an April base rate near 0.56) stay in the receipts as historical evidence for the 100-impression population. This is decision-support research with no causal or production-impact claim.
 
 Offline check: `python work/scripts/verify_evidence.py` from the repository root. This executes the capstone against receipts, not the warehouse.
 

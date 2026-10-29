@@ -28,7 +28,13 @@ def main():
         )
         if 'ALL 31 CHECKS PASS' not in final_text:
             raise RuntimeError('Expected headline receipt-check confirmation absent.')
-        print('All capstone cells executed; 31 receipt checks passed; figures regenerated.')
+        if 'ONSET CHECKS PASS' not in final_text:
+            raise RuntimeError(
+                'Onset receipt checks did not pass. Run Week 5 section 3c (or '
+                'work/scripts/onset_screening.py) and commit work/outputs/onset_screening.json.'
+            )
+        print('All capstone cells executed; 31 headline checks and the onset checks passed;')
+        print('figures regenerated from receipts.')
         print('No warehouse access or retraining; source artifacts unchanged.')
 
 

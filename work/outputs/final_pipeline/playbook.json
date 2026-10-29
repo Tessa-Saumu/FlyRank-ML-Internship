@@ -1,0 +1,59 @@
+{
+  "origin": "2026-04",
+  "selected_rule": "static_rule",
+  "queue_role": "Frozen baseline queue for comparison and manual review; not an automatic winner selection.",
+  "queue_size": 50,
+  "diagnostics": {
+    "selected": 50,
+    "confirmed_positive": 34,
+    "unknown_outcomes": 1,
+    "precision_lower_bound": 0.68,
+    "precision_upper_bound": 0.7,
+    "measurable_selected": 49,
+    "measurable_precision": 0.6938775510204082,
+    "recent_coverage_days": {
+      "0-6": 0,
+      "7-13": 0,
+      "14-20": 0,
+      "21-29": 0,
+      "30": 50
+    },
+    "prior_coverage_days": {
+      "0-6": 0,
+      "7-13": 0,
+      "14-20": 0,
+      "21-29": 6,
+      "30": 44
+    },
+    "future_coverage_days": {
+      "0-6": 0,
+      "7-13": 1,
+      "14-20": 0,
+      "21-29": 2,
+      "30": 47
+    },
+    "insufficient_future_coverage_fraction": 0.02,
+    "represented_clients": 11,
+    "largest_client_share": 0.36,
+    "recent_impression_quantiles": {
+      "p25": 1820.75,
+      "p50": 2944.5,
+      "p75": 4927.0
+    },
+    "complete_recent_and_future_coverage_same_queue": {
+      "selected": 47,
+      "confirmed_positive": 32,
+      "measurable": 47,
+      "measurable_precision": 0.6808510638297872
+    },
+    "reranked_after_excluding_largest_top50_client": {
+      "selected": 50,
+      "confirmed_positive": 31,
+      "unknown_outcomes": 2,
+      "precision_lower_bound": 0.62,
+      "precision_upper_bound": 0.66
+    }
+  },
+  "manual_review_status": "PENDING: review at least top 20 privately; document weak picks and 3 wrong cases without identifiers.",
+  "action": "Human review only; no automatic refresh or causal traffic claim."
+}

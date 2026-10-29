@@ -363,23 +363,29 @@
   <h2>The short version</h2>
   <dl>
     <dt>Question</dt><dd>An editor can review only <strong>50 pages a month</strong>. Which pages should be at the top of that list?</dd>
-    <dt>Data</dt><dd><strong>95,810 pages across 40 client sites</strong> from an anonymized 79-million-row search warehouse. Each page is five numbers known at month-end, plus what actually happened next month.</dd>
-    <dt>Result</dt><dd>Inside the month, the model beat the hand rule at filling the 50 slots (precision@50 <strong>0.636 vs 0.512</strong>, base rate 0.49). One month forward, most of that edge was gone (<strong>0.54 vs rule 0.44</strong>, April base rate 0.56).</dd>
+    <dt>Data</dt><dd><strong>95,810 pages across 40 client sites</strong> from an anonymized 79-million-row search warehouse. Each page is five numbers known at month-end, plus what actually happened next month. The revised pipeline in section 4 runs five monthly origins at a stricter 1,000-impression floor, which is a separate, larger candidate population and is never compared with the March figures row for row.</dd>
+    <dt>Result, first pass</dt><dd>Inside the month, the model beat the hand rule at filling the 50 slots (precision@50 <strong>0.636 vs 0.512</strong>, base rate 0.49). One month forward, most of that edge was gone (<strong>0.54 vs rule 0.44</strong>, April base rate 0.56).</dd>
+    <dt>Result, revised</dt><dd>The rule turned out never to rank: 43 to 71 percent of candidates share its top score, and its 0.372 matches the 0.371 expected from a tie band drawn at random. On the full population a two-line momentum rule scores <strong>0.812</strong> and beats both models. Restricted to pages still flat or growing, where that shortcut cannot apply, logistic regression beats the rule in <strong>five of five origins</strong> (mean <strong>0.508 vs 0.212</strong>, pool base rate 0.257).</dd>
     <dt>Decision supported</dt><dd>A <strong>monthly review order</strong> for a human editor: a plain reason per page, gates that remove known-bad rows, and a fall-back to the rule.</dd>
-    <dt>Biggest limitation</dt><dd>The ranking decays within weeks and must be refit monthly; a naive random split would have shown <strong>0.98</strong> and been a lie.</dd>
+    <dt>Biggest limitation</dt><dd>Five monthly origins share outcome windows, pages and clients, so they are development slices, not five independent tests. A naive random split would have shown <strong>0.98</strong> and been a lie.</dd>
   </dl>
 </section>
 
 <div class="cards">
   <div class="card">
-    <div class="lbl">The honest headline</div>
-    <div class="big">0.636 <span class="vs">vs</span> 0.512</div>
-    <p>Logistic regression vs. the hand rule, mean precision@50 across five client-grouped folds in March 2026. Base rate 0.49. Random forest: 0.608.</p>
+    <div class="lbl">The revised headline</div>
+    <div class="big">0.508 <span class="vs">vs</span> 0.212</div>
+    <p>Logistic regression vs. the hand rule, mean precision@50 across five monthly origins, on pages that are still flat or growing. Pool base rate 0.257. The model wins in five of five origins; the earlier grouped result (0.636 vs 0.512) stays in section 4 as historical evidence for a different population.</p>
   </div>
   <div class="card">
-    <div class="lbl">One month forward</div>
-    <div class="big">0.54 <span class="vs">vs</span> 0.44</div>
-    <p>Fit on March, scored on April. Logistic regression still beats the rule. The April base rate, though, was 0.56, so the head of the queue no longer beats picking at random. Random forest fell to 0.14.</p>
+    <div class="lbl">Why the old win was partly a lottery</div>
+    <div class="big">0.372 <span class="vs">vs</span> 0.371</div>
+    <p>The rule's observed precision@50 against what the same tie band would return in random order. Between 43 and 71 percent of candidates share the top score, so the rule filters pages and never ranks them.</p>
+  </div>
+  <div class="card">
+    <div class="lbl">The shortcut we had to remove</div>
+    <div class="big">0.812</div>
+    <p>A two-line momentum rule on the full population, above both learned models. The label compares the next 30 days with a trailing window that contains the last seven, so recent momentum implies decline. That is why the headline restricts to pages still flat or growing.</p>
   </div>
   <div class="card warn">
     <div class="lbl">The number we refuse</div>
@@ -408,18 +414,20 @@
 <!-- ============ ABSTRACT ============ -->
 <section id="abstract">
   <h2 class="sec"><span class="secnum">A</span>Abstract</h2>
-  <p>Content that FlyRank publishes into client sites ranks, then quietly decays, and most teams notice too late; when a content team can spare only 50 page reviews a month, the practical question is which 50 pages should go first. We built one table per month from FlyRank's anonymized internship warehouse (about 79 million daily rows; the main working table holds 95,810 pages across 40 clients), where each page carries five numbers known at month-end and a label recording whether its search impressions fell by a fifth or more the following month. On those five numbers we trained two standard models, logistic regression and a random forest, and compared them against a hand-written rule under three tests: clients split into separate train and test groups, a jump one month forward in time, and a deliberately planted leak to prove the checks can catch cheating. Measured across five client-grouped folds, both models ranked the review queue above the rule (precision@50 of 0.636 and 0.608 versus 0.512, against a 0.49 base rate); one month forward the edge mostly disappeared (logistic regression 0.54 versus the rule's 0.44 and a 0.56 base rate; random forest 0.14), while a naive random split (which lets the model re-test pages from clients it has already seen) scored 0.98, a number we treat as a measurement of leakage, not skill. The shipped output is therefore a monthly review order for a human editor: a 50-row queue with a plain-language reason per row, gates that remove known-bad rows, and a standing rule that takes over whenever the model falls behind. This is decision support for choosing which pages to inspect, with no claim that reviewing or changing a page changes its traffic.</p>
+  <p>Content that FlyRank publishes into client sites ranks, then quietly decays, and most teams notice too late; when a content team can spare only 50 page reviews a month, the practical question is which 50 pages should go first. We built one table per month from FlyRank's anonymized internship warehouse (about 79 million daily rows; the main working table holds 95,810 pages across 40 clients), where each page carries five numbers known at month-end and a label recording whether its search impressions fell by a fifth or more the following month. On those five numbers we trained two standard models, logistic regression and a random forest, and compared them against a hand-written rule under three tests: clients split into separate train and test groups, a jump one month forward in time, and a deliberately planted leak to prove the checks can catch cheating. Measured across five client-grouped folds, both models ranked the review queue above the rule (precision@50 of 0.636 and 0.608 versus 0.512, against a 0.49 base rate); one month forward the edge mostly disappeared (logistic regression 0.54 versus the rule's 0.44 and a 0.56 base rate; random forest 0.14), while a naive random split (which lets the model re-test pages from clients it has already seen) scored 0.98, a number we treat as a measurement of leakage, not skill. The shipped output is therefore a monthly review order for a human editor: a 50-row queue with a plain-language reason per row, gates that remove known-bad rows, and a standing rule that takes over whenever the model falls behind. This is decision support for choosing which pages to inspect, with no claim that reviewing or changing a page changes its traffic. A later reconciliation changed the reading of those results and is reported here in full. The hand rule does not rank: its score takes four values, 43 to 71 percent of candidates share the top one at the 1,000-impression floor, and its observed precision@50 of 0.372 equals the 0.371 expected from a tie band in random order. On the full five-origin population a two-line momentum rule reaches 0.812 and beats both models, because the label compares the next 30 days with a trailing window that already contains the fall. Restricted to pages still flat or growing, where that shortcut cannot apply, logistic regression beats the hand rule in five of five origins (mean 0.508 against 0.212, pool base rate 0.257) and beats the pool rate at both 50 and 20 slots, while random forest is unstable across origins. The shipped output is a two-lane monthly review order: already-falling pages ordered by momentum for a tracking check first, and healthy pages at risk ordered by the model as a watch list. The learned ranking earns its place on the narrow question, not on the broad one.</p>
 </section>
 
 <!-- ============ CLAIMS ============ -->
 <section id="claims">
   <h2 class="sec">What this paper claims</h2>
-  <p>Four claims, each tied to the section that proves it. Every number is <em>observed</em> and <em>measured</em>; every claim is <em>directional</em> and framed as <em>decision support</em>.</p>
+  <p>Six claims, each tied to the section that proves it. Every number is <em>observed</em> and <em>measured</em>; every claim is <em>directional</em> and framed as <em>decision support</em>.</p>
   <ol class="claims">
     <li>Within March, logistic regression beat the hand rule in four client-grouped splits and lost one; random forest won three and tied two. Across the five splits, both models had higher means: mean precision@50 of <strong>0.636</strong> (logistic regression) and <strong>0.608</strong> (random forest) versus <strong>0.512</strong> for the rule, against a 0.49 base rate. <a href="#results">Section 4</a>.</li>
     <li>The advantage is short-lived. One month forward, logistic regression stayed above the rule (<strong>0.54 vs 0.44</strong>) but did not beat picking at random (base rate <strong>0.56</strong>); the random forest fell to <strong>0.14</strong>. Adding up to four months of training history did not restore the edge. <a href="#results">Section 4</a>.</li>
     <li>The way the data is split can fake skill. On a naive random split the random forest scored <strong>0.98</strong> because 34 of the 40 clients landed on both sides. It was re-describing pages it had already seen, not forecasting. <a href="#results">Section 4</a>.</li>
     <li>The deliverable is a gated review queue, not a forecast: 50 rows, each carrying a model score for order, a rule flag for the reason, and one of four actions. Hard limits mark what is never automated. Monitoring clocks retire the queue when it goes stale, and a fall-back hands ordering back to the rule. <a href="#recs">Section 6</a>.</li>
+    <li>The hand rule measures 0.44 to 0.51 on precision@50 in the receipts, and none of that margin is ordering, because the rule never orders anything. 43 to 71 percent of candidates share its top score at the 1,000-impression floor, and its observed 0.372 sits one case in fifty from the 0.371 a random draw from the same band returns. Every earlier comparison against the rule has to be read with that in mind. <a href="#results">Section 4</a>.</li>
+    <li>Restricted to pages that are still flat or growing, where momentum cannot imply decline, logistic regression beats the hand rule in five of five origins (mean precision@50 <strong>0.508 against 0.212</strong>, pool base rate 0.257, mean difference +0.296, median +0.200) and beats the pool base rate in five of five. At the co-primary budget of 20 slots it reaches <strong>0.530 against 0.190</strong>. Random forest swings from 0.020 to 0.620 across origins and is reported as unstable. <a href="#results">Section 4</a>.</li>
   </ol>
 </section>
 
@@ -601,6 +609,50 @@
   </figure>
 
   <p>The models' most confident mistakes repeated one pattern across weeks: pages ranked 1–2 in Google results with near-zero CTR (0.07–0.18%) on thousands of impressions, many from a single client. That is usually not decay; it is a results page that answers the question itself, or a brand-name search. Rewriting the page cannot fix either. That pattern is now a gate in the playbook (Section 6), not a lesson re-learned monthly.</p>
+
+  <h3>The revised pipeline: five monthly origins at a 1,000-impression floor</h3>
+  <p>Everything above was measured on March 2026 at a 100-impression entry floor. The revised pipeline repeats the comparison on five monthly origins at a 1,000-impression floor, because a page that collects a hundred impressions a month cannot support a review decision. Each origin is trained on the latest month whose label had matured at that date, and every scorer is paired on identical rows. The change of floor changes the candidate population, so the two sets of numbers are reported side by side and never averaged together.</p>
+
+  <p class="tabcap">Table 5 — mean precision@50 across five monthly origins, full candidate population, 1,000-impression floor.</p>
+  <div class="tw">
+  <table>
+    <thead><tr><th scope="col">Scorer</th><th scope="col" class="num">P@50</th><th scope="col">Reads as</th></tr></thead>
+    <tbody>
+      <tr><td>Random order</td><td class="num">0.352</td><td>The floor any queue has to clear</td></tr>
+      <tr><td>Hand rule</td><td class="num">0.372</td><td>One case in fifty above random, which is what a tie band returns</td></tr>
+      <tr><td>Logistic regression, five features</td><td class="num">0.496</td><td>Ordering helps even without momentum features</td></tr>
+      <tr><td>Logistic regression, eight features</td><td class="num">0.704</td><td>Adding three momentum columns doubles the edge</td></tr>
+      <tr><td>Random forest, eight features</td><td class="num">0.760</td><td>Slightly ahead of the linear model</td></tr>
+      <tr><td>Momentum rule, two lines</td><td class="num"><strong>0.812</strong></td><td>Beats both learned models without fitting anything</td></tr>
+      <tr><td>Momentum rule, coverage-adjusted</td><td class="num">0.824</td><td>The same rule with a prior-coverage correction</td></tr>
+      <tr><td>Base rate</td><td class="num">0.364</td><td>Share of the population that declined</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="cap">Receipt: <code>work/outputs/final_pipeline/baselines.json</code> and <code>models.json</code>. Origins 2025-12 to 2026-04, seed 42, newest mature training month only.</p>
+
+  <p>The two-line rule winning is not a modelling failure to explain away. It is the label working as defined. Decline means the next 30 days fall below 80 percent of the last 30, and the last 30 contains the last seven, so a page that keeps its recent run rate lands under the line by arithmetic. The audit measures that directly: every page in the rule's top fifty has a decline implied by its own recent rate, and persistence-implied labels agree with observed labels on 59 to 85 percent of measurable pages. Momentum is a lagging detector with a month-dependent calibration, and it recovers only 33 to 52 percent of the declines that actually happened.</p>
+
+  <p>The question that survives is narrower and answerable: among pages that are <em>not</em> already falling, which ones fall next month? Restricting to pages whose last-seven-day rate is at or above their 30-day rate removes the shortcut by construction, because those pages have to fall further than their recent momentum implies to be labelled. Momentum then has no structural advantage in that pool, and the comparison becomes fair.</p>
+
+  <p class="tabcap">Table 6 — precision@50 inside the onset pool, five monthly origins, 50 slots.</p>
+  <div class="tw">
+  <table>
+    <thead><tr><th scope="col">Scorer</th><th scope="col" class="num">Mean P@50</th><th scope="col">Reads as</th></tr></thead>
+    <tbody>
+      <tr><td>Hand rule</td><td class="num">0.212</td><td>Below the pool's own base rate</td></tr>
+      <tr><td>Momentum rule, two lines</td><td class="num">0.280</td><td>No structural edge inside the pool, as intended</td></tr>
+      <tr><td>Logistic regression, eight features</td><td class="num"><span class="best">0.508</span></td><td>Wins against the rule in five of five origins, range 0.260 to 0.780</td></tr>
+      <tr><td>Random forest, eight features</td><td class="num">0.328</td><td>Unstable, 0.020 in January 2026 against 0.620 at its best</td></tr>
+      <tr><td>Pool base rate</td><td class="num">0.257</td><td>Mean pool size about 15,900 pages per origin</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="cap">Receipt: <code>work/outputs/onset_screening.json</code>, section 3c of <code>w05_model</code>. Paired per-origin deltas against the rule: mean +0.296, median +0.200, leave-one-origin-out means 0.205 to 0.340, and +0.251 against the pool base rate. At the co-primary budget of 20 slots the model reaches 0.530 against 0.190 for the rule.</p>
+
+  <p>Three stress tests travel with that result. Thresholds of 0.9, 1.0 and 1.2 crossed with minimum onset days of 3, 5 and 7, impression floors, a label variant, and bootstrap intervals over resampled pages inside each origin are all recomputed and written to the receipt. Removing the largest client and restricting to complete coverage leaves the model ahead, but per-origin margins narrow, and the client cap that helps the rule hurts every stronger ranker, which says part of the momentum gap is a small number of clients. The mechanism test compares the eight-feature model against a two-feature momentum-only fit on the same rows, with a coverage flag added in a third variant. That comparison decides how the finding is worded: if two momentum features recover most of the score, the model is finding pages in a 30-day downtrend whose last week ticked up, and those pages resume falling. That is a real pattern and it is narrower than forecast decay, so it is stated that way.</p>
+
+  <p>One origin deserves a sentence of its own. In January 2026 logistic regression scores 0.780 while random forest scores 0.020, which is eight times the pool base rate on one side and far below it on the other. Two models on the same rows disagreeing that hard means the month is an outlier for at least one of them, and the honest reading is that the mean is carried unevenly across months rather than that either model is reliable at that scale.</p>
 </section>
 
 <!-- ============ 5. LIMITATIONS ============ -->
@@ -614,7 +666,9 @@
     <li><strong>Survivorship.</strong> 2.6% of March and 3.6% of April candidates were dropped for thin or absent outcome-month tracking (those lean toward pages going quiet). This paper describes pages that could still be measured.</li>
     <li><strong>Client concentration cuts both ways.</strong> The largest client is 22% of a frame; 829 frame rows share identical feature values; and in the current cycle one client holds <strong>48% of the budget queue</strong> (the monitoring clock flagged it against a 35% limit). Fold means are five draws of unequal, correlated data (fold 3's test side alone is 70.6% of the frame), not five independent experiments.</li>
     <li><strong>Five numbers cannot see content.</strong> Quality, search intent, results-page layout, seasonality, and business value are invisible to the features. A human reviewer sees all of them; that division of labour is the point of the design.</li>
-    <li><strong>One development month.</strong> The headline comparison (Test B) lives on March 2026. The walk-forward test covers more history but on a smaller fixed panel of clients.</li>
+    <li><strong>One development month for the first pass, five overlapping months for the revised one.</strong> Test B lives on March 2026. The revised pipeline covers five origins, but their outcome windows overlap and the same pages and clients recur, so those five are development slices rather than five independent tests. Nothing here is a significance test on fresh data.</li>
+    <li><strong>The comparison now has a fair and an unfair half.</strong> On the full population a two-line momentum rule beats both models, and the label makes that unavoidable. The learned model's claim rests only on the onset pool, where the phrase "still flat or growing" is itself a definition that could be drawn differently. The sensitivity grid in the receipt checks that the sign survives the obvious variations; it cannot check definitions nobody thought to try.</li>
+    <li><strong>Random forest is not trustworthy on these months.</strong> It moves between 0.020 and 0.620 across origins inside the onset pool, so it is reported as unstable and never averaged into a claim. Only the linear model carries the result.</li>
     <li><strong>Untuned defaults.</strong> Both models run library-default hyperparameters. Tuning might move the numbers; it would not change the shape of the story, and it was deliberately not chased.</li>
   </ul>
   <div class="callout note">
@@ -663,6 +717,10 @@
   <h3>What this cycle's queue actually was — the honest read</h3>
   <p>The 50 rows are all pages the rule does <em>not</em> flag: small pages (100–150 impressions) with exactly 0.0% CTR at visible positions: seen in results, never clicked. Observed against April labels, the ungated top 50 declined at 0.54 (base rate 0.56); after gates, <strong>0.56 (exactly the base rate)</strong>. This month the queue is a <strong>diagnostic list, not a refresh list</strong>: 49 quiet-risk investigations at about an hour each (≈ 49.5 editor-hours, about 4,700 impressions at stake). That is the model behaving as trained (zero clicks at a visible position is the strongest pattern it learned), and it is precisely why the queue is framed as a review order and not a forecast.</p>
 
+  <h3>The two-lane queue</h3>
+  <p>The revised playbook splits the review budget instead of ranking one list. Lane 1 holds pages already falling, ordered by the momentum rule, and every row starts with a tracking and indexing check rather than a content brief, because a page that is falling with a healthy recent run rate is often a measurement problem. Lane 2 holds pages still flat or growing, ordered by the model, and is a watch list for the following month. Both lanes cap rows per client, both carry the rule flag as a reason code, and both record the run-rate band that produced the action.</p>
+  <p>The earlier queue failed two checks that this design removes by construction: it spanned ten clients with one client holding 48 percent of the rows, and it carried the same action on 49 of 50 rows. A queue where nine rows in ten say the same thing is not a decision aid. Each lane now asserts more than one action and no client over the cap, and the notebook fails loudly if either breaks. In the reference run the triage lane spreads across <code>review_before_revert</code>, <code>verify_then_review</code> and <code>monitor_only</code>, and the onset lane spreads across <code>watch_for_resume</code>, <code>review_before_revert</code> and <code>verify_then_review</code>.</p>
+
   <h3>The ranked actions, in order</h3>
   <ol>
     <li><strong>Cap per-client share of the queue before it goes to editors.</strong> One client holds 48% of this cycle's top 50 against a 35% limit, so the concentration trigger fired. A per-client cap is a policy decision for whoever runs the sprint; until it is set, the list is not ready to hand out.</li>
@@ -701,6 +759,7 @@
       <tr><td>Tests A and C, Table 4, Figure 5 (leak)</td><td>w06_validation_audit</td><td><code>validation_audit_metrics.json</code></td></tr>
       <tr><td>Figures 1–2</td><td><a href="https://github.com/Tessa-Saumu/FlyRank-ML-Internship/blob/main/work/scripts/make_paper_figures.py">make_paper_figures.py</a> (from receipts)</td><td>as above</td></tr>
       <tr><td>Figures 3–4, gates, actions, monitoring</td><td><a href="https://github.com/Tessa-Saumu/FlyRank-ML-Internship/blob/main/work/notebooks/w07_action_playbook.ipynb">w07_action_playbook</a></td><td><code>action_playbook_summary.json</code></td></tr>
+      <tr><td>Tables 5–6, the revision</td><td><a href="https://github.com/Tessa-Saumu/FlyRank-ML-Internship/blob/main/work/notebooks/w05_model.ipynb">w05_model</a> sections 3b and 3c, <a href="https://github.com/Tessa-Saumu/FlyRank-ML-Internship/blob/main/work/scripts/onset_screening.py">onset_screening.py</a></td><td><code>final_pipeline/*.json</code>, <code>onset_screening.json</code></td></tr>
       <tr><td>This page's number check</td><td><a href="https://github.com/Tessa-Saumu/FlyRank-ML-Internship/blob/main/work/notebooks/capstone.ipynb">capstone.ipynb</a> (receipt-check cell)</td><td>all four receipts</td></tr>
     </tbody>
   </table>
@@ -712,6 +771,8 @@
     <li>Request access to the gated dataset <a href="https://huggingface.co/datasets/FlyRank/internship-warehouse"><code>FlyRank/internship-warehouse</code></a> (approval is instant); the warehouse is read with DuckDB straight from Hugging Face, no bulk download.</li>
     <li>Run the notebooks in order: <code>w03_data_contract</code> → <code>w04_baseline_score</code> → <code>w05_model</code> → <code>w06_validation_audit</code> → <code>w07_action_playbook</code>. Each writes its receipt to <code>work/outputs/</code>.</li>
     <li><code>python work/scripts/make_paper_figures.py</code> regenerates every figure on this page from those receipts; <code>capstone.ipynb</code> re-checks each headline number against them.</li>
+    <li>The revision has its own entry point: <code>python work/scripts/onset_screening.py</code> rebuilds the five-origin audit from the cached frames and writes <code>work/outputs/onset_screening.json</code> plus a plain-sentence summary in <code>work/outputs/onset_headline.md</code>. Add <code>--warehouse</code> to rebuild the frames from the release first, or <code>--selftest</code> to run it on synthetic frames with no data access.</li>
+    <li><code>python work/scripts/verify_evidence.py</code> runs the capstone against the committed receipts in a temporary copy, confirms the headline checks and the onset checks, and regenerates the figures without touching the warehouse or retraining.</li>
   </ol>
 
   <h3>Environment and seeds</h3>

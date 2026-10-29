@@ -1,0 +1,1869 @@
+{
+  "provenance": {
+    "revision": "50cbf7c3909d07be4d1b5906b4d09e882e5acbf2",
+    "config": {
+      "seed": 42,
+      "primary_reporting_lag_days": 7,
+      "reporting_lag_sensitivity_days": [],
+      "top_k": [
+        20,
+        50,
+        100
+      ],
+      "minimum_recent_coverage_days": 14,
+      "minimum_impressions": 1000,
+      "minimum_label_coverage_days": 14,
+      "decline_threshold": 0.8,
+      "practical_hurdle_cases_per_50": 5,
+      "practical_hurdle_origins": 4,
+      "feature_months": [
+        "2025-10",
+        "2025-11",
+        "2025-12",
+        "2026-01",
+        "2026-02",
+        "2026-03",
+        "2026-04"
+      ],
+      "prediction_origins": [
+        "2025-12",
+        "2026-01",
+        "2026-02",
+        "2026-03",
+        "2026-04"
+      ],
+      "output_dir": "work/outputs/warehouse_feature_experiments"
+    },
+    "query_sha256": "b301169aa583f3882484c8da21f9287bc7e5cd0190c3fef34474847c8294b76a",
+    "pipeline_sha256": "f49f5cca60de18869ef2a95d34bdb29e27fbec65c84795c95ad3ef7e055dde51",
+    "package_versions": {
+      "duckdb": "1.5.4",
+      "numpy": "2.5.1",
+      "pandas": "3.0.3",
+      "scikit-learn": "1.9.0",
+      "huggingface-hub": "1.24.0"
+    }
+  },
+  "results": [
+    {
+      "origin": "2025-12",
+      "candidate": "control",
+      "model": "logistic_regression",
+      "history_policy": "latest_only",
+      "training_months": [
+        "2025-10"
+      ],
+      "reporting_lag_days": 7,
+      "candidate_count": 19073,
+      "labeled_count": 19022,
+      "label_coverage": 0.9973260630210244,
+      "prevalence_measurable": 0.2895068867626958,
+      "p_at_20_confirmed_lower": 0.45,
+      "p_at_20_confirmed_upper": 0.45,
+      "p_at_20_measurable": 0.45,
+      "p_at_50_confirmed_lower": 0.44,
+      "p_at_50_measurable": 0.44,
+      "p_at_50_confirmed_upper": 0.44,
+      "top50_confirmed_positive": 22,
+      "top50_unknown": 0,
+      "top50_measurable": 50,
+      "top50_precision_lower": 0.44,
+      "top50_precision_upper": 0.44,
+      "p_at_100_confirmed_lower": 0.45,
+      "p_at_100_confirmed_upper": 0.45,
+      "p_at_100_measurable": 0.45,
+      "average_precision_labeled": 0.46511467447805777,
+      "roc_auc_labeled": 0.6131748910561549,
+      "queue_diagnostics": {
+        "selected": 50,
+        "confirmed_positive": 22,
+        "unknown_outcomes": 0,
+        "precision_lower_bound": 0.44,
+        "precision_upper_bound": 0.44,
+        "measurable_selected": 50,
+        "measurable_precision": 0.44,
+        "recent_coverage_days": {
+          "0-6": 0,
+          "7-13": 0,
+          "14-20": 0,
+          "21-29": 1,
+          "30": 49
+        },
+        "prior_coverage_days": {
+          "0-6": 0,
+          "7-13": 9,
+          "14-20": 1,
+          "21-29": 2,
+          "30": 38
+        },
+        "future_coverage_days": {
+          "0-6": 0,
+          "7-13": 0,
+          "14-20": 0,
+          "21-29": 0,
+          "30": 50
+        },
+        "insufficient_future_coverage_fraction": 0.0,
+        "represented_clients": 7,
+        "largest_client_share": 0.38,
+        "recent_impression_quantiles": {
+          "p25": 32728.5,
+          "p50": 44330.0,
+          "p75": 57623.25
+        },
+        "complete_recent_and_future_coverage_same_queue": {
+          "selected": 49,
+          "confirmed_positive": 21,
+          "measurable": 49,
+          "measurable_precision": 0.42857142857142855
+        },
+        "reranked_after_excluding_largest_top50_client": {
+          "selected": 50,
+          "confirmed_positive": 34,
+          "unknown_outcomes": 0,
+          "precision_lower_bound": 0.68,
+          "precision_upper_bound": 0.68
+        }
+      },
+      "static_rule_tie_expectation": null,
+      "daily_rate_target_top50": {
+        "confirmed_positive": 22,
+        "unknown": 0,
+        "measurable": 50,
+        "precision_lower_bound": 0.44,
+        "precision_upper_bound": 0.44
+      },
+      "prevalence_confirmed_lower": 0.288732763592513,
+      "prevalence_confirmed_upper": 0.2914067005714885
+    },
+    {
+      "origin": "2025-12",
+      "candidate": "control",
+      "model": "random_forest",
+      "history_policy": "latest_only",
+      "training_months": [
+        "2025-10"
+      ],
+      "reporting_lag_days": 7,
+      "candidate_count": 19073,
+      "labeled_count": 19022,
+      "label_coverage": 0.9973260630210244,
+      "prevalence_measurable": 0.2895068867626958,
+      "p_at_20_confirmed_lower": 0.95,
+      "p_at_20_confirmed_upper": 0.95,
+      "p_at_20_measurable": 0.95,
+      "p_at_50_confirmed_lower": 0.76,
+      "p_at_50_measurable": 0.76,
+      "p_at_50_confirmed_upper": 0.76,
+      "top50_confirmed_positive": 38,
+      "top50_unknown": 0,
+      "top50_measurable": 50,
+      "top50_precision_lower": 0.76,
+      "top50_precision_upper": 0.76,
+      "p_at_100_confirmed_lower": 0.67,
+      "p_at_100_confirmed_upper": 0.67,
+      "p_at_100_measurable": 0.67,
+      "average_precision_labeled": 0.4975977401360416,
+      "roc_auc_labeled": 0.6682975845963645,
+      "queue_diagnostics": {
+        "selected": 50,
+        "confirmed_positive": 38,
+        "unknown_outcomes": 0,
+        "precision_lower_bound": 0.76,
+        "precision_upper_bound": 0.76,
+        "measurable_selected": 50,
+        "measurable_precision": 0.76,
+        "recent_coverage_days": {
+          "0-6": 0,
+          "7-13": 0,
+          "14-20": 0,
+          "21-29": 0,
+          "30": 50
+        },
+        "prior_coverage_days": {
+          "0-6": 0,
+          "7-13": 44,
+          "14-20": 1,
+          "21-29": 1,
+          "30": 4
+        },
+        "future_coverage_days": {
+          "0-6": 0,
+          "7-13": 0,
+          "14-20": 0,
+          "21-29": 0,
+          "30": 50
+        },
+        "insufficient_future_coverage_fraction": 0.0,
+        "represented_clients": 4,
+        "largest_client_share": 0.88,
+        "recent_impression_quantiles": {
+          "p25": 5027.25,
+          "p50": 6519.0,
+          "p75": 8789.75
+        },
+        "complete_recent_and_future_coverage_same_queue": {
+          "selected": 50,
+          "confirmed_positive": 38,
+          "measurable": 50,
+          "measurable_precision": 0.76
+        },
+        "reranked_after_excluding_largest_top50_client": {
+          "selected": 50,
+          "confirmed_positive": 18,
+          "unknown_outcomes": 0,
+          "precision_lower_bound": 0.36,
+          "precision_upper_bound": 0.36
+        }
+      },
+      "static_rule_tie_expectation": null,
+      "daily_rate_target_top50": {
+        "confirmed_positive": 38,
+        "unknown": 0,
+        "measurable": 50,
+        "precision_lower_bound": 0.76,
+        "precision_upper_bound": 0.76
+      },
+      "prevalence_confirmed_lower": 0.288732763592513,
+      "prevalence_confirmed_upper": 0.2914067005714885
+    },
+    {
+      "origin": "2025-12",
+      "candidate": "momentum",
+      "model": "logistic_regression",
+      "history_policy": "latest_only",
+      "training_months": [
+        "2025-10"
+      ],
+      "reporting_lag_days": 7,
+      "candidate_count": 19073,
+      "labeled_count": 19022,
+      "label_coverage": 0.9973260630210244,
+      "prevalence_measurable": 0.2895068867626958,
+      "p_at_20_confirmed_lower": 0.9,
+      "p_at_20_confirmed_upper": 0.9,
+      "p_at_20_measurable": 0.9,
+      "p_at_50_confirmed_lower": 0.74,
+      "p_at_50_measurable": 0.8809523809523809,
+      "p_at_50_confirmed_upper": 0.9,
+      "top50_confirmed_positive": 37,
+      "top50_unknown": 8,
+      "top50_measurable": 42,
+      "top50_precision_lower": 0.74,
+      "top50_precision_upper": 0.9,
+      "p_at_100_confirmed_lower": 0.76,
+      "p_at_100_confirmed_upper": 0.89,
+      "p_at_100_measurable": 0.8735632183908046,
+      "average_precision_labeled": 0.6406069039372962,
+      "roc_auc_labeled": 0.7754770254734482,
+      "queue_diagnostics": {
+        "selected": 50,
+        "confirmed_positive": 37,
+        "unknown_outcomes": 8,
+        "precision_lower_bound": 0.74,
+        "precision_upper_bound": 0.9,
+        "measurable_selected": 42,
+        "measurable_precision": 0.8809523809523809,
+        "recent_coverage_days": {
+          "0-6": 0,
+          "7-13": 0,
+          "14-20": 6,
+          "21-29": 16,
+          "30": 28
+        },
+        "prior_coverage_days": {
+          "0-6": 0,
+          "7-13": 4,
+          "14-20": 31,
+          "21-29": 13,
+          "30": 2
+        },
+        "future_coverage_days": {
+          "0-6": 8,
+          "7-13": 0,
+          "14-20": 1,
+          "21-29": 10,
+          "30": 31
+        },
+        "insufficient_future_coverage_fraction": 0.16,
+        "represented_clients": 8,
+        "largest_client_share": 0.58,
+        "recent_impression_quantiles": {
+          "p25": 1588.0,
+          "p50": 3403.0,
+          "p75": 9075.75
+        },
+        "complete_recent_and_future_coverage_same_queue": {
+          "selected": 23,
+          "confirmed_positive": 21,
+          "measurable": 23,
+          "measurable_precision": 0.9130434782608695
+        },
+        "reranked_after_excluding_largest_top50_client": {
+          "selected": 50,
+          "confirmed_positive": 30,
+          "unknown_outcomes": 13,
+          "precision_lower_bound": 0.6,
+          "precision_upper_bound": 0.86
+        }
+      },
+      "static_rule_tie_expectation": null,
+      "daily_rate_target_top50": {
+        "confirmed_positive": 38,
+        "unknown": 8,
+        "measurable": 42,
+        "precision_lower_bound": 0.76,
+        "precision_upper_bound": 0.92
+      },
+      "prevalence_confirmed_lower": 0.288732763592513,
+      "prevalence_confirmed_upper": 0.2914067005714885
+    },
+    {
+      "origin": "2025-12",
+      "candidate": "momentum",
+      "model": "random_forest",
+      "history_policy": "latest_only",
+      "training_months": [
+        "2025-10"
+      ],
+      "reporting_lag_days": 7,
+      "candidate_count": 19073,
+      "labeled_count": 19022,
+      "label_coverage": 0.9973260630210244,
+      "prevalence_measurable": 0.2895068867626958,
+      "p_at_20_confirmed_lower": 0.85,
+      "p_at_20_confirmed_upper": 0.9,
+      "p_at_20_measurable": 0.8947368421052632,
+      "p_at_50_confirmed_lower": 0.86,
+      "p_at_50_measurable": 0.8775510204081632,
+      "p_at_50_confirmed_upper": 0.88,
+      "top50_confirmed_positive": 43,
+      "top50_unknown": 1,
+      "top50_measurable": 49,
+      "top50_precision_lower": 0.86,
+      "top50_precision_upper": 0.88,
+      "p_at_100_confirmed_lower": 0.89,
+      "p_at_100_confirmed_upper": 0.9,
+      "p_at_100_measurable": 0.898989898989899,
+      "average_precision_labeled": 0.5879298082465361,
+      "roc_auc_labeled": 0.7706474274392373,
+      "queue_diagnostics": {
+        "selected": 50,
+        "confirmed_positive": 43,
+        "unknown_outcomes": 1,
+        "precision_lower_bound": 0.86,
+        "precision_upper_bound": 0.88,
+        "measurable_selected": 49,
+        "measurable_precision": 0.8775510204081632,
+        "recent_coverage_days": {
+          "0-6": 0,
+          "7-13": 0,
+          "14-20": 0,
+          "21-29": 1,
+          "30": 49
+        },
+        "prior_coverage_days": {
+          "0-6": 0,
+          "7-13": 23,
+          "14-20": 0,
+          "21-29": 2,
+          "30": 25
+        },
+        "future_coverage_days": {
+          "0-6": 0,
+          "7-13": 1,
+          "14-20": 0,
+          "21-29": 2,
+          "30": 47
+        },
+        "insufficient_future_coverage_fraction": 0.02,
+        "represented_clients": 7,
+        "largest_client_share": 0.44,
+        "recent_impression_quantiles": {
+          "p25": 4631.25,
+          "p50": 6736.0,
+          "p75": 11378.0
+        },
+        "complete_recent_and_future_coverage_same_queue": {
+          "selected": 47,
+          "confirmed_positive": 41,
+          "measurable": 47,
+          "measurable_precision": 0.8723404255319149
+        },
+        "reranked_after_excluding_largest_top50_client": {
+          "selected": 50,
+          "confirmed_positive": 42,
+          "unknown_outcomes": 1,
+          "precision_lower_bound": 0.84,
+          "precision_upper_bound": 0.86
+        }
+      },
+      "static_rule_tie_expectation": null,
+      "daily_rate_target_top50": {
+        "confirmed_positive": 43,
+        "unknown": 1,
+        "measurable": 49,
+        "precision_lower_bound": 0.86,
+        "precision_upper_bound": 0.88
+      },
+      "prevalence_confirmed_lower": 0.288732763592513,
+      "prevalence_confirmed_upper": 0.2914067005714885
+    },
+    {
+      "origin": "2026-01",
+      "candidate": "control",
+      "model": "logistic_regression",
+      "history_policy": "latest_only",
+      "training_months": [
+        "2025-11"
+      ],
+      "reporting_lag_days": 7,
+      "candidate_count": 22340,
+      "labeled_count": 22316,
+      "label_coverage": 0.9989256938227394,
+      "prevalence_measurable": 0.19456891916114,
+      "p_at_20_confirmed_lower": 0.4,
+      "p_at_20_confirmed_upper": 0.4,
+      "p_at_20_measurable": 0.4,
+      "p_at_50_confirmed_lower": 0.42,
+      "p_at_50_measurable": 0.42857142857142855,
+      "p_at_50_confirmed_upper": 0.44,
+      "top50_confirmed_positive": 21,
+      "top50_unknown": 1,
+      "top50_measurable": 49,
+      "top50_precision_lower": 0.42,
+      "top50_precision_upper": 0.44,
+      "p_at_100_confirmed_lower": 0.5,
+      "p_at_100_confirmed_upper": 0.51,
+      "p_at_100_measurable": 0.5050505050505051,
+      "average_precision_labeled": 0.2507992513811971,
+      "roc_auc_labeled": 0.5828157048794109,
+      "queue_diagnostics": {
+        "selected": 50,
+        "confirmed_positive": 21,
+        "unknown_outcomes": 1,
+        "precision_lower_bound": 0.42,
+        "precision_upper_bound": 0.44,
+        "measurable_selected": 49,
+        "measurable_precision": 0.42857142857142855,
+        "recent_coverage_days": {
+          "0-6": 0,
+          "7-13": 0,
+          "14-20": 0,
+          "21-29": 4,
+          "30": 46
+        },
+        "prior_coverage_days": {
+          "0-6": 2,
+          "7-13": 2,
+          "14-20": 3,
+          "21-29": 3,
+          "30": 40
+        },
+        "future_coverage_days": {
+          "0-6": 1,
+          "7-13": 0,
+          "14-20": 0,
+          "21-29": 4,
+          "30": 45
+        },
+        "insufficient_future_coverage_fraction": 0.02,
+        "represented_clients": 11,
+        "largest_client_share": 0.4,
+        "recent_impression_quantiles": {
+          "p25": 1086.25,
+          "p50": 1289.0,
+          "p75": 1768.25
+        },
+        "complete_recent_and_future_coverage_same_queue": {
+          "selected": 42,
+          "confirmed_positive": 16,
+          "measurable": 42,
+          "measurable_precision": 0.38095238095238093
+        },
+        "reranked_after_excluding_largest_top50_client": {
+          "selected": 50,
+          "confirmed_positive": 28,
+          "unknown_outcomes": 1,
+          "precision_lower_bound": 0.56,
+          "precision_upper_bound": 0.58
+        }
+      },
+      "static_rule_tie_expectation": null,
+      "daily_rate_target_top50": {
+        "confirmed_positive": 20,
+        "unknown": 1,
+        "measurable": 49,
+        "precision_lower_bound": 0.4,
+        "precision_upper_bound": 0.42
+      },
+      "prevalence_confirmed_lower": 0.19435989256938227,
+      "prevalence_confirmed_upper": 0.1954341987466428
+    },
+    {
+      "origin": "2026-01",
+      "candidate": "control",
+      "model": "random_forest",
+      "history_policy": "latest_only",
+      "training_months": [
+        "2025-11"
+      ],
+      "reporting_lag_days": 7,
+      "candidate_count": 22340,
+      "labeled_count": 22316,
+      "label_coverage": 0.9989256938227394,
+      "prevalence_measurable": 0.19456891916114,
+      "p_at_20_confirmed_lower": 0.05,
+      "p_at_20_confirmed_upper": 0.05,
+      "p_at_20_measurable": 0.05,
+      "p_at_50_confirmed_lower": 0.1,
+      "p_at_50_measurable": 0.1,
+      "p_at_50_confirmed_upper": 0.1,
+      "top50_confirmed_positive": 5,
+      "top50_unknown": 0,
+      "top50_measurable": 50,
+      "top50_precision_lower": 0.1,
+      "top50_precision_upper": 0.1,
+      "p_at_100_confirmed_lower": 0.1,
+      "p_at_100_confirmed_upper": 0.1,
+      "p_at_100_measurable": 0.1,
+      "average_precision_labeled": 0.24662862722162157,
+      "roc_auc_labeled": 0.5854505884107024,
+      "queue_diagnostics": {
+        "selected": 50,
+        "confirmed_positive": 5,
+        "unknown_outcomes": 0,
+        "precision_lower_bound": 0.1,
+        "precision_upper_bound": 0.1,
+        "measurable_selected": 50,
+        "measurable_precision": 0.1,
+        "recent_coverage_days": {
+          "0-6": 0,
+          "7-13": 0,
+          "14-20": 0,
+          "21-29": 0,
+          "30": 50
+        },
+        "prior_coverage_days": {
+          "0-6": 0,
+          "7-13": 0,
+          "14-20": 0,
+          "21-29": 1,
+          "30": 49
+        },
+        "future_coverage_days": {
+          "0-6": 0,
+          "7-13": 0,
+          "14-20": 0,
+          "21-29": 0,
+          "30": 50
+        },
+        "insufficient_future_coverage_fraction": 0.0,
+        "represented_clients": 4,
+        "largest_client_share": 0.54,
+        "recent_impression_quantiles": {
+          "p25": 4625.25,
+          "p50": 5698.0,
+          "p75": 6645.0
+        },
+        "complete_recent_and_future_coverage_same_queue": {
+          "selected": 50,
+          "confirmed_positive": 5,
+          "measurable": 50,
+          "measurable_precision": 0.1
+        },
+        "reranked_after_excluding_largest_top50_client": {
+          "selected": 50,
+          "confirmed_positive": 8,
+          "unknown_outcomes": 0,
+          "precision_lower_bound": 0.16,
+          "precision_upper_bound": 0.16
+        }
+      },
+      "static_rule_tie_expectation": null,
+      "daily_rate_target_top50": {
+        "confirmed_positive": 5,
+        "unknown": 0,
+        "measurable": 50,
+        "precision_lower_bound": 0.1,
+        "precision_upper_bound": 0.1
+      },
+      "prevalence_confirmed_lower": 0.19435989256938227,
+      "prevalence_confirmed_upper": 0.1954341987466428
+    },
+    {
+      "origin": "2026-01",
+      "candidate": "momentum",
+      "model": "logistic_regression",
+      "history_policy": "latest_only",
+      "training_months": [
+        "2025-11"
+      ],
+      "reporting_lag_days": 7,
+      "candidate_count": 22340,
+      "labeled_count": 22316,
+      "label_coverage": 0.9989256938227394,
+      "prevalence_measurable": 0.19456891916114,
+      "p_at_20_confirmed_lower": 0.65,
+      "p_at_20_confirmed_upper": 0.75,
+      "p_at_20_measurable": 0.7222222222222222,
+      "p_at_50_confirmed_lower": 0.56,
+      "p_at_50_measurable": 0.5833333333333334,
+      "p_at_50_confirmed_upper": 0.6,
+      "top50_confirmed_positive": 28,
+      "top50_unknown": 2,
+      "top50_measurable": 48,
+      "top50_precision_lower": 0.56,
+      "top50_precision_upper": 0.6,
+      "p_at_100_confirmed_lower": 0.54,
+      "p_at_100_confirmed_upper": 0.58,
+      "p_at_100_measurable": 0.5625,
+      "average_precision_labeled": 0.5202029511798298,
+      "roc_auc_labeled": 0.7297746650479374,
+      "queue_diagnostics": {
+        "selected": 50,
+        "confirmed_positive": 28,
+        "unknown_outcomes": 2,
+        "precision_lower_bound": 0.56,
+        "precision_upper_bound": 0.6,
+        "measurable_selected": 48,
+        "measurable_precision": 0.5833333333333334,
+        "recent_coverage_days": {
+          "0-6": 0,
+          "7-13": 0,
+          "14-20": 1,
+          "21-29": 2,
+          "30": 47
+        },
+        "prior_coverage_days": {
+          "0-6": 2,
+          "7-13": 1,
+          "14-20": 3,
+          "21-29": 1,
+          "30": 43
+        },
+        "future_coverage_days": {
+          "0-6": 2,
+          "7-13": 0,
+          "14-20": 0,
+          "21-29": 5,
+          "30": 43
+        },
+        "insufficient_future_coverage_fraction": 0.04,
+        "represented_clients": 11,
+        "largest_client_share": 0.32,
+        "recent_impression_quantiles": {
+          "p25": 1161.75,
+          "p50": 1389.0,
+          "p75": 1994.75
+        },
+        "complete_recent_and_future_coverage_same_queue": {
+          "selected": 42,
+          "confirmed_positive": 22,
+          "measurable": 42,
+          "measurable_precision": 0.5238095238095238
+        },
+        "reranked_after_excluding_largest_top50_client": {
+          "selected": 50,
+          "confirmed_positive": 31,
+          "unknown_outcomes": 3,
+          "precision_lower_bound": 0.62,
+          "precision_upper_bound": 0.68
+        }
+      },
+      "static_rule_tie_expectation": null,
+      "daily_rate_target_top50": {
+        "confirmed_positive": 27,
+        "unknown": 2,
+        "measurable": 48,
+        "precision_lower_bound": 0.54,
+        "precision_upper_bound": 0.58
+      },
+      "prevalence_confirmed_lower": 0.19435989256938227,
+      "prevalence_confirmed_upper": 0.1954341987466428
+    },
+    {
+      "origin": "2026-01",
+      "candidate": "momentum",
+      "model": "random_forest",
+      "history_policy": "latest_only",
+      "training_months": [
+        "2025-11"
+      ],
+      "reporting_lag_days": 7,
+      "candidate_count": 22340,
+      "labeled_count": 22316,
+      "label_coverage": 0.9989256938227394,
+      "prevalence_measurable": 0.19456891916114,
+      "p_at_20_confirmed_lower": 0.3,
+      "p_at_20_confirmed_upper": 0.3,
+      "p_at_20_measurable": 0.3,
+      "p_at_50_confirmed_lower": 0.36,
+      "p_at_50_measurable": 0.3673469387755102,
+      "p_at_50_confirmed_upper": 0.38,
+      "top50_confirmed_positive": 18,
+      "top50_unknown": 1,
+      "top50_measurable": 49,
+      "top50_precision_lower": 0.36,
+      "top50_precision_upper": 0.38,
+      "p_at_100_confirmed_lower": 0.26,
+      "p_at_100_confirmed_upper": 0.27,
+      "p_at_100_measurable": 0.26262626262626265,
+      "average_precision_labeled": 0.38602847167451804,
+      "roc_auc_labeled": 0.7195857320290218,
+      "queue_diagnostics": {
+        "selected": 50,
+        "confirmed_positive": 18,
+        "unknown_outcomes": 1,
+        "precision_lower_bound": 0.36,
+        "precision_upper_bound": 0.38,
+        "measurable_selected": 49,
+        "measurable_precision": 0.3673469387755102,
+        "recent_coverage_days": {
+          "0-6": 0,
+          "7-13": 0,
+          "14-20": 0,
+          "21-29": 0,
+          "30": 50
+        },
+        "prior_coverage_days": {
+          "0-6": 0,
+          "7-13": 0,
+          "14-20": 0,
+          "21-29": 0,
+          "30": 50
+        },
+        "future_coverage_days": {
+          "0-6": 0,
+          "7-13": 1,
+          "14-20": 0,
+          "21-29": 0,
+          "30": 49
+        },
+        "insufficient_future_coverage_fraction": 0.02,
+        "represented_clients": 7,
+        "largest_client_share": 0.38,
+        "recent_impression_quantiles": {
+          "p25": 2072.25,
+          "p50": 2731.5,
+          "p75": 5055.25
+        },
+        "complete_recent_and_future_coverage_same_queue": {
+          "selected": 49,
+          "confirmed_positive": 18,
+          "measurable": 49,
+          "measurable_precision": 0.3673469387755102
+        },
+        "reranked_after_excluding_largest_top50_client": {
+          "selected": 50,
+          "confirmed_positive": 21,
+          "unknown_outcomes": 1,
+          "precision_lower_bound": 0.42,
+          "precision_upper_bound": 0.44
+        }
+      },
+      "static_rule_tie_expectation": null,
+      "daily_rate_target_top50": {
+        "confirmed_positive": 18,
+        "unknown": 1,
+        "measurable": 49,
+        "precision_lower_bound": 0.36,
+        "precision_upper_bound": 0.38
+      },
+      "prevalence_confirmed_lower": 0.19435989256938227,
+      "prevalence_confirmed_upper": 0.1954341987466428
+    },
+    {
+      "origin": "2026-02",
+      "candidate": "control",
+      "model": "logistic_regression",
+      "history_policy": "latest_only",
+      "training_months": [
+        "2025-12"
+      ],
+      "reporting_lag_days": 7,
+      "candidate_count": 30275,
+      "labeled_count": 29638,
+      "label_coverage": 0.9789595375722543,
+      "prevalence_measurable": 0.2183345704838383,
+      "p_at_20_confirmed_lower": 0.2,
+      "p_at_20_confirmed_upper": 0.2,
+      "p_at_20_measurable": 0.2,
+      "p_at_50_confirmed_lower": 0.16,
+      "p_at_50_measurable": 0.16666666666666666,
+      "p_at_50_confirmed_upper": 0.2,
+      "top50_confirmed_positive": 8,
+      "top50_unknown": 2,
+      "top50_measurable": 48,
+      "top50_precision_lower": 0.16,
+      "top50_precision_upper": 0.2,
+      "p_at_100_confirmed_lower": 0.17,
+      "p_at_100_confirmed_upper": 0.24,
+      "p_at_100_measurable": 0.1827956989247312,
+      "average_precision_labeled": 0.2206059938798849,
+      "roc_auc_labeled": 0.51862950017956,
+      "queue_diagnostics": {
+        "selected": 50,
+        "confirmed_positive": 8,
+        "unknown_outcomes": 2,
+        "precision_lower_bound": 0.16,
+        "precision_upper_bound": 0.2,
+        "measurable_selected": 48,
+        "measurable_precision": 0.16666666666666666,
+        "recent_coverage_days": {
+          "0-6": 0,
+          "7-13": 0,
+          "14-20": 6,
+          "21-29": 0,
+          "30": 44
+        },
+        "prior_coverage_days": {
+          "0-6": 5,
+          "7-13": 0,
+          "14-20": 1,
+          "21-29": 2,
+          "30": 42
+        },
+        "future_coverage_days": {
+          "0-6": 2,
+          "7-13": 0,
+          "14-20": 0,
+          "21-29": 13,
+          "30": 35
+        },
+        "insufficient_future_coverage_fraction": 0.04,
+        "represented_clients": 8,
+        "largest_client_share": 0.3,
+        "recent_impression_quantiles": {
+          "p25": 1584.75,
+          "p50": 4243.5,
+          "p75": 26280.75
+        },
+        "complete_recent_and_future_coverage_same_queue": {
+          "selected": 29,
+          "confirmed_positive": 7,
+          "measurable": 29,
+          "measurable_precision": 0.2413793103448276
+        },
+        "reranked_after_excluding_largest_top50_client": {
+          "selected": 50,
+          "confirmed_positive": 12,
+          "unknown_outcomes": 4,
+          "precision_lower_bound": 0.24,
+          "precision_upper_bound": 0.32
+        }
+      },
+      "static_rule_tie_expectation": null,
+      "daily_rate_target_top50": {
+        "confirmed_positive": 9,
+        "unknown": 2,
+        "measurable": 48,
+        "precision_lower_bound": 0.18,
+        "precision_upper_bound": 0.22
+      },
+      "prevalence_confirmed_lower": 0.21374071015689514,
+      "prevalence_confirmed_upper": 0.2347811725846408
+    },
+    {
+      "origin": "2026-02",
+      "candidate": "control",
+      "model": "random_forest",
+      "history_policy": "latest_only",
+      "training_months": [
+        "2025-12"
+      ],
+      "reporting_lag_days": 7,
+      "candidate_count": 30275,
+      "labeled_count": 29638,
+      "label_coverage": 0.9789595375722543,
+      "prevalence_measurable": 0.2183345704838383,
+      "p_at_20_confirmed_lower": 0.25,
+      "p_at_20_confirmed_upper": 0.25,
+      "p_at_20_measurable": 0.25,
+      "p_at_50_confirmed_lower": 0.22,
+      "p_at_50_measurable": 0.22,
+      "p_at_50_confirmed_upper": 0.22,
+      "top50_confirmed_positive": 11,
+      "top50_unknown": 0,
+      "top50_measurable": 50,
+      "top50_precision_lower": 0.22,
+      "top50_precision_upper": 0.22,
+      "p_at_100_confirmed_lower": 0.24,
+      "p_at_100_confirmed_upper": 0.24,
+      "p_at_100_measurable": 0.24,
+      "average_precision_labeled": 0.20642874449961435,
+      "roc_auc_labeled": 0.468678624122951,
+      "queue_diagnostics": {
+        "selected": 50,
+        "confirmed_positive": 11,
+        "unknown_outcomes": 0,
+        "precision_lower_bound": 0.22,
+        "precision_upper_bound": 0.22,
+        "measurable_selected": 50,
+        "measurable_precision": 0.22,
+        "recent_coverage_days": {
+          "0-6": 0,
+          "7-13": 0,
+          "14-20": 0,
+          "21-29": 1,
+          "30": 49
+        },
+        "prior_coverage_days": {
+          "0-6": 1,
+          "7-13": 4,
+          "14-20": 5,
+          "21-29": 4,
+          "30": 36
+        },
+        "future_coverage_days": {
+          "0-6": 0,
+          "7-13": 0,
+          "14-20": 0,
+          "21-29": 1,
+          "30": 49
+        },
+        "insufficient_future_coverage_fraction": 0.0,
+        "represented_clients": 4,
+        "largest_client_share": 0.32,
+        "recent_impression_quantiles": {
+          "p25": 1338.75,
+          "p50": 1764.5,
+          "p75": 3729.75
+        },
+        "complete_recent_and_future_coverage_same_queue": {
+          "selected": 49,
+          "confirmed_positive": 10,
+          "measurable": 49,
+          "measurable_precision": 0.20408163265306123
+        },
+        "reranked_after_excluding_largest_top50_client": {
+          "selected": 50,
+          "confirmed_positive": 13,
+          "unknown_outcomes": 0,
+          "precision_lower_bound": 0.26,
+          "precision_upper_bound": 0.26
+        }
+      },
+      "static_rule_tie_expectation": null,
+      "daily_rate_target_top50": {
+        "confirmed_positive": 11,
+        "unknown": 0,
+        "measurable": 50,
+        "precision_lower_bound": 0.22,
+        "precision_upper_bound": 0.22
+      },
+      "prevalence_confirmed_lower": 0.21374071015689514,
+      "prevalence_confirmed_upper": 0.2347811725846408
+    },
+    {
+      "origin": "2026-02",
+      "candidate": "momentum",
+      "model": "logistic_regression",
+      "history_policy": "latest_only",
+      "training_months": [
+        "2025-12"
+      ],
+      "reporting_lag_days": 7,
+      "candidate_count": 30275,
+      "labeled_count": 29638,
+      "label_coverage": 0.9789595375722543,
+      "prevalence_measurable": 0.2183345704838383,
+      "p_at_20_confirmed_lower": 0.7,
+      "p_at_20_confirmed_upper": 0.7,
+      "p_at_20_measurable": 0.7,
+      "p_at_50_confirmed_lower": 0.7,
+      "p_at_50_measurable": 0.7446808510638298,
+      "p_at_50_confirmed_upper": 0.76,
+      "top50_confirmed_positive": 35,
+      "top50_unknown": 3,
+      "top50_measurable": 47,
+      "top50_precision_lower": 0.7,
+      "top50_precision_upper": 0.76,
+      "p_at_100_confirmed_lower": 0.7,
+      "p_at_100_confirmed_upper": 0.74,
+      "p_at_100_measurable": 0.7291666666666666,
+      "average_precision_labeled": 0.4169258940069971,
+      "roc_auc_labeled": 0.6784127245992004,
+      "queue_diagnostics": {
+        "selected": 50,
+        "confirmed_positive": 35,
+        "unknown_outcomes": 3,
+        "precision_lower_bound": 0.7,
+        "precision_upper_bound": 0.76,
+        "measurable_selected": 47,
+        "measurable_precision": 0.7446808510638298,
+        "recent_coverage_days": {
+          "0-6": 0,
+          "7-13": 0,
+          "14-20": 1,
+          "21-29": 12,
+          "30": 37
+        },
+        "prior_coverage_days": {
+          "0-6": 0,
+          "7-13": 0,
+          "14-20": 17,
+          "21-29": 21,
+          "30": 12
+        },
+        "future_coverage_days": {
+          "0-6": 2,
+          "7-13": 1,
+          "14-20": 2,
+          "21-29": 8,
+          "30": 37
+        },
+        "insufficient_future_coverage_fraction": 0.06,
+        "represented_clients": 10,
+        "largest_client_share": 0.3,
+        "recent_impression_quantiles": {
+          "p25": 2008.75,
+          "p50": 3501.5,
+          "p75": 8219.25
+        },
+        "complete_recent_and_future_coverage_same_queue": {
+          "selected": 30,
+          "confirmed_positive": 22,
+          "measurable": 30,
+          "measurable_precision": 0.7333333333333333
+        },
+        "reranked_after_excluding_largest_top50_client": {
+          "selected": 50,
+          "confirmed_positive": 37,
+          "unknown_outcomes": 3,
+          "precision_lower_bound": 0.74,
+          "precision_upper_bound": 0.8
+        }
+      },
+      "static_rule_tie_expectation": null,
+      "daily_rate_target_top50": {
+        "confirmed_positive": 34,
+        "unknown": 3,
+        "measurable": 47,
+        "precision_lower_bound": 0.68,
+        "precision_upper_bound": 0.74
+      },
+      "prevalence_confirmed_lower": 0.21374071015689514,
+      "prevalence_confirmed_upper": 0.2347811725846408
+    },
+    {
+      "origin": "2026-02",
+      "candidate": "momentum",
+      "model": "random_forest",
+      "history_policy": "latest_only",
+      "training_months": [
+        "2025-12"
+      ],
+      "reporting_lag_days": 7,
+      "candidate_count": 30275,
+      "labeled_count": 29638,
+      "label_coverage": 0.9789595375722543,
+      "prevalence_measurable": 0.2183345704838383,
+      "p_at_20_confirmed_lower": 0.65,
+      "p_at_20_confirmed_upper": 0.65,
+      "p_at_20_measurable": 0.65,
+      "p_at_50_confirmed_lower": 0.68,
+      "p_at_50_measurable": 0.68,
+      "p_at_50_confirmed_upper": 0.68,
+      "top50_confirmed_positive": 34,
+      "top50_unknown": 0,
+      "top50_measurable": 50,
+      "top50_precision_lower": 0.68,
+      "top50_precision_upper": 0.68,
+      "p_at_100_confirmed_lower": 0.64,
+      "p_at_100_confirmed_upper": 0.67,
+      "p_at_100_measurable": 0.6597938144329897,
+      "average_precision_labeled": 0.35365274030974736,
+      "roc_auc_labeled": 0.5944380904536269,
+      "queue_diagnostics": {
+        "selected": 50,
+        "confirmed_positive": 34,
+        "unknown_outcomes": 0,
+        "precision_lower_bound": 0.68,
+        "precision_upper_bound": 0.68,
+        "measurable_selected": 50,
+        "measurable_precision": 0.68,
+        "recent_coverage_days": {
+          "0-6": 0,
+          "7-13": 0,
+          "14-20": 3,
+          "21-29": 3,
+          "30": 44
+        },
+        "prior_coverage_days": {
+          "0-6": 0,
+          "7-13": 4,
+          "14-20": 2,
+          "21-29": 6,
+          "30": 38
+        },
+        "future_coverage_days": {
+          "0-6": 0,
+          "7-13": 0,
+          "14-20": 0,
+          "21-29": 23,
+          "30": 27
+        },
+        "insufficient_future_coverage_fraction": 0.0,
+        "represented_clients": 10,
+        "largest_client_share": 0.28,
+        "recent_impression_quantiles": {
+          "p25": 1894.5,
+          "p50": 3133.5,
+          "p75": 7930.25
+        },
+        "complete_recent_and_future_coverage_same_queue": {
+          "selected": 26,
+          "confirmed_positive": 16,
+          "measurable": 26,
+          "measurable_precision": 0.6153846153846154
+        },
+        "reranked_after_excluding_largest_top50_client": {
+          "selected": 50,
+          "confirmed_positive": 32,
+          "unknown_outcomes": 1,
+          "precision_lower_bound": 0.64,
+          "precision_upper_bound": 0.66
+        }
+      },
+      "static_rule_tie_expectation": null,
+      "daily_rate_target_top50": {
+        "confirmed_positive": 35,
+        "unknown": 0,
+        "measurable": 50,
+        "precision_lower_bound": 0.7,
+        "precision_upper_bound": 0.7
+      },
+      "prevalence_confirmed_lower": 0.21374071015689514,
+      "prevalence_confirmed_upper": 0.2347811725846408
+    },
+    {
+      "origin": "2026-03",
+      "candidate": "control",
+      "model": "logistic_regression",
+      "history_policy": "latest_only",
+      "training_months": [
+        "2026-01"
+      ],
+      "reporting_lag_days": 7,
+      "candidate_count": 41931,
+      "labeled_count": 41815,
+      "label_coverage": 0.9972335503565382,
+      "prevalence_measurable": 0.4726772689226354,
+      "p_at_20_confirmed_lower": 0.75,
+      "p_at_20_confirmed_upper": 0.75,
+      "p_at_20_measurable": 0.75,
+      "p_at_50_confirmed_lower": 0.72,
+      "p_at_50_measurable": 0.72,
+      "p_at_50_confirmed_upper": 0.72,
+      "top50_confirmed_positive": 36,
+      "top50_unknown": 0,
+      "top50_measurable": 50,
+      "top50_precision_lower": 0.72,
+      "top50_precision_upper": 0.72,
+      "p_at_100_confirmed_lower": 0.67,
+      "p_at_100_confirmed_upper": 0.67,
+      "p_at_100_measurable": 0.67,
+      "average_precision_labeled": 0.5033649607022451,
+      "roc_auc_labeled": 0.554131324238946,
+      "queue_diagnostics": {
+        "selected": 50,
+        "confirmed_positive": 36,
+        "unknown_outcomes": 0,
+        "precision_lower_bound": 0.72,
+        "precision_upper_bound": 0.72,
+        "measurable_selected": 50,
+        "measurable_precision": 0.72,
+        "recent_coverage_days": {
+          "0-6": 0,
+          "7-13": 0,
+          "14-20": 0,
+          "21-29": 1,
+          "30": 49
+        },
+        "prior_coverage_days": {
+          "0-6": 3,
+          "7-13": 0,
+          "14-20": 0,
+          "21-29": 2,
+          "30": 45
+        },
+        "future_coverage_days": {
+          "0-6": 0,
+          "7-13": 0,
+          "14-20": 0,
+          "21-29": 1,
+          "30": 49
+        },
+        "insufficient_future_coverage_fraction": 0.0,
+        "represented_clients": 5,
+        "largest_client_share": 0.84,
+        "recent_impression_quantiles": {
+          "p25": 48041.0,
+          "p50": 55721.0,
+          "p75": 70021.5
+        },
+        "complete_recent_and_future_coverage_same_queue": {
+          "selected": 48,
+          "confirmed_positive": 34,
+          "measurable": 48,
+          "measurable_precision": 0.7083333333333334
+        },
+        "reranked_after_excluding_largest_top50_client": {
+          "selected": 50,
+          "confirmed_positive": 21,
+          "unknown_outcomes": 2,
+          "precision_lower_bound": 0.42,
+          "precision_upper_bound": 0.46
+        }
+      },
+      "static_rule_tie_expectation": null,
+      "daily_rate_target_top50": {
+        "confirmed_positive": 36,
+        "unknown": 0,
+        "measurable": 50,
+        "precision_lower_bound": 0.72,
+        "precision_upper_bound": 0.72
+      },
+      "prevalence_confirmed_lower": 0.47136963106055185,
+      "prevalence_confirmed_upper": 0.47413608070401375
+    },
+    {
+      "origin": "2026-03",
+      "candidate": "control",
+      "model": "random_forest",
+      "history_policy": "latest_only",
+      "training_months": [
+        "2026-01"
+      ],
+      "reporting_lag_days": 7,
+      "candidate_count": 41931,
+      "labeled_count": 41815,
+      "label_coverage": 0.9972335503565382,
+      "prevalence_measurable": 0.4726772689226354,
+      "p_at_20_confirmed_lower": 0.45,
+      "p_at_20_confirmed_upper": 0.45,
+      "p_at_20_measurable": 0.45,
+      "p_at_50_confirmed_lower": 0.48,
+      "p_at_50_measurable": 0.48,
+      "p_at_50_confirmed_upper": 0.48,
+      "top50_confirmed_positive": 24,
+      "top50_unknown": 0,
+      "top50_measurable": 50,
+      "top50_precision_lower": 0.48,
+      "top50_precision_upper": 0.48,
+      "p_at_100_confirmed_lower": 0.5,
+      "p_at_100_confirmed_upper": 0.5,
+      "p_at_100_measurable": 0.5,
+      "average_precision_labeled": 0.5323247361978858,
+      "roc_auc_labeled": 0.584765818090454,
+      "queue_diagnostics": {
+        "selected": 50,
+        "confirmed_positive": 24,
+        "unknown_outcomes": 0,
+        "precision_lower_bound": 0.48,
+        "precision_upper_bound": 0.48,
+        "measurable_selected": 50,
+        "measurable_precision": 0.48,
+        "recent_coverage_days": {
+          "0-6": 0,
+          "7-13": 0,
+          "14-20": 0,
+          "21-29": 3,
+          "30": 47
+        },
+        "prior_coverage_days": {
+          "0-6": 0,
+          "7-13": 0,
+          "14-20": 0,
+          "21-29": 1,
+          "30": 49
+        },
+        "future_coverage_days": {
+          "0-6": 0,
+          "7-13": 0,
+          "14-20": 0,
+          "21-29": 1,
+          "30": 49
+        },
+        "insufficient_future_coverage_fraction": 0.0,
+        "represented_clients": 4,
+        "largest_client_share": 0.8,
+        "recent_impression_quantiles": {
+          "p25": 16651.0,
+          "p50": 26389.5,
+          "p75": 49429.5
+        },
+        "complete_recent_and_future_coverage_same_queue": {
+          "selected": 46,
+          "confirmed_positive": 22,
+          "measurable": 46,
+          "measurable_precision": 0.4782608695652174
+        },
+        "reranked_after_excluding_largest_top50_client": {
+          "selected": 50,
+          "confirmed_positive": 28,
+          "unknown_outcomes": 0,
+          "precision_lower_bound": 0.56,
+          "precision_upper_bound": 0.56
+        }
+      },
+      "static_rule_tie_expectation": null,
+      "daily_rate_target_top50": {
+        "confirmed_positive": 24,
+        "unknown": 0,
+        "measurable": 50,
+        "precision_lower_bound": 0.48,
+        "precision_upper_bound": 0.48
+      },
+      "prevalence_confirmed_lower": 0.47136963106055185,
+      "prevalence_confirmed_upper": 0.47413608070401375
+    },
+    {
+      "origin": "2026-03",
+      "candidate": "momentum",
+      "model": "logistic_regression",
+      "history_policy": "latest_only",
+      "training_months": [
+        "2026-01"
+      ],
+      "reporting_lag_days": 7,
+      "candidate_count": 41931,
+      "labeled_count": 41815,
+      "label_coverage": 0.9972335503565382,
+      "prevalence_measurable": 0.4726772689226354,
+      "p_at_20_confirmed_lower": 0.8,
+      "p_at_20_confirmed_upper": 0.85,
+      "p_at_20_measurable": 0.8421052631578947,
+      "p_at_50_confirmed_lower": 0.7,
+      "p_at_50_measurable": 0.7608695652173914,
+      "p_at_50_confirmed_upper": 0.78,
+      "top50_confirmed_positive": 35,
+      "top50_unknown": 4,
+      "top50_measurable": 46,
+      "top50_precision_lower": 0.7,
+      "top50_precision_upper": 0.78,
+      "p_at_100_confirmed_lower": 0.72,
+      "p_at_100_confirmed_upper": 0.83,
+      "p_at_100_measurable": 0.8089887640449438,
+      "average_precision_labeled": 0.6329085687483442,
+      "roc_auc_labeled": 0.6672072268657864,
+      "queue_diagnostics": {
+        "selected": 50,
+        "confirmed_positive": 35,
+        "unknown_outcomes": 4,
+        "precision_lower_bound": 0.7,
+        "precision_upper_bound": 0.78,
+        "measurable_selected": 46,
+        "measurable_precision": 0.7608695652173914,
+        "recent_coverage_days": {
+          "0-6": 0,
+          "7-13": 0,
+          "14-20": 5,
+          "21-29": 13,
+          "30": 32
+        },
+        "prior_coverage_days": {
+          "0-6": 2,
+          "7-13": 1,
+          "14-20": 8,
+          "21-29": 12,
+          "30": 27
+        },
+        "future_coverage_days": {
+          "0-6": 4,
+          "7-13": 0,
+          "14-20": 4,
+          "21-29": 7,
+          "30": 35
+        },
+        "insufficient_future_coverage_fraction": 0.08,
+        "represented_clients": 10,
+        "largest_client_share": 0.4,
+        "recent_impression_quantiles": {
+          "p25": 6233.25,
+          "p50": 11014.5,
+          "p75": 23219.0
+        },
+        "complete_recent_and_future_coverage_same_queue": {
+          "selected": 27,
+          "confirmed_positive": 19,
+          "measurable": 27,
+          "measurable_precision": 0.7037037037037037
+        },
+        "reranked_after_excluding_largest_top50_client": {
+          "selected": 50,
+          "confirmed_positive": 31,
+          "unknown_outcomes": 10,
+          "precision_lower_bound": 0.62,
+          "precision_upper_bound": 0.82
+        }
+      },
+      "static_rule_tie_expectation": null,
+      "daily_rate_target_top50": {
+        "confirmed_positive": 35,
+        "unknown": 4,
+        "measurable": 46,
+        "precision_lower_bound": 0.7,
+        "precision_upper_bound": 0.78
+      },
+      "prevalence_confirmed_lower": 0.47136963106055185,
+      "prevalence_confirmed_upper": 0.47413608070401375
+    },
+    {
+      "origin": "2026-03",
+      "candidate": "momentum",
+      "model": "random_forest",
+      "history_policy": "latest_only",
+      "training_months": [
+        "2026-01"
+      ],
+      "reporting_lag_days": 7,
+      "candidate_count": 41931,
+      "labeled_count": 41815,
+      "label_coverage": 0.9972335503565382,
+      "prevalence_measurable": 0.4726772689226354,
+      "p_at_20_confirmed_lower": 0.9,
+      "p_at_20_confirmed_upper": 0.9,
+      "p_at_20_measurable": 0.9,
+      "p_at_50_confirmed_lower": 0.92,
+      "p_at_50_measurable": 0.92,
+      "p_at_50_confirmed_upper": 0.92,
+      "top50_confirmed_positive": 46,
+      "top50_unknown": 0,
+      "top50_measurable": 50,
+      "top50_precision_lower": 0.92,
+      "top50_precision_upper": 0.92,
+      "p_at_100_confirmed_lower": 0.89,
+      "p_at_100_confirmed_upper": 0.89,
+      "p_at_100_measurable": 0.89,
+      "average_precision_labeled": 0.6719448063239111,
+      "roc_auc_labeled": 0.6922701734037068,
+      "queue_diagnostics": {
+        "selected": 50,
+        "confirmed_positive": 46,
+        "unknown_outcomes": 0,
+        "precision_lower_bound": 0.92,
+        "precision_upper_bound": 0.92,
+        "measurable_selected": 50,
+        "measurable_precision": 0.92,
+        "recent_coverage_days": {
+          "0-6": 0,
+          "7-13": 0,
+          "14-20": 0,
+          "21-29": 3,
+          "30": 47
+        },
+        "prior_coverage_days": {
+          "0-6": 0,
+          "7-13": 0,
+          "14-20": 0,
+          "21-29": 5,
+          "30": 45
+        },
+        "future_coverage_days": {
+          "0-6": 0,
+          "7-13": 0,
+          "14-20": 0,
+          "21-29": 5,
+          "30": 45
+        },
+        "insufficient_future_coverage_fraction": 0.0,
+        "represented_clients": 5,
+        "largest_client_share": 0.48,
+        "recent_impression_quantiles": {
+          "p25": 13380.75,
+          "p50": 18919.0,
+          "p75": 38055.0
+        },
+        "complete_recent_and_future_coverage_same_queue": {
+          "selected": 43,
+          "confirmed_positive": 39,
+          "measurable": 43,
+          "measurable_precision": 0.9069767441860465
+        },
+        "reranked_after_excluding_largest_top50_client": {
+          "selected": 50,
+          "confirmed_positive": 44,
+          "unknown_outcomes": 0,
+          "precision_lower_bound": 0.88,
+          "precision_upper_bound": 0.88
+        }
+      },
+      "static_rule_tie_expectation": null,
+      "daily_rate_target_top50": {
+        "confirmed_positive": 46,
+        "unknown": 0,
+        "measurable": 50,
+        "precision_lower_bound": 0.92,
+        "precision_upper_bound": 0.92
+      },
+      "prevalence_confirmed_lower": 0.47136963106055185,
+      "prevalence_confirmed_upper": 0.47413608070401375
+    },
+    {
+      "origin": "2026-04",
+      "candidate": "control",
+      "model": "logistic_regression",
+      "history_policy": "latest_only",
+      "training_months": [
+        "2026-02"
+      ],
+      "reporting_lag_days": 7,
+      "candidate_count": 45664,
+      "labeled_count": 45272,
+      "label_coverage": 0.9914155571128241,
+      "prevalence_measurable": 0.6437312245979855,
+      "p_at_20_confirmed_lower": 0.85,
+      "p_at_20_confirmed_upper": 0.85,
+      "p_at_20_measurable": 0.85,
+      "p_at_50_confirmed_lower": 0.74,
+      "p_at_50_measurable": 0.74,
+      "p_at_50_confirmed_upper": 0.74,
+      "top50_confirmed_positive": 37,
+      "top50_unknown": 0,
+      "top50_measurable": 50,
+      "top50_precision_lower": 0.74,
+      "top50_precision_upper": 0.74,
+      "p_at_100_confirmed_lower": 0.64,
+      "p_at_100_confirmed_upper": 0.64,
+      "p_at_100_measurable": 0.64,
+      "average_precision_labeled": 0.6194028138620182,
+      "roc_auc_labeled": 0.47314215494505174,
+      "queue_diagnostics": {
+        "selected": 50,
+        "confirmed_positive": 37,
+        "unknown_outcomes": 0,
+        "precision_lower_bound": 0.74,
+        "precision_upper_bound": 0.74,
+        "measurable_selected": 50,
+        "measurable_precision": 0.74,
+        "recent_coverage_days": {
+          "0-6": 0,
+          "7-13": 0,
+          "14-20": 0,
+          "21-29": 0,
+          "30": 50
+        },
+        "prior_coverage_days": {
+          "0-6": 0,
+          "7-13": 0,
+          "14-20": 0,
+          "21-29": 32,
+          "30": 18
+        },
+        "future_coverage_days": {
+          "0-6": 0,
+          "7-13": 0,
+          "14-20": 0,
+          "21-29": 0,
+          "30": 50
+        },
+        "insufficient_future_coverage_fraction": 0.0,
+        "represented_clients": 3,
+        "largest_client_share": 0.64,
+        "recent_impression_quantiles": {
+          "p25": 23645.5,
+          "p50": 53930.5,
+          "p75": 130145.0
+        },
+        "complete_recent_and_future_coverage_same_queue": {
+          "selected": 50,
+          "confirmed_positive": 37,
+          "measurable": 50,
+          "measurable_precision": 0.74
+        },
+        "reranked_after_excluding_largest_top50_client": {
+          "selected": 50,
+          "confirmed_positive": 28,
+          "unknown_outcomes": 0,
+          "precision_lower_bound": 0.56,
+          "precision_upper_bound": 0.56
+        }
+      },
+      "static_rule_tie_expectation": null,
+      "daily_rate_target_top50": {
+        "confirmed_positive": 37,
+        "unknown": 0,
+        "measurable": 50,
+        "precision_lower_bound": 0.74,
+        "precision_upper_bound": 0.74
+      },
+      "prevalence_confirmed_lower": 0.6382051506657324,
+      "prevalence_confirmed_upper": 0.6467895935529082
+    },
+    {
+      "origin": "2026-04",
+      "candidate": "control",
+      "model": "random_forest",
+      "history_policy": "latest_only",
+      "training_months": [
+        "2026-02"
+      ],
+      "reporting_lag_days": 7,
+      "candidate_count": 45664,
+      "labeled_count": 45272,
+      "label_coverage": 0.9914155571128241,
+      "prevalence_measurable": 0.6437312245979855,
+      "p_at_20_confirmed_lower": 0.85,
+      "p_at_20_confirmed_upper": 0.85,
+      "p_at_20_measurable": 0.85,
+      "p_at_50_confirmed_lower": 0.78,
+      "p_at_50_measurable": 0.78,
+      "p_at_50_confirmed_upper": 0.78,
+      "top50_confirmed_positive": 39,
+      "top50_unknown": 0,
+      "top50_measurable": 50,
+      "top50_precision_lower": 0.78,
+      "top50_precision_upper": 0.78,
+      "p_at_100_confirmed_lower": 0.72,
+      "p_at_100_confirmed_upper": 0.72,
+      "p_at_100_measurable": 0.72,
+      "average_precision_labeled": 0.6405973205385276,
+      "roc_auc_labeled": 0.5034105003872088,
+      "queue_diagnostics": {
+        "selected": 50,
+        "confirmed_positive": 39,
+        "unknown_outcomes": 0,
+        "precision_lower_bound": 0.78,
+        "precision_upper_bound": 0.78,
+        "measurable_selected": 50,
+        "measurable_precision": 0.78,
+        "recent_coverage_days": {
+          "0-6": 0,
+          "7-13": 0,
+          "14-20": 0,
+          "21-29": 0,
+          "30": 50
+        },
+        "prior_coverage_days": {
+          "0-6": 0,
+          "7-13": 0,
+          "14-20": 0,
+          "21-29": 18,
+          "30": 32
+        },
+        "future_coverage_days": {
+          "0-6": 0,
+          "7-13": 0,
+          "14-20": 0,
+          "21-29": 0,
+          "30": 50
+        },
+        "insufficient_future_coverage_fraction": 0.0,
+        "represented_clients": 11,
+        "largest_client_share": 0.32,
+        "recent_impression_quantiles": {
+          "p25": 30379.25,
+          "p50": 42321.5,
+          "p75": 53158.0
+        },
+        "complete_recent_and_future_coverage_same_queue": {
+          "selected": 50,
+          "confirmed_positive": 39,
+          "measurable": 50,
+          "measurable_precision": 0.78
+        },
+        "reranked_after_excluding_largest_top50_client": {
+          "selected": 50,
+          "confirmed_positive": 34,
+          "unknown_outcomes": 0,
+          "precision_lower_bound": 0.68,
+          "precision_upper_bound": 0.68
+        }
+      },
+      "static_rule_tie_expectation": null,
+      "daily_rate_target_top50": {
+        "confirmed_positive": 39,
+        "unknown": 0,
+        "measurable": 50,
+        "precision_lower_bound": 0.78,
+        "precision_upper_bound": 0.78
+      },
+      "prevalence_confirmed_lower": 0.6382051506657324,
+      "prevalence_confirmed_upper": 0.6467895935529082
+    },
+    {
+      "origin": "2026-04",
+      "candidate": "momentum",
+      "model": "logistic_regression",
+      "history_policy": "latest_only",
+      "training_months": [
+        "2026-02"
+      ],
+      "reporting_lag_days": 7,
+      "candidate_count": 45664,
+      "labeled_count": 45272,
+      "label_coverage": 0.9914155571128241,
+      "prevalence_measurable": 0.6437312245979855,
+      "p_at_20_confirmed_lower": 0.8,
+      "p_at_20_confirmed_upper": 0.9,
+      "p_at_20_measurable": 0.8888888888888888,
+      "p_at_50_confirmed_lower": 0.82,
+      "p_at_50_measurable": 0.8723404255319149,
+      "p_at_50_confirmed_upper": 0.88,
+      "top50_confirmed_positive": 41,
+      "top50_unknown": 3,
+      "top50_measurable": 47,
+      "top50_precision_lower": 0.82,
+      "top50_precision_upper": 0.88,
+      "p_at_100_confirmed_lower": 0.87,
+      "p_at_100_confirmed_upper": 0.94,
+      "p_at_100_measurable": 0.9354838709677419,
+      "average_precision_labeled": 0.7539406139427787,
+      "roc_auc_labeled": 0.5939788127388765,
+      "queue_diagnostics": {
+        "selected": 50,
+        "confirmed_positive": 41,
+        "unknown_outcomes": 3,
+        "precision_lower_bound": 0.82,
+        "precision_upper_bound": 0.88,
+        "measurable_selected": 47,
+        "measurable_precision": 0.8723404255319149,
+        "recent_coverage_days": {
+          "0-6": 0,
+          "7-13": 0,
+          "14-20": 2,
+          "21-29": 15,
+          "30": 33
+        },
+        "prior_coverage_days": {
+          "0-6": 0,
+          "7-13": 0,
+          "14-20": 29,
+          "21-29": 15,
+          "30": 6
+        },
+        "future_coverage_days": {
+          "0-6": 2,
+          "7-13": 1,
+          "14-20": 2,
+          "21-29": 18,
+          "30": 27
+        },
+        "insufficient_future_coverage_fraction": 0.06,
+        "represented_clients": 12,
+        "largest_client_share": 0.32,
+        "recent_impression_quantiles": {
+          "p25": 2301.0,
+          "p50": 4230.0,
+          "p75": 8768.75
+        },
+        "complete_recent_and_future_coverage_same_queue": {
+          "selected": 23,
+          "confirmed_positive": 21,
+          "measurable": 23,
+          "measurable_precision": 0.9130434782608695
+        },
+        "reranked_after_excluding_largest_top50_client": {
+          "selected": 50,
+          "confirmed_positive": 39,
+          "unknown_outcomes": 6,
+          "precision_lower_bound": 0.78,
+          "precision_upper_bound": 0.9
+        }
+      },
+      "static_rule_tie_expectation": null,
+      "daily_rate_target_top50": {
+        "confirmed_positive": 41,
+        "unknown": 3,
+        "measurable": 47,
+        "precision_lower_bound": 0.82,
+        "precision_upper_bound": 0.88
+      },
+      "prevalence_confirmed_lower": 0.6382051506657324,
+      "prevalence_confirmed_upper": 0.6467895935529082
+    },
+    {
+      "origin": "2026-04",
+      "candidate": "momentum",
+      "model": "random_forest",
+      "history_policy": "latest_only",
+      "training_months": [
+        "2026-02"
+      ],
+      "reporting_lag_days": 7,
+      "candidate_count": 45664,
+      "labeled_count": 45272,
+      "label_coverage": 0.9914155571128241,
+      "prevalence_measurable": 0.6437312245979855,
+      "p_at_20_confirmed_lower": 1.0,
+      "p_at_20_confirmed_upper": 1.0,
+      "p_at_20_measurable": 1.0,
+      "p_at_50_confirmed_lower": 0.98,
+      "p_at_50_measurable": 0.98,
+      "p_at_50_confirmed_upper": 0.98,
+      "top50_confirmed_positive": 49,
+      "top50_unknown": 0,
+      "top50_measurable": 50,
+      "top50_precision_lower": 0.98,
+      "top50_precision_upper": 0.98,
+      "p_at_100_confirmed_lower": 0.99,
+      "p_at_100_confirmed_upper": 0.99,
+      "p_at_100_measurable": 0.99,
+      "average_precision_labeled": 0.79747611602112,
+      "roc_auc_labeled": 0.647891646776671,
+      "queue_diagnostics": {
+        "selected": 50,
+        "confirmed_positive": 49,
+        "unknown_outcomes": 0,
+        "precision_lower_bound": 0.98,
+        "precision_upper_bound": 0.98,
+        "measurable_selected": 50,
+        "measurable_precision": 0.98,
+        "recent_coverage_days": {
+          "0-6": 0,
+          "7-13": 0,
+          "14-20": 0,
+          "21-29": 3,
+          "30": 47
+        },
+        "prior_coverage_days": {
+          "0-6": 0,
+          "7-13": 0,
+          "14-20": 5,
+          "21-29": 14,
+          "30": 31
+        },
+        "future_coverage_days": {
+          "0-6": 0,
+          "7-13": 0,
+          "14-20": 1,
+          "21-29": 8,
+          "30": 41
+        },
+        "insufficient_future_coverage_fraction": 0.0,
+        "represented_clients": 8,
+        "largest_client_share": 0.34,
+        "recent_impression_quantiles": {
+          "p25": 4307.25,
+          "p50": 8480.5,
+          "p75": 12192.75
+        },
+        "complete_recent_and_future_coverage_same_queue": {
+          "selected": 40,
+          "confirmed_positive": 39,
+          "measurable": 40,
+          "measurable_precision": 0.975
+        },
+        "reranked_after_excluding_largest_top50_client": {
+          "selected": 50,
+          "confirmed_positive": 50,
+          "unknown_outcomes": 0,
+          "precision_lower_bound": 1.0,
+          "precision_upper_bound": 1.0
+        }
+      },
+      "static_rule_tie_expectation": null,
+      "daily_rate_target_top50": {
+        "confirmed_positive": 49,
+        "unknown": 0,
+        "measurable": 50,
+        "precision_lower_bound": 0.98,
+        "precision_upper_bound": 0.98
+      },
+      "prevalence_confirmed_lower": 0.6382051506657324,
+      "prevalence_confirmed_upper": 0.6467895935529082
+    }
+  ]
+}

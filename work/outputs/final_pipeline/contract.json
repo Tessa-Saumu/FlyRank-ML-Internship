@@ -1,0 +1,413 @@
+{
+  "provenance": {
+    "revision": "50cbf7c3909d07be4d1b5906b4d09e882e5acbf2",
+    "config": {
+      "seed": 42,
+      "primary_reporting_lag_days": 7,
+      "reporting_lag_sensitivity_days": [],
+      "top_k": [
+        20,
+        50,
+        100
+      ],
+      "minimum_recent_coverage_days": 14,
+      "minimum_impressions": 1000,
+      "minimum_label_coverage_days": 14,
+      "decline_threshold": 0.8,
+      "practical_hurdle_cases_per_50": 5,
+      "practical_hurdle_origins": 4,
+      "feature_months": [
+        "2025-10",
+        "2025-11",
+        "2025-12",
+        "2026-01",
+        "2026-02",
+        "2026-03",
+        "2026-04"
+      ],
+      "prediction_origins": [
+        "2025-12",
+        "2026-01",
+        "2026-02",
+        "2026-03",
+        "2026-04"
+      ],
+      "output_dir": "work/outputs/warehouse_feature_experiments"
+    },
+    "query_sha256": "b301169aa583f3882484c8da21f9287bc7e5cd0190c3fef34474847c8294b76a",
+    "pipeline_sha256": "f49f5cca60de18869ef2a95d34bdb29e27fbec65c84795c95ad3ef7e055dde51",
+    "package_versions": {
+      "duckdb": "1.5.4",
+      "numpy": "2.5.1",
+      "pandas": "3.0.3",
+      "scikit-learn": "1.9.0",
+      "huggingface-hub": "1.24.0"
+    }
+  },
+  "audit": [
+    {
+      "origin": "2025-10",
+      "candidates": 9526,
+      "clients": 13,
+      "measurable": 9524,
+      "unknown": 2,
+      "prevalence_measurable": 0.21839563208735827,
+      "source_partition_bounds": {
+        "2025-08": {
+          "min_report_date": "2025-08-01",
+          "max_report_date": "2025-08-31"
+        },
+        "2025-09": {
+          "min_report_date": "2025-09-01",
+          "max_report_date": "2025-09-30"
+        },
+        "2025-10": {
+          "min_report_date": "2025-10-01",
+          "max_report_date": "2025-10-31"
+        },
+        "2025-11": {
+          "min_report_date": "2025-11-01",
+          "max_report_date": "2025-11-30"
+        },
+        "2025-12": {
+          "min_report_date": "2025-12-01",
+          "max_report_date": "2025-12-31"
+        },
+        "2026-01": {
+          "min_report_date": "2026-01-01",
+          "max_report_date": "2026-01-31"
+        },
+        "2026-02": {
+          "min_report_date": "2026-02-01",
+          "max_report_date": "2026-02-28"
+        },
+        "2026-03": {
+          "min_report_date": "2026-03-01",
+          "max_report_date": "2026-03-31"
+        },
+        "2026-04": {
+          "min_report_date": "2026-04-01",
+          "max_report_date": "2026-04-30"
+        },
+        "2026-05": {
+          "min_report_date": "2026-05-01",
+          "max_report_date": "2026-05-31"
+        }
+      },
+      "feature_cutoff": "2025-10-24",
+      "outcome_end": "2025-11-30"
+    },
+    {
+      "origin": "2025-11",
+      "candidates": 13729,
+      "clients": 17,
+      "measurable": 13721,
+      "unknown": 8,
+      "prevalence_measurable": 0.35026601559653087,
+      "source_partition_bounds": {
+        "2025-08": {
+          "min_report_date": "2025-08-01",
+          "max_report_date": "2025-08-31"
+        },
+        "2025-09": {
+          "min_report_date": "2025-09-01",
+          "max_report_date": "2025-09-30"
+        },
+        "2025-10": {
+          "min_report_date": "2025-10-01",
+          "max_report_date": "2025-10-31"
+        },
+        "2025-11": {
+          "min_report_date": "2025-11-01",
+          "max_report_date": "2025-11-30"
+        },
+        "2025-12": {
+          "min_report_date": "2025-12-01",
+          "max_report_date": "2025-12-31"
+        },
+        "2026-01": {
+          "min_report_date": "2026-01-01",
+          "max_report_date": "2026-01-31"
+        },
+        "2026-02": {
+          "min_report_date": "2026-02-01",
+          "max_report_date": "2026-02-28"
+        },
+        "2026-03": {
+          "min_report_date": "2026-03-01",
+          "max_report_date": "2026-03-31"
+        },
+        "2026-04": {
+          "min_report_date": "2026-04-01",
+          "max_report_date": "2026-04-30"
+        },
+        "2026-05": {
+          "min_report_date": "2026-05-01",
+          "max_report_date": "2026-05-31"
+        }
+      },
+      "feature_cutoff": "2025-11-23",
+      "outcome_end": "2025-12-30"
+    },
+    {
+      "origin": "2025-12",
+      "candidates": 19073,
+      "clients": 20,
+      "measurable": 19022,
+      "unknown": 51,
+      "prevalence_measurable": 0.2895068867626958,
+      "source_partition_bounds": {
+        "2025-08": {
+          "min_report_date": "2025-08-01",
+          "max_report_date": "2025-08-31"
+        },
+        "2025-09": {
+          "min_report_date": "2025-09-01",
+          "max_report_date": "2025-09-30"
+        },
+        "2025-10": {
+          "min_report_date": "2025-10-01",
+          "max_report_date": "2025-10-31"
+        },
+        "2025-11": {
+          "min_report_date": "2025-11-01",
+          "max_report_date": "2025-11-30"
+        },
+        "2025-12": {
+          "min_report_date": "2025-12-01",
+          "max_report_date": "2025-12-31"
+        },
+        "2026-01": {
+          "min_report_date": "2026-01-01",
+          "max_report_date": "2026-01-31"
+        },
+        "2026-02": {
+          "min_report_date": "2026-02-01",
+          "max_report_date": "2026-02-28"
+        },
+        "2026-03": {
+          "min_report_date": "2026-03-01",
+          "max_report_date": "2026-03-31"
+        },
+        "2026-04": {
+          "min_report_date": "2026-04-01",
+          "max_report_date": "2026-04-30"
+        },
+        "2026-05": {
+          "min_report_date": "2026-05-01",
+          "max_report_date": "2026-05-31"
+        }
+      },
+      "feature_cutoff": "2025-12-24",
+      "outcome_end": "2026-01-30"
+    },
+    {
+      "origin": "2026-01",
+      "candidates": 22340,
+      "clients": 21,
+      "measurable": 22316,
+      "unknown": 24,
+      "prevalence_measurable": 0.19456891916114,
+      "source_partition_bounds": {
+        "2025-08": {
+          "min_report_date": "2025-08-01",
+          "max_report_date": "2025-08-31"
+        },
+        "2025-09": {
+          "min_report_date": "2025-09-01",
+          "max_report_date": "2025-09-30"
+        },
+        "2025-10": {
+          "min_report_date": "2025-10-01",
+          "max_report_date": "2025-10-31"
+        },
+        "2025-11": {
+          "min_report_date": "2025-11-01",
+          "max_report_date": "2025-11-30"
+        },
+        "2025-12": {
+          "min_report_date": "2025-12-01",
+          "max_report_date": "2025-12-31"
+        },
+        "2026-01": {
+          "min_report_date": "2026-01-01",
+          "max_report_date": "2026-01-31"
+        },
+        "2026-02": {
+          "min_report_date": "2026-02-01",
+          "max_report_date": "2026-02-28"
+        },
+        "2026-03": {
+          "min_report_date": "2026-03-01",
+          "max_report_date": "2026-03-31"
+        },
+        "2026-04": {
+          "min_report_date": "2026-04-01",
+          "max_report_date": "2026-04-30"
+        },
+        "2026-05": {
+          "min_report_date": "2026-05-01",
+          "max_report_date": "2026-05-31"
+        }
+      },
+      "feature_cutoff": "2026-01-24",
+      "outcome_end": "2026-03-02"
+    },
+    {
+      "origin": "2026-02",
+      "candidates": 30275,
+      "clients": 22,
+      "measurable": 29638,
+      "unknown": 637,
+      "prevalence_measurable": 0.2183345704838383,
+      "source_partition_bounds": {
+        "2025-08": {
+          "min_report_date": "2025-08-01",
+          "max_report_date": "2025-08-31"
+        },
+        "2025-09": {
+          "min_report_date": "2025-09-01",
+          "max_report_date": "2025-09-30"
+        },
+        "2025-10": {
+          "min_report_date": "2025-10-01",
+          "max_report_date": "2025-10-31"
+        },
+        "2025-11": {
+          "min_report_date": "2025-11-01",
+          "max_report_date": "2025-11-30"
+        },
+        "2025-12": {
+          "min_report_date": "2025-12-01",
+          "max_report_date": "2025-12-31"
+        },
+        "2026-01": {
+          "min_report_date": "2026-01-01",
+          "max_report_date": "2026-01-31"
+        },
+        "2026-02": {
+          "min_report_date": "2026-02-01",
+          "max_report_date": "2026-02-28"
+        },
+        "2026-03": {
+          "min_report_date": "2026-03-01",
+          "max_report_date": "2026-03-31"
+        },
+        "2026-04": {
+          "min_report_date": "2026-04-01",
+          "max_report_date": "2026-04-30"
+        },
+        "2026-05": {
+          "min_report_date": "2026-05-01",
+          "max_report_date": "2026-05-31"
+        }
+      },
+      "feature_cutoff": "2026-02-21",
+      "outcome_end": "2026-03-30"
+    },
+    {
+      "origin": "2026-03",
+      "candidates": 41931,
+      "clients": 30,
+      "measurable": 41815,
+      "unknown": 116,
+      "prevalence_measurable": 0.4726772689226354,
+      "source_partition_bounds": {
+        "2025-08": {
+          "min_report_date": "2025-08-01",
+          "max_report_date": "2025-08-31"
+        },
+        "2025-09": {
+          "min_report_date": "2025-09-01",
+          "max_report_date": "2025-09-30"
+        },
+        "2025-10": {
+          "min_report_date": "2025-10-01",
+          "max_report_date": "2025-10-31"
+        },
+        "2025-11": {
+          "min_report_date": "2025-11-01",
+          "max_report_date": "2025-11-30"
+        },
+        "2025-12": {
+          "min_report_date": "2025-12-01",
+          "max_report_date": "2025-12-31"
+        },
+        "2026-01": {
+          "min_report_date": "2026-01-01",
+          "max_report_date": "2026-01-31"
+        },
+        "2026-02": {
+          "min_report_date": "2026-02-01",
+          "max_report_date": "2026-02-28"
+        },
+        "2026-03": {
+          "min_report_date": "2026-03-01",
+          "max_report_date": "2026-03-31"
+        },
+        "2026-04": {
+          "min_report_date": "2026-04-01",
+          "max_report_date": "2026-04-30"
+        },
+        "2026-05": {
+          "min_report_date": "2026-05-01",
+          "max_report_date": "2026-05-31"
+        }
+      },
+      "feature_cutoff": "2026-03-24",
+      "outcome_end": "2026-04-30"
+    },
+    {
+      "origin": "2026-04",
+      "candidates": 45664,
+      "clients": 38,
+      "measurable": 45272,
+      "unknown": 392,
+      "prevalence_measurable": 0.6437312245979855,
+      "source_partition_bounds": {
+        "2025-08": {
+          "min_report_date": "2025-08-01",
+          "max_report_date": "2025-08-31"
+        },
+        "2025-09": {
+          "min_report_date": "2025-09-01",
+          "max_report_date": "2025-09-30"
+        },
+        "2025-10": {
+          "min_report_date": "2025-10-01",
+          "max_report_date": "2025-10-31"
+        },
+        "2025-11": {
+          "min_report_date": "2025-11-01",
+          "max_report_date": "2025-11-30"
+        },
+        "2025-12": {
+          "min_report_date": "2025-12-01",
+          "max_report_date": "2025-12-31"
+        },
+        "2026-01": {
+          "min_report_date": "2026-01-01",
+          "max_report_date": "2026-01-31"
+        },
+        "2026-02": {
+          "min_report_date": "2026-02-01",
+          "max_report_date": "2026-02-28"
+        },
+        "2026-03": {
+          "min_report_date": "2026-03-01",
+          "max_report_date": "2026-03-31"
+        },
+        "2026-04": {
+          "min_report_date": "2026-04-01",
+          "max_report_date": "2026-04-30"
+        },
+        "2026-05": {
+          "min_report_date": "2026-05-01",
+          "max_report_date": "2026-05-31"
+        }
+      },
+      "feature_cutoff": "2026-04-23",
+      "outcome_end": "2026-05-30"
+    }
+  ]
+}
