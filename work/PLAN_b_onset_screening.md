@@ -128,3 +128,43 @@ Days 1–2 are the honest-risk part. Days 3–8 are mechanical once the numbers 
 
 Nothing in this plan touches your headings, voice or section order. It adds cells and replaces the headline
 numbers, and it makes the paper claim a result the ML can actually defend.
+
+## Handover: the local run that closes the loop
+
+No number in the paper, report or notebook copy about the onset pool is treated as measured
+until this runs against the warehouse. Everything else in the shipped copy comes from receipts
+that are already committed.
+
+```bash
+# 1. from the repository root, with the warehouse token already configured
+python work/scripts/onset_screening.py --warehouse      # builds the frames once, then audits them
+#    later runs can use the cached frames:  python work/scripts/onset_screening.py
+
+# 2. the notebooks, in order
+#    w04_baseline_score  (section 1b reads the committed revised receipts)
+#    w05_model           (section 3b reads them, section 3c writes the onset receipt)
+#    w06_validation_audit (section 2b reads the onset receipt and adds intervals and robustness)
+#    w07_action_playbook  (section 1b builds the two lanes)
+#    capstone             (section 4b re-checks the quoted numbers)
+
+# 3. the offline check, which now requires the onset receipt
+python work/scripts/verify_evidence.py
+```
+
+What to read when it finishes:
+
+- `work/outputs/onset_headline.md` holds the sentences with this run's numbers filled in.
+  Compare them with Table 6 in `work/paper/index.html` and with the evaluation section of
+  `work/capstone_report.md`. A gap wider than 0.02 on any single figure means the copy has to be
+  adjusted to the run, not the other way round.
+- `cross_check` inside `work/outputs/onset_screening.json` compares this script with the
+  diagnostic receipt. `verdict` should read `matches`; `REVIEW` means the frames or a metric
+  definition moved and the difference has to be explained before submission.
+- `sensitivity` holds the threshold and impression-floor grid, the label variant and the
+  bootstrap intervals. If the sign of the paired difference flips anywhere in that grid, the
+  claim in the paper has to be softened to the cells where it holds.
+- The `training population` line in w06 section 2b shows whether fitting on every training row
+  instead of onset-eligible rows changes the result. `stable=False` is reportable, not fatal.
+
+If the numbers land where the audit expects, nothing else changes. If they do not, the copy
+follows the run.
