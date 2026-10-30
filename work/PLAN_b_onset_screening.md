@@ -151,6 +151,13 @@ python work/scripts/onset_screening.py --warehouse      # builds the frames once
 python work/scripts/verify_evidence.py
 ```
 
+Two things fixed after the first attempt at step 1: the dataset revision is now read from
+`work/outputs/final_pipeline/contract.json` (or the manifest, or `--revision`, or
+`FLYRANK_HF_REVISION`) instead of from `work/outputs/warehouse_feature_experiments/experiment_results.json`,
+which is a local artifact that is not part of the repository; and the frames land in
+`work/local_final_pipeline_floor1000/`, which the notebooks now find on their own when the default
+cache is empty.
+
 What to read when it finishes:
 
 - `work/outputs/onset_headline.md` holds the sentences with this run's numbers filled in.

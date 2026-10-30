@@ -66,6 +66,57 @@ MODELS = {
 # --------------------------------------------------------------------------- #
 # Frames
 # --------------------------------------------------------------------------- #
+# Where the dataset revision is recorded, in the order this script trusts it. A committed
+# receipt always wins over a local experiment log, and an explicit argument or environment
+# variable wins over both.
+REVISION_SOURCES = (
+    ("work/outputs/final_pipeline/contract.json", ("provenance", "revision")),
+    ("work/outputs/final_pipeline/baselines.json", ("provenance", "revision")),
+    ("work/local_final_pipeline/manifest.json", ("provenance", "revision")),
+    ("work/outputs/warehouse_feature_experiments/experiment_results.json",
+     ("source", "huggingface_revision")),
+)
+
+
+def _dig(payload: Any, keys: tuple[str, ...]) -> Any:
+    for key in keys:
+        if not isinstance(payload, dict) or key not in payload:
+            return None
+        payload = payload[key]
+    return payload
+
+
+def resolve_revision(explicit: str | None = None) -> str:
+    """Return the dataset revision to read, from an argument, the environment or a receipt.
+
+    The warehouse path used to require ``warehouse_feature_experiments/experiment_results.json``,
+    which is a large local artifact and is not part of the repository. The revision is
+    already recorded in the committed final-pipeline receipts, so those are read first.
+    """
+    if explicit:
+        return explicit
+    from_env = os.environ.get("FLYRANK_HF_REVISION")
+    if from_env:
+        print(f"Dataset revision from FLYRANK_HF_REVISION: {from_env[:12]}")
+        return from_env
+    for relative, keys in REVISION_SOURCES:
+        path = ROOT / relative
+        if not path.exists():
+            continue
+        try:
+            value = _dig(json.loads(path.read_text(encoding="utf-8")), keys)
+        except (json.JSONDecodeError, OSError):
+            continue
+        if isinstance(value, str) and value:
+            print(f"Dataset revision {value[:12]} read from {relative}")
+            return value
+    searched = "\n  ".join(relative for relative, _ in REVISION_SOURCES)
+    raise SystemExit(
+        "No dataset revision found. Pass --revision <commit sha>, set FLYRANK_HF_REVISION, "
+        "or restore one of the committed receipts this script reads it from:\n  " + searched
+    )
+
+
 def load_cached_frames(cache: Path) -> tuple[dict[str, pd.DataFrame], dict[str, Any]]:
     manifest_path = cache / "manifest.json"
     if not manifest_path.exists():
@@ -109,9 +160,7 @@ def build_frames_from_warehouse(
     )
     assert max(months) <= "2026-05" and "2026-06" not in months, "June must not be read"
 
-    if revision is None:
-        experiment = ROOT / "work/outputs/warehouse_feature_experiments/experiment_results.json"
-        revision = json.loads(experiment.read_text(encoding="utf-8"))["source"]["huggingface_revision"]
+    revision = resolve_revision(revision)
 
     token = study.resolve_token()
 
@@ -163,22 +212,37 @@ def resolve_frames(
     frames. If the cache is absent the frames are rebuilt from the release at the
     submitted revision, using the recorded impression floor.
     """
-    cache_path = Path(cache or os.environ.get(
-        "FLYRANK_FINAL_CACHE", ROOT / "work/local_final_pipeline"))
-    if sorted(cache_path.glob("*.parquet")):
-        return load_cached_frames(cache_path)
+    explicit = cache or os.environ.get("FLYRANK_FINAL_CACHE")
+    cache_path = Path(explicit or ROOT / "work/local_final_pipeline")
+
+    if explicit:
+        if sorted(cache_path.glob("*.parquet")):
+            return load_cached_frames(cache_path)
+        print(f"No monthly frames in {cache_path}, so the release is read once to build them.")
+        return build_frames_from_warehouse(floor or 1000, cache_path, revision)
+
+    # No explicit path: use any populated cache in the work folder before downloading. The
+    # warehouse builder writes to work/local_final_pipeline_floor<floor>, so that directory
+    # is a valid cache for the notebooks as well.
+    for candidate in _cache_candidates():
+        if sorted(candidate.glob("*.parquet")):
+            if candidate != cache_path:
+                print(f"Using the frame cache in {candidate}.")
+            return load_cached_frames(candidate)
+
     if (cache_path / "manifest.json").exists():
         print(f"No monthly frames in {cache_path}, so the release is read once to build them.")
-    if revision is None:
-        contract = ROOT / "work/outputs/final_pipeline/contract.json"
-        if contract.exists():
-            revision = json.loads(contract.read_text(encoding="utf-8"))["provenance"]["revision"]
-    if revision is None:
-        raise SystemExit(
-            "No frame cache and no recorded dataset revision. Run "
-            "final_submission_pipeline.contract() once, or pass revision= explicitly."
-        )
     return build_frames_from_warehouse(floor or 1000, cache_path, revision)
+
+
+def _cache_candidates() -> list[Path]:
+    """Cache directories to try, in order: the default one, then any floor-specific one."""
+    default = ROOT / "work/local_final_pipeline"
+    others = sorted(
+        path for path in ROOT.glob("work/local_final_pipeline*")
+        if path.is_dir() and path != default
+    )
+    return [default] + others
 
 
 # --------------------------------------------------------------------------- #
@@ -775,8 +839,14 @@ def run(
         }
 
     if out_dir is not None:
+        out_dir = Path(out_dir)
         out_dir.mkdir(parents=True, exist_ok=True)
-        (out_dir / "onset_screening.json").write_text(
+        receipt_path = out_dir / "onset_screening.json"
+        try:
+            payload["receipt_path"] = str(receipt_path.resolve().relative_to(ROOT))
+        except ValueError:
+            payload["receipt_path"] = str(receipt_path.resolve())
+        receipt_path.write_text(
             json.dumps(payload, indent=2, default=str, allow_nan=False) + "\n", encoding="utf-8"
         )
         (out_dir / "onset_headline.md").write_text(headline(payload), encoding="utf-8")
@@ -949,11 +1019,12 @@ def headline(payload: dict[str, Any]) -> str:
     n_origins = len(payload["origin_results"])
     base_text = "n/a" if base is None else f"{base:.3f}"
 
+    receipt = payload.get("receipt_path") or "work/outputs/onset_screening.json"
     lines = [
         "# Onset screening: generated headline block",
         "",
         "Generated by `work/scripts/onset_screening.py` from",
-        "`work/outputs/diagnostics/onset_screening.json`. Do not edit by hand; rerun instead.",
+        f"`{receipt}`. Do not edit by hand; rerun instead.",
         "",
         f"Origins: {n_origins}. Pool: pages whose last-seven-day impression rate is at or above",
         f"their 30-day rate, with at least {payload['configuration']['onset_min_days']} covered days",
@@ -1080,6 +1151,8 @@ def main() -> None:
     parser.add_argument("--min-days", type=int, default=DEFAULT_MIN_DAYS)
     parser.add_argument("--reps", type=int, default=2000)
     parser.add_argument("--skip-sensitivity", action="store_true")
+    parser.add_argument("--revision", default=None,
+                        help="dataset revision; defaults to the one recorded in a receipt")
     args = parser.parse_args()
 
     if args.selftest:
@@ -1088,7 +1161,8 @@ def main() -> None:
 
     if args.warehouse:
         cache = Path(args.cache or ROOT / f"work/local_final_pipeline_floor{args.floor}")
-        frames, provenance = build_frames_from_warehouse(args.floor, cache)
+        print(f"Building the monthly frames at floor {args.floor} into {cache}")
+        frames, provenance = build_frames_from_warehouse(args.floor, cache, args.revision)
     else:
         cache = Path(args.cache or os.environ.get(
             "FLYRANK_FINAL_CACHE", ROOT / "work/local_final_pipeline"))
