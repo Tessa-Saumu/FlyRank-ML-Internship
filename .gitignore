@@ -26,6 +26,9 @@ outputs/*.csv
 # --- Intern work area ------------------------------------------------------
 # your experiments live in work/; datasets never enter git
 work/**/*.csv
+# frame caches rebuilt at a chosen impression floor (parquet is ignored above; the
+# folder also holds a manifest that describes the run and is regenerated)
+work/local_final_pipeline_floor*/
 
 # --- Python / notebooks ----------------------------------------------------
 __pycache__/

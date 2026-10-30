@@ -137,6 +137,11 @@ python work/scripts/onset_screening.py --warehouse # rebuilds them from the rele
 python work/scripts/onset_screening.py --selftest  # synthetic frames, no data access
 ```
 
+The release is read at the revision recorded in `work/outputs/final_pipeline/contract.json`; pass
+`--revision` or set `FLYRANK_HF_REVISION` to override it. Frames built by `--warehouse` land in
+`work/local_final_pipeline_floor1000/`, which the notebooks pick up automatically when the default
+cache is empty.
+
 Seeds are 42 everywhere. Library versions are recorded in every receipt. The revised pipeline's
 receipts live in `work/outputs/final_pipeline/`, and the onset audit writes
 `work/outputs/onset_screening.json` plus a generated sentence block in
