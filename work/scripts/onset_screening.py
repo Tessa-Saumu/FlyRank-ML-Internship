@@ -846,8 +846,11 @@ def run(
             payload["receipt_path"] = str(receipt_path.resolve().relative_to(ROOT))
         except ValueError:
             payload["receipt_path"] = str(receipt_path.resolve())
+        safe, replaced = _json_safe(payload)
+        if replaced:
+            print(f"Note: {replaced} non-finite value(s) written as null in the receipt.")
         receipt_path.write_text(
-            json.dumps(payload, indent=2, default=str, allow_nan=False) + "\n", encoding="utf-8"
+            json.dumps(safe, indent=2, default=str, allow_nan=False) + "\n", encoding="utf-8"
         )
         (out_dir / "onset_headline.md").write_text(headline(payload), encoding="utf-8")
     return payload
@@ -1002,6 +1005,41 @@ def cross_check_diagnosis(per_origin: dict[str, Any], k: int) -> dict[str, Any]:
     }
 
 
+def _json_safe(value: Any) -> tuple[Any, int]:
+    """Replace non-finite floats with None so the receipt is valid JSON.
+
+    ``allow_nan=False`` would otherwise abort a long run at the last step if a single
+    metric came out undefined.
+    """
+    if isinstance(value, float):
+        return (None, 1) if not np.isfinite(value) else (value, 0)
+    if isinstance(value, dict):
+        out, count = {}, 0
+        for key, item in value.items():
+            out[key], n = _json_safe(item)
+            count += n
+        return out, count
+    if isinstance(value, (list, tuple)):
+        out, count = [], 0
+        for item in value:
+            item, n = _json_safe(item)
+            out.append(item)
+            count += n
+        return out, count
+    if isinstance(value, (np.floating, np.integer)):
+        return _json_safe(float(value))
+    return value, 0
+
+
+def _fmt(value: Any, spec: str = "+.3f") -> str:
+    """Format a number for the headline, or say n/a when it is missing or not finite."""
+    try:
+        number = float(value)
+    except (TypeError, ValueError):
+        return "n/a"
+    return format(number, spec) if np.isfinite(number) else "n/a"
+
+
 def headline(payload: dict[str, Any]) -> str:
     """The sentence block for the write-up, with this run's numbers filled in."""
     def table(k: int) -> dict[str, dict[str, Any]]:
@@ -1037,10 +1075,10 @@ def headline(payload: dict[str, Any]) -> str:
         f"- momentum random forest {value(rows50, 'momentum:random_forest')}",
         "",
         f"Logistic regression minus frozen rule at 50 slots: mean"
-        f" {paired.get('mean_delta', float('nan')):+.3f}, median"
-        f" {paired.get('median_delta', float('nan')):+.3f}, positive in"
+        f" {_fmt(paired.get('mean_delta'))}, median"
+        f" {_fmt(paired.get('median_delta'))}, positive in"
         f" {paired.get('positive_origins', 0)} of {paired.get('origins', 0)} origins.",
-        f"Random forest minus frozen rule: mean {paired_rf.get('mean_delta', float('nan')):+.3f},"
+        f"Random forest minus frozen rule: mean {_fmt(paired_rf.get('mean_delta'))},"
         f" positive in {paired_rf.get('positive_origins', 0)} of {paired_rf.get('origins', 0)} origins.",
         "",
         f"At the co-primary budget of 20 slots: frozen rule {value(rows20, 'static_rule')},",
