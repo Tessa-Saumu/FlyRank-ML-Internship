@@ -1,0 +1,79 @@
+{
+ "frozen_at": "2026-11-06T14:03:46",
+ "spec_version": "v2.0",
+ "selected_model": "LOGISTIC",
+ "selected_model_decision": "no challenger passed both the bootstrap lower bound and the leave-one-client-out test; LOGISTIC stays",
+ "selected_configs": {
+  "LOGISTIC": {
+   "C": 100.0,
+   "penalty": "l2"
+  },
+  "HGB_CLF": {
+   "learning_rate": 0.12006,
+   "max_leaf_nodes": 31,
+   "msl_frac": 0.005,
+   "l2": 1.0,
+   "max_features": 0.8
+  },
+  "POISSON_RATE": {
+   "learning_rate": 0.09628,
+   "max_leaf_nodes": 15,
+   "msl_frac": 0.005,
+   "l2": 20.0,
+   "max_features": 0.5
+  }
+ },
+ "champion": "LOGISTIC",
+ "test_origin": "2026-05",
+ "test_train_origins": [
+  "2025-12",
+  "2026-01",
+  "2026-02",
+  "2026-03"
+ ],
+ "live_origin": "2026-07",
+ "live_train_origins": [
+  "2025-12",
+  "2026-01",
+  "2026-02",
+  "2026-03",
+  "2026-04",
+  "2026-05"
+ ],
+ "spec_sha256_at_preregistration": {
+  "work/V2_SPEC.md": "dae0cd5b5a9cdf72e62d4963ee350344baf352e2948b1ee93144e8b042410b79",
+  "work/outputs/v2_spec.json": "3b4fb02ab65ed54e3401702dc2a607d5469a537eea2e98fca361070d4fae64df"
+ },
+ "spec_sha256": {
+  "work/V2_SPEC.md": "121c9c35f14e05bd88e50777a40383c357632fef1324f53e7084278c7669f06f",
+  "work/outputs/v2_spec.json": "075fb8689cc31071f5b5df506691972f21d3231ff4ff7b5156f1f1f1d0656bed"
+ },
+ "code_sha256": {
+  "wh.py": "0dda56c3b5b3a1a49c48fb6612b1706182a20db51b143a7242b64ed3bd209364",
+  "erosion_frame.py": "142587f56c495c8908e0d58a6046b39507ac179ca920b416c9f1972d4d82925f",
+  "erosion_model.py": "9bd0df83f0850de658a71d17dbcaa599d41df4e3f294cba5ed352e8ea7954c52",
+  "v2_rhythm.py": "2f5a54bdb7bf401463707f5dfb9fd6db484951fb3cc97e7b962a7dd3929caff8",
+  "v2_models.py": "6f40a7e820f6e710960e2495d590f5478f9f4e9281eb90a9e94ee449c15ebfc6",
+  "v2_pipeline.py": "f2c3b6c410c199052a6b29a5c3e8bd8d6bacd58d51392758d6739f78c5551f23",
+  "v2_checks.py": "f75911ba57d5ae91dc468a7be08f02e5671e63ec662333edba716ba04fb41240",
+  "v2_playbook.py": "f8e3e3171245583eb3f006870400d9b37d54cee03a7991e001cbf6a16269f8f3"
+ },
+ "receipt_sha256": {
+  "v2_selection.json": "58b1e95a6710c134f8990b3bbcdbada3e98825cdbede8ab8e36e6178477d2393",
+  "v2_validation_folds.json": "c5f312aba42c9c26a08275e4275dc82e3ca5c1ecf7c7e8b286b3e5e688f3ffaa",
+  "v2_confirmation_apr.json": "7b94cdf26b1a2ffb9c9ef983265869c515f43de2ef1cc4e2ac3392df1ac94bd0",
+  "v2_leakage_checks.json": "cd28ab0a60fd6bdfc94cdf367e8b8bdf3aabad6d61a2828d977c7df970cf00d9"
+ },
+ "info_sha256_secondary_before_test": "265204f683692a71eef1ee09d8a10f437bfd10e52558cf9790023fc2619bfe58",
+ "order": [
+  "spec committed",
+  "select",
+  "confirm",
+  "secondary",
+  "checks",
+  "freeze",
+  "unseal (once)",
+  "live queue"
+ ],
+ "post_freeze_changes": []
+}

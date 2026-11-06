@@ -1,0 +1,298 @@
+{
+ "spec_version": "v2.0",
+ "scored_at": "2026-11-06T14:07:33",
+ "scored_once": true,
+ "disclosure": "The test month (May 2026) was seen during V1, so it is not a pristine holdout. No V2 decision (features, models, hyperparameters, selection rule) used it; all were made on validation folds whose outcome windows end before the test window opens. The V2 test result may therefore be optimistic.",
+ "score_origin": "2026-05",
+ "outcome_window": [
+  "2026-05",
+  "2026-06"
+ ],
+ "selected_model": "LOGISTIC",
+ "configs_used": {
+  "LOGISTIC": {
+   "C": 100.0,
+   "penalty": "l2"
+  },
+  "HGB_CLF": {
+   "learning_rate": 0.12006,
+   "max_leaf_nodes": 31,
+   "msl_frac": 0.005,
+   "l2": 1.0,
+   "max_features": 0.8
+  },
+  "POISSON_RATE": {
+   "learning_rate": 0.09628,
+   "max_leaf_nodes": 15,
+   "msl_frac": 0.005,
+   "l2": 20.0,
+   "max_features": 0.5
+  }
+ },
+ "train_origins": [
+  "2025-12",
+  "2026-01",
+  "2026-02",
+  "2026-03"
+ ],
+ "n_train_rows": 26859,
+ "dropped_all_missing_in_training": [],
+ "early_stopping_block": {
+  "kind": "time_ordered_latest_training_origin",
+  "validation_origin": "2026-03"
+ },
+ "evaluation": {
+  "n_eligible": 13082,
+  "n_measurable": 10977,
+  "lost_visibility_share": 0.1609,
+  "n_clients": 30,
+  "effective_clients": 5.8,
+  "top3_client_row_share": 0.6123,
+  "base_rate": 0.2397,
+  "noise_only_rate": 0.0709,
+  "train_origins": [
+   "2025-12",
+   "2026-01",
+   "2026-02",
+   "2026-03"
+  ],
+  "best_baseline_by_ap": "rule_position_slipping",
+  "models": {
+   "rule_position_slipping": {
+    "p@20": 0.35,
+    "p@50": 0.38,
+    "p@100": 0.35,
+    "ap": 0.2342,
+    "auc": 0.4526,
+    "within_client_p@10": 0.2765,
+    "lift": 1.5854,
+    "clicks_lost_captured": 0.0246,
+    "top_client_share_top50": 0.34,
+    "clients_in_top50": 9,
+    "capped_p@50_descriptive": 0.34,
+    "p@50_unmeasurable_as_miss": 0.38,
+    "p@50_ci": [
+     0.2,
+     0.5
+    ],
+    "ap_ci": [
+     0.1777,
+     0.3547
+    ],
+    "delta_ap_vs_best_baseline_ci": [
+     0.0,
+     0.0
+    ],
+    "delta_p@50_vs_best_baseline_ci": [
+     0.0,
+     0.0
+    ],
+    "p_delta_ap_le_0": 1.0,
+    "loco_delta_ap_vs_best_baseline": {
+     "min": 0.0,
+     "max": 0.0
+    },
+    "delta_ap_vs_best_baseline": 0.0
+   },
+   "mean_reversion_ctr_excess": {
+    "p@20": 0.4,
+    "p@50": 0.32,
+    "p@100": 0.25,
+    "ap": 0.2227,
+    "auc": 0.4674,
+    "within_client_p@10": 0.3353,
+    "lift": 1.3351,
+    "clicks_lost_captured": 0.0147,
+    "top_client_share_top50": 0.32,
+    "clients_in_top50": 13,
+    "capped_p@50_descriptive": 0.34,
+    "p@50_unmeasurable_as_miss": 0.26,
+    "p@50_ci": [
+     0.16,
+     0.52
+    ],
+    "ap_ci": [
+     0.169,
+     0.3206
+    ],
+    "delta_ap_vs_best_baseline_ci": [
+     -0.0738,
+     0.0146
+    ],
+    "delta_p@50_vs_best_baseline_ci": [
+     -0.22,
+     0.16
+    ],
+    "p_delta_ap_le_0": 0.7265,
+    "loco_delta_ap_vs_best_baseline": {
+     "min": -0.0294,
+     "max": 0.0018
+    },
+    "delta_ap_vs_best_baseline": -0.0115
+   },
+   "client_shock": {
+    "p@20": 0.4,
+    "p@50": 0.4,
+    "p@100": 0.47,
+    "ap": 0.2342,
+    "auc": 0.4337,
+    "within_client_p@10": 0.2471,
+    "lift": 1.6689,
+    "clicks_lost_captured": 0.0256,
+    "top_client_share_top50": 0.68,
+    "clients_in_top50": 2,
+    "capped_p@50_descriptive": 0.32,
+    "p@50_unmeasurable_as_miss": 0.4,
+    "p@50_ci": [
+     0.18,
+     0.52
+    ],
+    "ap_ci": [
+     0.1881,
+     0.3444
+    ],
+    "delta_ap_vs_best_baseline_ci": [
+     -0.031,
+     0.0408
+    ],
+    "delta_p@50_vs_best_baseline_ci": [
+     -0.18,
+     0.2
+    ],
+    "p_delta_ap_le_0": 0.4965,
+    "loco_delta_ap_vs_best_baseline": {
+     "min": -0.0062,
+     "max": 0.0183
+    },
+    "delta_ap_vs_best_baseline": 0.0
+   },
+   "persistence_prev_ratio": {
+    "p@20": 0.3,
+    "p@50": 0.18,
+    "p@100": 0.17,
+    "ap": 0.2166,
+    "auc": 0.4808,
+    "within_client_p@10": 0.2353,
+    "lift": 0.751,
+    "clicks_lost_captured": 0.006,
+    "top_client_share_top50": 0.32,
+    "clients_in_top50": 9,
+    "capped_p@50_descriptive": 0.22,
+    "p@50_unmeasurable_as_miss": 0.14,
+    "p@50_ci": [
+     0.08,
+     0.36
+    ],
+    "ap_ci": [
+     0.1586,
+     0.3446
+    ],
+    "delta_ap_vs_best_baseline_ci": [
+     -0.0815,
+     0.0167
+    ],
+    "delta_p@50_vs_best_baseline_ci": [
+     -0.34,
+     0.06
+    ],
+    "p_delta_ap_le_0": 0.8195,
+    "loco_delta_ap_vs_best_baseline": {
+     "min": -0.0453,
+     "max": -0.0026
+    },
+    "delta_ap_vs_best_baseline": -0.0176
+   },
+   "SELECTED:LOGISTIC": {
+    "p@20": 0.55,
+    "p@50": 0.52,
+    "p@100": 0.44,
+    "ap": 0.3333,
+    "auc": 0.6257,
+    "within_client_p@10": 0.4588,
+    "lift": 2.1695,
+    "clicks_lost_captured": 0.0317,
+    "top_client_share_top50": 0.24,
+    "clients_in_top50": 14,
+    "capped_p@50_descriptive": 0.54,
+    "p@50_unmeasurable_as_miss": 0.34,
+    "p@50_ci": [
+     0.32,
+     0.72
+    ],
+    "ap_ci": [
+     0.267,
+     0.4244
+    ],
+    "delta_ap_vs_best_baseline_ci": [
+     0.0403,
+     0.1283
+    ],
+    "delta_p@50_vs_best_baseline_ci": [
+     -0.04,
+     0.38
+    ],
+    "p_delta_ap_le_0": 0.0,
+    "loco_delta_ap_vs_best_baseline": {
+     "min": 0.0798,
+     "max": 0.1077
+    },
+    "delta_ap_vs_best_baseline": 0.0991
+   }
+  }
+ },
+ "secondary_label": {
+  "score_origin": "2026-05",
+  "label": "erode_rel (SECONDARY, client-relative)",
+  "base_rate_secondary": 0.2016,
+  "base_rate_primary": 0.2397,
+  "ap": 0.3154,
+  "p@50": 0.5,
+  "top_client_share_top50": 0.18,
+  "clients_in_top50": 16,
+  "overlap_top50_with_primary_top50": 36,
+  "primary_logistic_ap_on_primary_label": 0.3333,
+  "primary_logistic_p@50_on_primary_label": 0.52,
+  "primary_top50_p@50_on_secondary_label": 0.52,
+  "secondary_fit_converged": true
+ },
+ "fit_info": {
+  "LOGISTIC": {
+   "converged": true,
+   "n_iter": 64
+  },
+  "HGB_CLF": {
+   "n_seeds_fitted": 5,
+   "best_iters": [
+    21,
+    16,
+    24,
+    16,
+    24
+   ],
+   "hit_cap": 0,
+   "columns_left_out_of_early_stopping_fit": 0,
+   "columns_left_out_of_final_fit": 0
+  },
+  "POISSON_RATE": {
+   "n_seeds_fitted": 5,
+   "best_iters": [
+    53,
+    65,
+    105,
+    57,
+    71
+   ],
+   "hit_cap": 0,
+   "columns_left_out_of_early_stopping_fit": 0,
+   "columns_left_out_of_final_fit": 0
+  }
+ },
+ "headline": {
+  "metric": "AP and P@50 of the selected model against base rate, noise-only rate, editor's rule and best-AP baseline",
+  "selected_model_ap": 0.3333,
+  "selected_model_p@50": 0.52,
+  "base_rate": 0.2397,
+  "noise_only_rate": 0.0709,
+  "best_baseline_by_ap": "rule_position_slipping"
+ }
+}

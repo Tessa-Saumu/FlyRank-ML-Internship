@@ -1,0 +1,370 @@
+{
+ "spec_version": "v2.0",
+ "written_at": "2026-11-06T14:00:57",
+ "note": "REPORTED ONLY, not used for any decision. Origin 2026-04, outcome window Apr-May 2026 overlaps the test window. Configs are those chosen on validation folds 1 and 2; trees and fits are redone on this fold's training rows.",
+ "selected_model_from_validation": "LOGISTIC",
+ "configs_used": {
+  "LOGISTIC": {
+   "C": 100.0,
+   "penalty": "l2"
+  },
+  "HGB_CLF": {
+   "learning_rate": 0.12006,
+   "max_leaf_nodes": 31,
+   "msl_frac": 0.005,
+   "l2": 1.0,
+   "max_features": 0.8
+  },
+  "POISSON_RATE": {
+   "learning_rate": 0.09628,
+   "max_leaf_nodes": 15,
+   "msl_frac": 0.005,
+   "l2": 20.0,
+   "max_features": 0.5
+  }
+ },
+ "score_origin": "2026-04",
+ "dropped_all_missing_in_training": [],
+ "early_stopping_block": {
+  "kind": "time_ordered_latest_training_origin",
+  "validation_origin": "2026-02"
+ },
+ "evaluation": {
+  "n_eligible": 12319,
+  "n_measurable": 11186,
+  "lost_visibility_share": 0.092,
+  "n_clients": 28,
+  "effective_clients": 5.36,
+  "top3_client_row_share": 0.6494,
+  "base_rate": 0.3079,
+  "noise_only_rate": 0.058,
+  "train_origins": [
+   "2025-12",
+   "2026-01",
+   "2026-02"
+  ],
+  "best_baseline_by_ap": "rule_position_slipping",
+  "models": {
+   "rule_position_slipping": {
+    "p@20": 0.5,
+    "p@50": 0.5,
+    "p@100": 0.57,
+    "ap": 0.3707,
+    "auc": 0.5519,
+    "within_client_p@10": 0.4143,
+    "lift": 1.624,
+    "clicks_lost_captured": 0.0173,
+    "top_client_share_top50": 0.5,
+    "clients_in_top50": 9,
+    "capped_p@50_descriptive": 0.44,
+    "p@50_unmeasurable_as_miss": 0.5,
+    "p@50_ci": [
+     0.3,
+     0.68
+    ],
+    "ap_ci": [
+     0.3231,
+     0.4722
+    ],
+    "delta_ap_vs_best_baseline_ci": [
+     0.0,
+     0.0
+    ],
+    "delta_p@50_vs_best_baseline_ci": [
+     0.0,
+     0.0
+    ],
+    "p_delta_ap_le_0": 1.0,
+    "loco_delta_ap_vs_best_baseline": {
+     "min": 0.0,
+     "max": 0.0
+    },
+    "delta_ap_vs_best_baseline": 0.0
+   },
+   "mean_reversion_ctr_excess": {
+    "p@20": 0.25,
+    "p@50": 0.3,
+    "p@100": 0.3,
+    "ap": 0.3115,
+    "auc": 0.4977,
+    "within_client_p@10": 0.5071,
+    "lift": 0.9744,
+    "clicks_lost_captured": 0.0164,
+    "top_client_share_top50": 0.3,
+    "clients_in_top50": 11,
+    "capped_p@50_descriptive": 0.34,
+    "p@50_unmeasurable_as_miss": 0.24,
+    "p@50_ci": [
+     0.16,
+     0.5
+    ],
+    "ap_ci": [
+     0.2623,
+     0.3811
+    ],
+    "delta_ap_vs_best_baseline_ci": [
+     -0.125,
+     -0.0195
+    ],
+    "delta_p@50_vs_best_baseline_ci": [
+     -0.5,
+     0.1
+    ],
+    "p_delta_ap_le_0": 0.999,
+    "loco_delta_ap_vs_best_baseline": {
+     "min": -0.0827,
+     "max": -0.0512
+    },
+    "delta_ap_vs_best_baseline": -0.0592
+   },
+   "client_shock": {
+    "p@20": 0.6,
+    "p@50": 0.56,
+    "p@100": 0.61,
+    "ap": 0.3569,
+    "auc": 0.5331,
+    "within_client_p@10": 0.3714,
+    "lift": 1.8189,
+    "clicks_lost_captured": 0.0128,
+    "top_client_share_top50": 0.84,
+    "clients_in_top50": 3,
+    "capped_p@50_descriptive": 0.44,
+    "p@50_unmeasurable_as_miss": 0.56,
+    "p@50_ci": [
+     0.24,
+     0.6
+    ],
+    "ap_ci": [
+     0.2527,
+     0.4489
+    ],
+    "delta_ap_vs_best_baseline_ci": [
+     -0.1267,
+     0.0571
+    ],
+    "delta_p@50_vs_best_baseline_ci": [
+     -0.26,
+     0.24
+    ],
+    "p_delta_ap_le_0": 0.6775,
+    "loco_delta_ap_vs_best_baseline": {
+     "min": -0.0414,
+     "max": 0.0114
+    },
+    "delta_ap_vs_best_baseline": -0.0138
+   },
+   "persistence_prev_ratio": {
+    "p@20": 0.35,
+    "p@50": 0.38,
+    "p@100": 0.34,
+    "ap": 0.2861,
+    "auc": 0.4802,
+    "within_client_p@10": 0.4071,
+    "lift": 1.2342,
+    "clicks_lost_captured": 0.0019,
+    "top_client_share_top50": 0.46,
+    "clients_in_top50": 5,
+    "capped_p@50_descriptive": 0.36,
+    "p@50_unmeasurable_as_miss": 0.32,
+    "p@50_ci": [
+     0.2,
+     0.52
+    ],
+    "ap_ci": [
+     0.244,
+     0.3611
+    ],
+    "delta_ap_vs_best_baseline_ci": [
+     -0.1538,
+     -0.03
+    ],
+    "delta_p@50_vs_best_baseline_ci": [
+     -0.3,
+     0.1
+    ],
+    "p_delta_ap_le_0": 0.999,
+    "loco_delta_ap_vs_best_baseline": {
+     "min": -0.1027,
+     "max": -0.071
+    },
+    "delta_ap_vs_best_baseline": -0.0846
+   },
+   "LOGISTIC": {
+    "p@20": 0.75,
+    "p@50": 0.6,
+    "p@100": 0.65,
+    "ap": 0.4147,
+    "auc": 0.6,
+    "within_client_p@10": 0.5643,
+    "lift": 1.9488,
+    "clicks_lost_captured": 0.0216,
+    "top_client_share_top50": 0.3,
+    "clients_in_top50": 11,
+    "capped_p@50_descriptive": 0.58,
+    "p@50_unmeasurable_as_miss": 0.16,
+    "p@50_ci": [
+     0.38,
+     0.82
+    ],
+    "ap_ci": [
+     0.3222,
+     0.5374
+    ],
+    "delta_ap_vs_best_baseline_ci": [
+     -0.0308,
+     0.1115
+    ],
+    "delta_p@50_vs_best_baseline_ci": [
+     -0.1,
+     0.38
+    ],
+    "p_delta_ap_le_0": 0.1065,
+    "loco_delta_ap_vs_best_baseline": {
+     "min": 0.0225,
+     "max": 0.0761
+    },
+    "delta_ap_vs_best_baseline": 0.044
+   },
+   "HGB_CLF": {
+    "p@20": 0.55,
+    "p@50": 0.66,
+    "p@100": 0.68,
+    "ap": 0.4119,
+    "auc": 0.5931,
+    "within_client_p@10": 0.6214,
+    "lift": 2.1437,
+    "clicks_lost_captured": 0.0157,
+    "top_client_share_top50": 0.4,
+    "clients_in_top50": 11,
+    "capped_p@50_descriptive": 0.66,
+    "p@50_unmeasurable_as_miss": 0.38,
+    "p@50_ci": [
+     0.52,
+     0.78
+    ],
+    "ap_ci": [
+     0.3068,
+     0.5113
+    ],
+    "delta_ap_vs_best_baseline_ci": [
+     -0.0687,
+     0.1081
+    ],
+    "delta_p@50_vs_best_baseline_ci": [
+     -0.02,
+     0.34
+    ],
+    "p_delta_ap_le_0": 0.2105,
+    "loco_delta_ap_vs_best_baseline": {
+     "min": 0.0028,
+     "max": 0.0836
+    },
+    "delta_ap_vs_best_baseline": 0.0412
+   },
+   "POISSON_RATE": {
+    "p@20": 0.8,
+    "p@50": 0.8,
+    "p@100": 0.74,
+    "ap": 0.416,
+    "auc": 0.5892,
+    "within_client_p@10": 0.6786,
+    "lift": 2.5984,
+    "clicks_lost_captured": 0.0215,
+    "top_client_share_top50": 0.32,
+    "clients_in_top50": 9,
+    "capped_p@50_descriptive": 0.8,
+    "p@50_unmeasurable_as_miss": 0.66,
+    "p@50_ci": [
+     0.48,
+     0.92
+    ],
+    "ap_ci": [
+     0.2925,
+     0.5327
+    ],
+    "delta_ap_vs_best_baseline_ci": [
+     -0.0856,
+     0.1235
+    ],
+    "delta_p@50_vs_best_baseline_ci": [
+     0.02,
+     0.44
+    ],
+    "p_delta_ap_le_0": 0.226,
+    "loco_delta_ap_vs_best_baseline": {
+     "min": 0.0049,
+     "max": 0.1037
+    },
+    "delta_ap_vs_best_baseline": 0.0453
+   },
+   "ENSEMBLE": {
+    "p@20": 0.75,
+    "p@50": 0.68,
+    "p@100": 0.71,
+    "ap": 0.4227,
+    "auc": 0.6009,
+    "within_client_p@10": 0.6143,
+    "lift": 2.2086,
+    "clicks_lost_captured": 0.0119,
+    "top_client_share_top50": 0.22,
+    "clients_in_top50": 10,
+    "capped_p@50_descriptive": 0.7,
+    "p@50_unmeasurable_as_miss": 0.52,
+    "p@50_ci": [
+     0.5395,
+     0.84
+    ],
+    "ap_ci": [
+     0.3204,
+     0.5324
+    ],
+    "delta_ap_vs_best_baseline_ci": [
+     -0.0404,
+     0.1216
+    ],
+    "delta_p@50_vs_best_baseline_ci": [
+     0.02,
+     0.4
+    ],
+    "p_delta_ap_le_0": 0.1215,
+    "loco_delta_ap_vs_best_baseline": {
+     "min": 0.0208,
+     "max": 0.0911
+    },
+    "delta_ap_vs_best_baseline": 0.052
+   }
+  }
+ },
+ "fit_info": {
+  "LOGISTIC": {
+   "converged": true,
+   "n_iter": 61
+  },
+  "HGB_CLF": {
+   "n_seeds_fitted": 5,
+   "best_iters": [
+    40,
+    13,
+    17,
+    23,
+    27
+   ],
+   "hit_cap": 0,
+   "columns_left_out_of_early_stopping_fit": 1,
+   "columns_left_out_of_final_fit": 0
+  },
+  "POISSON_RATE": {
+   "n_seeds_fitted": 5,
+   "best_iters": [
+    83,
+    64,
+    50,
+    115,
+    165
+   ],
+   "hit_cap": 0,
+   "columns_left_out_of_early_stopping_fit": 1,
+   "columns_left_out_of_final_fit": 0
+  }
+ }
+}

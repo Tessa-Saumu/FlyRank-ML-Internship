@@ -1,0 +1,71 @@
+{
+ "spec_version": "v2.0",
+ "written_at": "2026-11-06T14:01:01",
+ "label_status": "SECONDARY. Never used for selection. Champion LOGISTIC only, with the config selected for the primary label.",
+ "logistic_config": {
+  "C": 100.0,
+  "penalty": "l2"
+ },
+ "folds": {
+  "validation_1": {
+   "score_origin": "2026-02",
+   "label": "erode_rel (SECONDARY, client-relative)",
+   "base_rate_secondary": 0.221,
+   "base_rate_primary": 0.2273,
+   "ap": 0.3377,
+   "p@50": 0.58,
+   "top_client_share_top50": 0.28,
+   "clients_in_top50": 9,
+   "overlap_top50_with_primary_top50": 40,
+   "primary_logistic_ap_on_primary_label": 0.3262,
+   "primary_logistic_p@50_on_primary_label": 0.56,
+   "primary_top50_p@50_on_secondary_label": 0.54,
+   "secondary_fit_converged": true
+  },
+  "validation_2": {
+   "score_origin": "2026-03",
+   "label": "erode_rel (SECONDARY, client-relative)",
+   "base_rate_secondary": 0.2312,
+   "base_rate_primary": 0.3382,
+   "ap": 0.3881,
+   "p@50": 0.72,
+   "top_client_share_top50": 0.3,
+   "clients_in_top50": 9,
+   "overlap_top50_with_primary_top50": 35,
+   "primary_logistic_ap_on_primary_label": 0.4767,
+   "primary_logistic_p@50_on_primary_label": 0.7,
+   "primary_top50_p@50_on_secondary_label": 0.6,
+   "secondary_fit_converged": true
+  },
+  "confirmation": {
+   "score_origin": "2026-04",
+   "label": "erode_rel (SECONDARY, client-relative)",
+   "base_rate_secondary": 0.2239,
+   "base_rate_primary": 0.3079,
+   "ap": 0.3284,
+   "p@50": 0.44,
+   "top_client_share_top50": 0.26,
+   "clients_in_top50": 13,
+   "overlap_top50_with_primary_top50": 41,
+   "primary_logistic_ap_on_primary_label": 0.4147,
+   "primary_logistic_p@50_on_primary_label": 0.6,
+   "primary_top50_p@50_on_secondary_label": 0.42,
+   "secondary_fit_converged": true
+  }
+ },
+ "test": {
+  "score_origin": "2026-05",
+  "label": "erode_rel (SECONDARY, client-relative)",
+  "base_rate_secondary": 0.2016,
+  "base_rate_primary": 0.2397,
+  "ap": 0.3154,
+  "p@50": 0.5,
+  "top_client_share_top50": 0.18,
+  "clients_in_top50": 16,
+  "overlap_top50_with_primary_top50": 36,
+  "primary_logistic_ap_on_primary_label": 0.3333,
+  "primary_logistic_p@50_on_primary_label": 0.52,
+  "primary_top50_p@50_on_secondary_label": 0.52,
+  "secondary_fit_converged": true
+ }
+}

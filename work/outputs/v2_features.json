@@ -1,0 +1,392 @@
+{
+ "spec_version": "v2.0",
+ "written_at": "2026-11-06T13:44:26",
+ "n_features": 36,
+ "n_v1_features": 34,
+ "removed": [
+  "page_prev_ratio",
+  "client_prev_erode_rate",
+  "word_count"
+ ],
+ "added": [
+  "weekday_share",
+  "days_since_last_click",
+  "longest_zero_click_run",
+  "days_since_peak",
+  "keyword_to_content_gap_days"
+ ],
+ "set_missing": {
+  "imp_growth_prev": [
+   "2025-12"
+  ]
+ },
+ "features": [
+  {
+   "name": "l_imp_f",
+   "family": "exposure and trajectory",
+   "meaning": "log impressions, feature window (2 months)",
+   "new": false
+  },
+  {
+   "name": "l_clk_f",
+   "family": "exposure and trajectory",
+   "meaning": "log clicks, feature window",
+   "new": false
+  },
+  {
+   "name": "imp_growth",
+   "family": "exposure and trajectory",
+   "meaning": "log impressions month -1 vs month -2",
+   "new": false
+  },
+  {
+   "name": "ctr_growth",
+   "family": "exposure and trajectory",
+   "meaning": "log CTR month -1 vs month -2 (clicks growth minus impressions growth)",
+   "new": false
+  },
+  {
+   "name": "imp_growth_prev",
+   "family": "exposure and trajectory",
+   "meaning": "log impressions month -2 vs month -3",
+   "new": false
+  },
+  {
+   "name": "imp_l14_share",
+   "family": "exposure and trajectory",
+   "meaning": "share of month -1 impressions in its last 14 days",
+   "new": false
+  },
+  {
+   "name": "ctr_recency",
+   "family": "exposure and trajectory",
+   "meaning": "log CTR last 14 days vs whole feature window",
+   "new": false
+  },
+  {
+   "name": "click_day_share",
+   "family": "exposure and trajectory",
+   "meaning": "days with a click / days with an impression",
+   "new": false
+  },
+  {
+   "name": "spikiness",
+   "family": "exposure and trajectory",
+   "meaning": "max single-day impressions / window impressions",
+   "new": false
+  },
+  {
+   "name": "pos_f",
+   "family": "rank",
+   "meaning": "impression-weighted position, feature window",
+   "new": false
+  },
+  {
+   "name": "pos_delta",
+   "family": "rank",
+   "meaning": "position month -1 minus month -2",
+   "new": false
+  },
+  {
+   "name": "pos_std",
+   "family": "rank",
+   "meaning": "impression-weighted std of daily position",
+   "new": false
+  },
+  {
+   "name": "ctr_vs_ref",
+   "family": "CTR vs expectation",
+   "meaning": "log shrunk CTR vs reference CTR-at-position curve (Oct-Nov 2025)",
+   "new": false
+  },
+  {
+   "name": "ctr_vs_client",
+   "family": "CTR vs expectation",
+   "meaning": "log shrunk CTR vs client's position-adjusted CTR",
+   "new": false
+  },
+  {
+   "name": "l_age",
+   "family": "content",
+   "meaning": "log page age in days at origin",
+   "new": false
+  },
+  {
+   "name": "months_active",
+   "family": "content",
+   "meaning": "months with impressions before origin",
+   "new": false
+  },
+  {
+   "name": "keyword_token_count",
+   "family": "content",
+   "meaning": "target keyword length in tokens",
+   "new": false
+  },
+  {
+   "name": "l_search_volume",
+   "family": "content",
+   "meaning": "log target keyword search volume",
+   "new": false
+  },
+  {
+   "name": "cpc",
+   "family": "content",
+   "meaning": "target keyword CPC",
+   "new": false
+  },
+  {
+   "name": "competition",
+   "family": "content",
+   "meaning": "target keyword competition",
+   "new": false
+  },
+  {
+   "name": "is_feedly",
+   "family": "content",
+   "meaning": "content type = feedly article",
+   "new": false
+  },
+  {
+   "name": "intent_informational",
+   "family": "content",
+   "meaning": "main intent = informational",
+   "new": false
+  },
+  {
+   "name": "intent_transactional",
+   "family": "content",
+   "meaning": "main intent = transactional",
+   "new": false
+  },
+  {
+   "name": "intent_commercial",
+   "family": "content",
+   "meaning": "main intent = commercial",
+   "new": false
+  },
+  {
+   "name": "intent_navigational",
+   "family": "content",
+   "meaning": "main intent = navigational",
+   "new": false
+  },
+  {
+   "name": "has_ga4",
+   "family": "channels",
+   "meaning": "any GA4-available day in feature window",
+   "new": false
+  },
+  {
+   "name": "l_org_sess",
+   "family": "channels",
+   "meaning": "log organic sessions, feature window",
+   "new": false
+  },
+  {
+   "name": "has_ai_referral",
+   "family": "channels",
+   "meaning": "any AI-assistant session in feature window",
+   "new": false
+  },
+  {
+   "name": "c_ctr_growth",
+   "family": "client context",
+   "meaning": "client-wide log CTR change month -1 vs -2 (top-10 pages)",
+   "new": false
+  },
+  {
+   "name": "c_l_imp",
+   "family": "client context",
+   "meaning": "client log impressions on top-10 pages, feature window",
+   "new": false
+  },
+  {
+   "name": "c_l_pages",
+   "family": "client context",
+   "meaning": "client log count of top-10 pages",
+   "new": false
+  },
+  {
+   "name": "weekday_share",
+   "family": "date and rhythm (new in V2)",
+   "meaning": "share of window impressions on Monday to Friday",
+   "new": true
+  },
+  {
+   "name": "days_since_last_click",
+   "family": "date and rhythm (new in V2)",
+   "meaning": "days from the last click day in the feature window to the origin's first day",
+   "new": true
+  },
+  {
+   "name": "longest_zero_click_run",
+   "family": "date and rhythm (new in V2)",
+   "meaning": "longest run of consecutive no-click days inside one feature month (max of the two months)",
+   "new": true
+  },
+  {
+   "name": "days_since_peak",
+   "family": "date and rhythm (new in V2)",
+   "meaning": "days from the single max-impression day in the feature window to the origin's first day",
+   "new": true
+  },
+  {
+   "name": "keyword_to_content_gap_days",
+   "family": "date and rhythm (new in V2)",
+   "meaning": "content creation date minus keyword creation date, days",
+   "new": true
+  }
+ ],
+ "non_missing_share_of_new_features_by_origin": {
+  "2025-12": {
+   "weekday_share": 1.0,
+   "days_since_last_click": 1.0,
+   "longest_zero_click_run": 1.0,
+   "days_since_peak": 1.0,
+   "keyword_to_content_gap_days": 0.993
+  },
+  "2026-01": {
+   "weekday_share": 1.0,
+   "days_since_last_click": 1.0,
+   "longest_zero_click_run": 1.0,
+   "days_since_peak": 1.0,
+   "keyword_to_content_gap_days": 0.991
+  },
+  "2026-02": {
+   "weekday_share": 1.0,
+   "days_since_last_click": 1.0,
+   "longest_zero_click_run": 1.0,
+   "days_since_peak": 1.0,
+   "keyword_to_content_gap_days": 0.992
+  },
+  "2026-03": {
+   "weekday_share": 1.0,
+   "days_since_last_click": 1.0,
+   "longest_zero_click_run": 1.0,
+   "days_since_peak": 1.0,
+   "keyword_to_content_gap_days": 0.992
+  },
+  "2026-04": {
+   "weekday_share": 1.0,
+   "days_since_last_click": 1.0,
+   "longest_zero_click_run": 1.0,
+   "days_since_peak": 1.0,
+   "keyword_to_content_gap_days": 0.994
+  },
+  "2026-05": {
+   "weekday_share": 1.0,
+   "days_since_last_click": 1.0,
+   "longest_zero_click_run": 1.0,
+   "days_since_peak": 1.0,
+   "keyword_to_content_gap_days": 0.994
+  }
+ },
+ "timeline_check_rhythm": {
+  "2025-12": {
+   "max_daily_date_used": "2025-11-30",
+   "origin_first_day": "2025-12-01",
+   "n_missing": {
+    "weekday_share": 0,
+    "days_since_last_click": 0,
+    "longest_zero_click_run": 0,
+    "days_since_peak": 0,
+    "keyword_to_content_gap_days": 43
+   }
+  },
+  "2026-01": {
+   "max_daily_date_used": "2025-12-31",
+   "origin_first_day": "2026-01-01",
+   "n_missing": {
+    "weekday_share": 0,
+    "days_since_last_click": 0,
+    "longest_zero_click_run": 0,
+    "days_since_peak": 0,
+    "keyword_to_content_gap_days": 59
+   }
+  },
+  "2026-02": {
+   "max_daily_date_used": "2026-01-31",
+   "origin_first_day": "2026-02-01",
+   "n_missing": {
+    "weekday_share": 0,
+    "days_since_last_click": 0,
+    "longest_zero_click_run": 0,
+    "days_since_peak": 0,
+    "keyword_to_content_gap_days": 59
+   }
+  },
+  "2026-03": {
+   "max_daily_date_used": "2026-02-28",
+   "origin_first_day": "2026-03-01",
+   "n_missing": {
+    "weekday_share": 0,
+    "days_since_last_click": 0,
+    "longest_zero_click_run": 0,
+    "days_since_peak": 0,
+    "keyword_to_content_gap_days": 68
+   }
+  },
+  "2026-04": {
+   "max_daily_date_used": "2026-03-31",
+   "origin_first_day": "2026-04-01",
+   "n_missing": {
+    "weekday_share": 0,
+    "days_since_last_click": 0,
+    "longest_zero_click_run": 0,
+    "days_since_peak": 0,
+    "keyword_to_content_gap_days": 69
+   }
+  },
+  "2026-05": {
+   "max_daily_date_used": "2026-04-30",
+   "origin_first_day": "2026-05-01",
+   "n_missing": {
+    "weekday_share": 0,
+    "days_since_last_click": 0,
+    "longest_zero_click_run": 0,
+    "days_since_peak": 0,
+    "keyword_to_content_gap_days": 76
+   }
+  }
+ },
+ "snapshot_diagnostics_dim_content": {
+  "2025-12": {
+   "eligible_pages": 5905,
+   "share_content_updated_on_or_after_origin": 0.9985,
+   "keyword_created_after_origin_count": 0,
+   "keyword_created_missing_share": 0.0073
+  },
+  "2026-01": {
+   "eligible_pages": 6642,
+   "share_content_updated_on_or_after_origin": 0.9977,
+   "keyword_created_after_origin_count": 0,
+   "keyword_created_missing_share": 0.0089
+  },
+  "2026-02": {
+   "eligible_pages": 7630,
+   "share_content_updated_on_or_after_origin": 0.9987,
+   "keyword_created_after_origin_count": 0,
+   "keyword_created_missing_share": 0.0077
+  },
+  "2026-03": {
+   "eligible_pages": 8984,
+   "share_content_updated_on_or_after_origin": 0.8649,
+   "keyword_created_after_origin_count": 0,
+   "keyword_created_missing_share": 0.0076
+  },
+  "2026-04": {
+   "eligible_pages": 12319,
+   "share_content_updated_on_or_after_origin": 0.8937,
+   "keyword_created_after_origin_count": 0,
+   "keyword_created_missing_share": 0.0056
+  },
+  "2026-05": {
+   "eligible_pages": 13082,
+   "share_content_updated_on_or_after_origin": 0.9094,
+   "keyword_created_after_origin_count": 0,
+   "keyword_created_missing_share": 0.0058
+  }
+ },
+ "note": "page_prev_ratio is not a model feature; it feeds only the frozen persistence baseline."
+}

@@ -1,0 +1,143 @@
+{
+ "spec_version": "v2.0",
+ "written_at": "2026-11-06T14:08:14",
+ "decision_origin": "2026-07",
+ "feature_window": [
+  "2026-05",
+  "2026-06"
+ ],
+ "selected_model": "LOGISTIC",
+ "selected_configs_used": {
+  "LOGISTIC": {
+   "C": 100.0,
+   "penalty": "l2"
+  },
+  "HGB_CLF": {
+   "learning_rate": 0.12006,
+   "max_leaf_nodes": 31,
+   "msl_frac": 0.005,
+   "l2": 1.0,
+   "max_features": 0.8
+  },
+  "POISSON_RATE": {
+   "learning_rate": 0.09628,
+   "max_leaf_nodes": 15,
+   "msl_frac": 0.005,
+   "l2": 20.0,
+   "max_features": 0.5
+  }
+ },
+ "ordering": "selected model score",
+ "reason_code_source": "largest positive standardised contribution of the champion LOGISTIC fitted on the same rows",
+ "trained_on_origins": [
+  "2025-12",
+  "2026-01",
+  "2026-02",
+  "2026-03",
+  "2026-04",
+  "2026-05"
+ ],
+ "train_rows": 49022,
+ "n_features_used": 36,
+ "dropped_all_missing_in_training": [],
+ "eligible_pages": 14100,
+ "excluded_younger_than_90_days": 3243,
+ "queue_size": 50,
+ "queue_clients": 7,
+ "max_pages_one_client": 10,
+ "reason_codes": {
+  "CTR_ABOVE_PEERS": 49,
+  "CTR_ALREADY_SLIPPING": 1
+ },
+ "top_drivers": {
+  "ctr_vs_ref": 49,
+  "ctr_growth": 1
+ },
+ "reason_codes_all_eligible": {
+  "PAGE_PROFILE": 8235,
+  "CTR_ABOVE_PEERS": 4614,
+  "CTR_ALREADY_SLIPPING": 947,
+  "DEMAND_SHIFT": 258,
+  "CLIENT_WIDE_DECLINE": 37,
+  "STALE_ACTIVITY": 9
+ },
+ "queue_median_position": 4.8,
+ "clicks_last_month_on_queue_pages": 50483.0,
+ "clicks_at_risk_2_months_if_25pct_lost": 25242,
+ "score_quantiles_eligible": {
+  "0.5": 0.2242,
+  "0.9": 0.435,
+  "0.99": 0.8796
+ },
+ "queue_min_score": 0.842849,
+ "guardrails": {
+  "min_age_days": 90,
+  "client_cap": 10,
+  "queue_size": 50,
+  "cap_in_selection_or_headline": false,
+  "note": "the cap was introduced in V1 after the sealed month was opened; descriptive only here"
+ },
+ "cap_cost_descriptive": {
+  "validation_1": {
+   "uncapped_p@50": 0.56,
+   "capped_p@50": 0.56
+  },
+  "validation_2": {
+   "uncapped_p@50": 0.7,
+   "capped_p@50": 0.7
+  },
+  "confirmation": {
+   "uncapped_p@50": 0.6,
+   "capped_p@50": 0.58
+  },
+  "test": {
+   "uncapped_p@50": 0.52,
+   "capped_p@50": 0.54
+  }
+ },
+ "overlap_with_v1_queue_pages": 47,
+ "families": {
+  "TOP_POSITION_EXPOSED": [
+   "pos_f"
+  ],
+  "CTR_ALREADY_SLIPPING": [
+   "ctr_growth",
+   "ctr_recency"
+  ],
+  "RANK_MOVING": [
+   "pos_delta",
+   "pos_std"
+  ],
+  "DEMAND_SHIFT": [
+   "imp_growth",
+   "imp_growth_prev",
+   "imp_l14_share",
+   "spikiness",
+   "days_since_peak"
+  ],
+  "CTR_ABOVE_PEERS": [
+   "ctr_vs_client",
+   "ctr_vs_ref"
+  ],
+  "CLIENT_WIDE_DECLINE": [
+   "c_ctr_growth",
+   "c_l_imp",
+   "c_l_pages"
+  ],
+  "STALE_ACTIVITY": [
+   "days_since_last_click",
+   "longest_zero_click_run"
+  ],
+  "WEEKDAY_PROFILE": [
+   "weekday_share"
+  ]
+ },
+ "queue_file": {
+  "name": "v2_queue_2026-07.csv",
+  "rows": 14100,
+  "bytes": 2809775,
+  "sha256": "794d533ead5280fa420a1e9683bc1c4bce36d16cd656e804226e05337604d7d9",
+  "gitignored": true,
+  "status": "frozen artefact: any later change to this file changes the hash"
+ }
+}

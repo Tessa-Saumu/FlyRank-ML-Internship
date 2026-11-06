@@ -1,0 +1,142 @@
+{
+ "spec_version": "v2.0",
+ "written_at": "2026-11-06T14:01:05",
+ "scope": "validation folds 1 and 2 only",
+ "timeline": {
+  "validation_1": {
+   "score_origin": "2026-02",
+   "origin_first_day": "2026-02-01",
+   "feature_months": [
+    "2025-12",
+    "2026-01"
+   ],
+   "feature_window_ends": "2026-01-31",
+   "train_outcome_windows_end": {
+    "2025-12": "2026-01-31"
+   },
+   "latest_training_outcome_end_before_origin": true
+  },
+  "validation_2": {
+   "score_origin": "2026-03",
+   "origin_first_day": "2026-03-01",
+   "feature_months": [
+    "2026-01",
+    "2026-02"
+   ],
+   "feature_window_ends": "2026-02-28",
+   "train_outcome_windows_end": {
+    "2025-12": "2026-01-31",
+    "2026-01": "2026-02-28"
+   },
+   "latest_training_outcome_end_before_origin": true
+  },
+  "confirmation": {
+   "score_origin": "2026-04",
+   "origin_first_day": "2026-04-01",
+   "feature_months": [
+    "2026-02",
+    "2026-03"
+   ],
+   "feature_window_ends": "2026-03-31",
+   "train_outcome_windows_end": {
+    "2025-12": "2026-01-31",
+    "2026-01": "2026-02-28",
+    "2026-02": "2026-03-31"
+   },
+   "latest_training_outcome_end_before_origin": true
+  },
+  "test": {
+   "score_origin": "2026-05",
+   "origin_first_day": "2026-05-01",
+   "feature_months": [
+    "2026-03",
+    "2026-04"
+   ],
+   "feature_window_ends": "2026-04-30",
+   "train_outcome_windows_end": {
+    "2025-12": "2026-01-31",
+    "2026-01": "2026-02-28",
+    "2026-02": "2026-03-31",
+    "2026-03": "2026-04-30"
+   },
+   "latest_training_outcome_end_before_origin": true
+  },
+  "live": {
+   "score_origin": "2026-07",
+   "origin_first_day": "2026-07-01",
+   "feature_months": [
+    "2026-05",
+    "2026-06"
+   ],
+   "feature_window_ends": "2026-06-30",
+   "train_outcome_windows_end": {
+    "2025-12": "2026-01-31",
+    "2026-01": "2026-02-28",
+    "2026-02": "2026-03-31",
+    "2026-03": "2026-04-30",
+    "2026-04": "2026-05-31",
+    "2026-05": "2026-06-30"
+   },
+   "latest_training_outcome_end_before_origin": true
+  }
+ },
+ "timeline_assertions_passed": true,
+ "max_daily_date_read_for_rhythm_features": {
+  "2025-12": "2025-11-30",
+  "2026-01": "2025-12-31",
+  "2026-02": "2026-01-31",
+  "2026-03": "2026-02-28",
+  "2026-04": "2026-03-31",
+  "2026-05": "2026-04-30"
+ },
+ "planted_future_feature_fold_2": {
+  "LOGISTIC_honest": {
+   "ap": 0.4767,
+   "p@50": 0.7,
+   "base_rate": 0.3382
+  },
+  "HGB_CLF_honest": {
+   "ap": 0.4833,
+   "p@50": 0.76,
+   "base_rate": 0.3382
+  },
+  "LOGISTIC_planted_future_ratio": {
+   "ap": 0.8259,
+   "p@50": 0.94,
+   "base_rate": 0.3382
+  },
+  "HGB_CLF_planted_future_ratio": {
+   "ap": 0.8316,
+   "p@50": 1.0,
+   "base_rate": 0.3382
+  },
+  "LOGISTIC_ap_lift": 0.3492,
+  "LOGISTIC_p@50_lift": 0.24,
+  "HGB_CLF_ap_lift": 0.3483,
+  "HGB_CLF_p@50_lift": 0.24,
+  "criterion": "harness works if the planted copy lifts AP and P@50 by at least 0.15 and the honest model stays below 0.8",
+  "harness_detects_leak": true,
+  "honest_models_not_leaky": true
+ },
+ "random_vs_client_grouped_feb_mar": {
+  "random_row_kfold": {
+   "ap_mean": 0.4925,
+   "ap_std": 0.0189,
+   "folds": 5
+  },
+  "client_group_kfold": {
+   "ap_mean": 0.4453,
+   "ap_std": 0.0535,
+   "folds": 5
+  },
+  "base_rate": 0.2882,
+  "rows": 15696,
+  "random_minus_grouped_ap": 0.0472,
+  "reading": "random rows put the same page, in adjacent origins, and the same client on both sides of the split; the grouped number is the honest one"
+ },
+ "seed_invariance": {
+  "max_features_1.0_identical_across_seeds": true,
+  "max_features_0.5_differs_across_seeds": true
+ },
+ "runtime_seconds": 38
+}
