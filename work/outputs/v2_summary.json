@@ -1,0 +1,463 @@
+{
+ "spec_version": "v2.0",
+ "written_at": "2026-11-06T14:19:44",
+ "note": "Descriptive. Written after the V2 test was scored; nothing in the V2 selection, freeze or test reads it.",
+ "rhythm_signal_audit": {
+  "origins": [
+   "2025-12",
+   "2026-01",
+   "2026-02",
+   "2026-03"
+  ],
+  "metric": "within-client AUC, pairs weighted; client-cluster bootstrap",
+  "bootstrap_B": 2000,
+  "min_rows_per_client_origin": 30,
+  "features": [
+   {
+    "feature": "weekday_share",
+    "expected_direction": "higher -> more erosion",
+    "why_expected": "pages read on working days sit in transactional and commercial searches, the intents that lost most CTR in ML-06",
+    "within_client_auc": 0.5121,
+    "ci95": [
+     0.4797,
+     0.5357
+    ],
+    "per_origin_auc": {
+     "2025-12": 0.5004,
+     "2026-01": 0.5134,
+     "2026-02": 0.4968,
+     "2026-03": 0.5224
+    },
+    "same_sign_in_all_origins": false,
+    "n_rows": 26859,
+    "n_clients": 31,
+    "n_client_origin_groups": 34,
+    "base_rate": 0.2856,
+    "buckets": [
+     {
+      "bucket": "Q1",
+      "n": 6713,
+      "erosion_rate": 0.2838,
+      "feature_range": [
+       0.14,
+       0.71
+      ]
+     },
+     {
+      "bucket": "Q2",
+      "n": 6715,
+      "erosion_rate": 0.2678,
+      "feature_range": [
+       0.69,
+       0.72
+      ]
+     },
+     {
+      "bucket": "Q3",
+      "n": 6714,
+      "erosion_rate": 0.2885,
+      "feature_range": [
+       0.7,
+       0.74
+      ]
+     },
+     {
+      "bucket": "Q4",
+      "n": 6717,
+      "erosion_rate": 0.3025,
+      "feature_range": [
+       0.72,
+       0.98
+      ]
+     }
+    ],
+    "verdict": "FALSE"
+   },
+   {
+    "feature": "days_since_last_click",
+    "expected_direction": "higher -> more erosion",
+    "why_expected": "a page whose last click is long ago is already fading",
+    "within_client_auc": 0.5222,
+    "ci95": [
+     0.5146,
+     0.5546
+    ],
+    "per_origin_auc": {
+     "2025-12": 0.539,
+     "2026-01": 0.5487,
+     "2026-02": 0.5367,
+     "2026-03": 0.5022
+    },
+    "same_sign_in_all_origins": true,
+    "n_rows": 26859,
+    "n_clients": 31,
+    "n_client_origin_groups": 34,
+    "base_rate": 0.2856,
+    "buckets": [
+     {
+      "bucket": "Q1",
+      "n": 2873,
+      "erosion_rate": 0.2061,
+      "feature_range": [
+       1.0,
+       1.0
+      ]
+     },
+     {
+      "bucket": "Q2",
+      "n": 12269,
+      "erosion_rate": 0.2812,
+      "feature_range": [
+       1.0,
+       1.0
+      ]
+     },
+     {
+      "bucket": "Q3",
+      "n": 5298,
+      "erosion_rate": 0.296,
+      "feature_range": [
+       2.0,
+       2.0
+      ]
+     },
+     {
+      "bucket": "Q4",
+      "n": 6419,
+      "erosion_rate": 0.3212,
+      "feature_range": [
+       3.0,
+       44.0
+      ]
+     }
+    ],
+    "verdict": "CONFIRMED"
+   },
+   {
+    "feature": "longest_zero_click_run",
+    "expected_direction": "higher -> more erosion",
+    "why_expected": "a long run of click-free days is a fading page",
+    "within_client_auc": 0.624,
+    "ci95": [
+     0.5784,
+     0.6434
+    ],
+    "per_origin_auc": {
+     "2025-12": 0.6209,
+     "2026-01": 0.6127,
+     "2026-02": 0.6185,
+     "2026-03": 0.631
+    },
+    "same_sign_in_all_origins": true,
+    "n_rows": 26859,
+    "n_clients": 31,
+    "n_client_origin_groups": 34,
+    "base_rate": 0.2856,
+    "buckets": [
+     {
+      "bucket": "Q1",
+      "n": 6996,
+      "erosion_rate": 0.192,
+      "feature_range": [
+       0.0,
+       3.0
+      ]
+     },
+     {
+      "bucket": "Q2",
+      "n": 6492,
+      "erosion_rate": 0.2545,
+      "feature_range": [
+       4.0,
+       6.0
+      ]
+     },
+     {
+      "bucket": "Q3",
+      "n": 6924,
+      "erosion_rate": 0.3101,
+      "feature_range": [
+       6.0,
+       10.0
+      ]
+     },
+     {
+      "bucket": "Q4",
+      "n": 6447,
+      "erosion_rate": 0.3924,
+      "feature_range": [
+       10.0,
+       31.0
+      ]
+     }
+    ],
+    "verdict": "CONFIRMED"
+   },
+   {
+    "feature": "days_since_peak",
+    "expected_direction": "higher -> less erosion",
+    "why_expected": "a peak just before the decision is a spike that tends to revert (ML-07 check 2: bumps revert)",
+    "within_client_auc": 0.4731,
+    "ci95": [
+     0.4622,
+     0.5059
+    ],
+    "per_origin_auc": {
+     "2025-12": 0.4948,
+     "2026-01": 0.4813,
+     "2026-02": 0.4734,
+     "2026-03": 0.4638
+    },
+    "same_sign_in_all_origins": true,
+    "n_rows": 26859,
+    "n_clients": 31,
+    "n_client_origin_groups": 34,
+    "base_rate": 0.2856,
+    "buckets": [
+     {
+      "bucket": "Q1",
+      "n": 6818,
+      "erosion_rate": 0.3039,
+      "feature_range": [
+       1.0,
+       8.0
+      ]
+     },
+     {
+      "bucket": "Q2",
+      "n": 6537,
+      "erosion_rate": 0.3011,
+      "feature_range": [
+       6.0,
+       23.0
+      ]
+     },
+     {
+      "bucket": "Q3",
+      "n": 6834,
+      "erosion_rate": 0.2631,
+      "feature_range": [
+       13.0,
+       43.0
+      ]
+     },
+     {
+      "bucket": "Q4",
+      "n": 6670,
+      "erosion_rate": 0.275,
+      "feature_range": [
+       29.0,
+       62.0
+      ]
+     }
+    ],
+    "verdict": "FALSE"
+   },
+   {
+    "feature": "keyword_to_content_gap_days",
+    "expected_direction": "none",
+    "why_expected": "no prior direction; reported as descriptive only",
+    "within_client_auc": 0.5435,
+    "ci95": [
+     0.5128,
+     0.5496
+    ],
+    "per_origin_auc": {
+     "2025-12": 0.505,
+     "2026-01": 0.5173,
+     "2026-02": 0.5195,
+     "2026-03": 0.5745
+    },
+    "same_sign_in_all_origins": true,
+    "n_rows": 26679,
+    "n_clients": 28,
+    "n_client_origin_groups": 34,
+    "base_rate": 0.2858,
+    "buckets": [
+     {
+      "bucket": "Q1",
+      "n": 552,
+      "erosion_rate": 0.3442,
+      "feature_range": [
+       -78.0,
+       -49.0
+      ]
+     },
+     {
+      "bucket": "Q2",
+      "n": 18945,
+      "erosion_rate": 0.263,
+      "feature_range": [
+       0.0,
+       0.0
+      ]
+     },
+     {
+      "bucket": "Q4",
+      "n": 7182,
+      "erosion_rate": 0.3414,
+      "feature_range": [
+       1.0,
+       88.0
+      ]
+     }
+    ],
+    "verdict": "SIGNAL (descriptive)"
+   }
+  ]
+ },
+ "contract_leak_demo": {
+  "five_core_features": {
+   "p@50": 0.44,
+   "pr_auc": 0.375
+  },
+  "with_leak_clk_out": {
+   "p@50": 1.0,
+   "pr_auc": 1.0
+  },
+  "base_rate_2026-03": 0.338,
+  "train_origins": [
+   "2025-12",
+   "2026-01"
+  ],
+  "score_origin": "2026-03",
+  "config": {
+   "C": 0.1,
+   "penalty": "l2"
+  },
+  "features": [
+   "l_imp_f",
+   "pos_f",
+   "ctr_vs_ref",
+   "ctr_growth",
+   "days_since_last_click"
+  ]
+ },
+ "champion_coefficients": {
+  "fitted_on_origins": [
+   "2025-12",
+   "2026-01",
+   "2026-02",
+   "2026-03"
+  ],
+  "n_train_rows": 26859,
+  "config": {
+   "C": 100.0,
+   "penalty": "l2"
+  },
+  "converged": true,
+  "note": "standardised coefficients; the configuration is weakly regularised (C = 100), so correlated features share weight",
+  "top_positive": [
+   {
+    "feature": "l_imp_f",
+    "std_coef": 3.2203,
+    "new_in_v2": false
+   },
+   {
+    "feature": "ctr_vs_ref",
+    "std_coef": 2.2853,
+    "new_in_v2": false
+   },
+   {
+    "feature": "ctr_growth",
+    "std_coef": 1.0918,
+    "new_in_v2": false
+   },
+   {
+    "feature": "ctr_vs_client",
+    "std_coef": 0.2637,
+    "new_in_v2": false
+   },
+   {
+    "feature": "imp_growth",
+    "std_coef": 0.1815,
+    "new_in_v2": false
+   },
+   {
+    "feature": "c_l_pages",
+    "std_coef": 0.1813,
+    "new_in_v2": false
+   },
+   {
+    "feature": "months_active",
+    "std_coef": 0.1461,
+    "new_in_v2": false
+   },
+   {
+    "feature": "longest_zero_click_run",
+    "std_coef": 0.1432,
+    "new_in_v2": true
+   }
+  ],
+  "top_negative": [
+   {
+    "feature": "l_clk_f",
+    "std_coef": -2.5692,
+    "new_in_v2": false
+   },
+   {
+    "feature": "click_day_share",
+    "std_coef": -0.3834,
+    "new_in_v2": false
+   },
+   {
+    "feature": "intent_transactional",
+    "std_coef": -0.3211,
+    "new_in_v2": false
+   },
+   {
+    "feature": "intent_informational",
+    "std_coef": -0.287,
+    "new_in_v2": false
+   },
+   {
+    "feature": "pos_f",
+    "std_coef": -0.2504,
+    "new_in_v2": false
+   },
+   {
+    "feature": "intent_commercial",
+    "std_coef": -0.2377,
+    "new_in_v2": false
+   },
+   {
+    "feature": "l_age",
+    "std_coef": -0.2205,
+    "new_in_v2": false
+   },
+   {
+    "feature": "ctr_recency",
+    "std_coef": -0.159,
+    "new_in_v2": false
+   }
+  ],
+  "new_features": [
+   {
+    "feature": "longest_zero_click_run",
+    "std_coef": 0.1432,
+    "new_in_v2": true
+   },
+   {
+    "feature": "days_since_last_click",
+    "std_coef": 0.1104,
+    "new_in_v2": true
+   },
+   {
+    "feature": "days_since_peak",
+    "std_coef": 0.0139,
+    "new_in_v2": true
+   },
+   {
+    "feature": "keyword_to_content_gap_days",
+    "std_coef": -0.0298,
+    "new_in_v2": true
+   },
+   {
+    "feature": "weekday_share",
+    "std_coef": -0.0587,
+    "new_in_v2": true
+   }
+  ],
+  "n_features": 36
+ }
+}
