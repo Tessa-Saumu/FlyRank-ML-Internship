@@ -1,0 +1,42 @@
+{
+ "forward_2026-04_honest": {
+  "p@50": 0.66,
+  "ap": 0.393
+ },
+ "forward_2026-04_planted_future_ratio": {
+  "p@50": 1.0,
+  "ap": 0.769
+ },
+ "random_row_kfold": {
+  "ap_mean": 0.5383,
+  "ap_std": 0.015,
+  "base_rate": 0.2922
+ },
+ "client_group_kfold": {
+  "ap_mean": 0.4223,
+  "ap_std": 0.0712,
+  "base_rate": 0.2922
+ },
+ "unseen_client_within_origin": {
+  "2025-12": {
+   "ap_mean": 0.441,
+   "base_mean": 0.3274
+  },
+  "2026-01": {
+   "ap_mean": 0.3299,
+   "base_mean": 0.2467
+  },
+  "2026-02": {
+   "ap_mean": 0.3622,
+   "base_mean": 0.2388
+  },
+  "2026-03": {
+   "ap_mean": 0.4913,
+   "base_mean": 0.3249
+  },
+  "2026-04": {
+   "ap_mean": 0.4225,
+   "base_mean": 0.3064
+  }
+ }
+}

@@ -1,66 +1,83 @@
-# Personal content-review ranking capstone
+# work/: my capstone submission (freestyle track)
 
-Start with [the capstone report](capstone_report.md), [research paper](paper/index.html), and [committed receipts](outputs/). The hand rule never ranks: 43 to 71 percent of candidates share its top score at the 1,000-impression floor and its observed P@50 of 0.372 is indistinguishable from the 0.368 that the same tie bands return in random order. On the full five-origin population a two-line momentum rule scores 0.812 and beats both learned models, because the label's trailing window already contains the recent fall. Restricted to pages still flat or growing, logistic regression beats the rule in five of five origins (mean P@50 0.508 versus 0.212, pool base rate 0.257). The earlier grouped result (LR 0.636 versus rule 0.512) and the one-month-forward result (LR 0.54 against an April base rate near 0.56) stay in the receipts as historical evidence for the 100-impression population. This is decision-support research with no causal or production-impact claim.
+## For the reviewer: what to mark
 
-Offline check: `python work/scripts/verify_evidence.py` from the repository root. This executes the capstone against receipts, not the warehouse.
+**Mark the freestyle study only:** the notebooks in `work/notebooks/` (template names, one per assignment card), the
+paper (`work/paper/index.html`, deployed URL in `submission/paper_url.txt`) and `work/capstone_report.md`.
 
-# work/ — your space
+**`work/archive/` is not part of the submission.** It keeps my two earlier Lane 2 (refresh) experiments, so the
+process that led to this question is on record. Its README explains each one in a few lines.
 
-Everything you build lives here: lane experiments, notebooks, figures, and your capstone
-report. The rest of the repo is the shared reference; this folder is yours.
+> **Question.** Which top-ranking pages are losing clicks in Google at the rank they already hold (the pattern AI
+> answers would cause), and which 50 should an editor protect first each month?
 
-## Rules of the road
+| | |
+|---|---|
+| Track | freestyle (lane guide, section 9) |
+| Data | FlyRank internship warehouse, build v20260703, revision `50cbf7c3`: 78.8 M daily rows, Jan 2025 to Jun 2026 |
+| Finding | same page, same position: top-3 CTR in April 2026 at 0.642x October 2025 (95% CI 0.615 to 0.669, 35 clients) |
+| Model | logistic ranking on 34 engineered features, frozen before a sealed month |
+| Result | P@50 0.42 to 0.66 against base rates of 0.23 to 0.34 over four forward months; leads every frozen baseline on PR-AUC in all four |
+| Output | a monthly 50-page review queue with reason codes, guardrails and retrain triggers |
 
-1. **Copy, don't edit.** Need to change the pipeline? Copy the script here
-   (e.g. `work/scripts/03_train_model_v2.py`) or adjust the feature lists in
-   `scripts/ml_utils.py`. The reference pipeline in `scripts/` stays pristine — it's the
-   baseline you compare against, and reviewers expect to find it unchanged.
-2. **No datasets in git.** CSVs inside `work/` are gitignored, and CI fails if any dataset
-   CSV is committed anywhere in the repo. Small summary tables belong in your report as
-   markdown, not as data files. Metrics JSONs are the opposite: keep files like
-   `work/outputs/*.json` **committed** — they are the receipts your report's numbers trace
-   back to. Don't add ignore rules that hide them.
-3. **Stay reproducible.** Fix your random seeds and note them in your report. Someone with a
-   fresh clone should be able to re-run your work from your instructions alone.
-4. **Public-safety language.** Everything here may end up public with your submission:
-   observed / measured / directional / decision-support — no client-identifying details,
-   no causal claims without a design (see `DATA_USE.md`).
+## Assignment index
 
-## Suggested layout
+| Notebook | Card | Open | Status |
+|---|---|---|---|
+| `notebooks/w01_research_question.ipynb` | ML-02 | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Tessa-Saumu/FlyRank-ML-Internship/blob/main/work/notebooks/w01_research_question.ipynb?flush_cache=true) | ☑ |
+| `notebooks/w02_ml_task_framing.ipynb` | ML-03 | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Tessa-Saumu/FlyRank-ML-Internship/blob/main/work/notebooks/w02_ml_task_framing.ipynb?flush_cache=true) | ☑ |
+| `notebooks/w03_data_contract.ipynb` | ML-04 | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Tessa-Saumu/FlyRank-ML-Internship/blob/main/work/notebooks/w03_data_contract.ipynb?flush_cache=true) | ☑ |
+| `notebooks/w03_feature_leakage_check.ipynb` | ML-05, optional stretch: attacking my own label and splits | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Tessa-Saumu/FlyRank-ML-Internship/blob/main/work/notebooks/w03_feature_leakage_check.ipynb?flush_cache=true) | ☑ |
+| `notebooks/w04_signal_audit.ipynb` | ML-06, optional stretch: the exploratory and inferential analysis | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Tessa-Saumu/FlyRank-ML-Internship/blob/main/work/notebooks/w04_signal_audit.ipynb?flush_cache=true) | ☑ |
+| `notebooks/w04_baseline_score.ipynb` | ML-07 | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Tessa-Saumu/FlyRank-ML-Internship/blob/main/work/notebooks/w04_baseline_score.ipynb?flush_cache=true) | ☑ |
+| `notebooks/w05_model.ipynb` | ML-08 | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Tessa-Saumu/FlyRank-ML-Internship/blob/main/work/notebooks/w05_model.ipynb?flush_cache=true) | ☑ |
+| `notebooks/w06_validation_audit.ipynb` | ML-09 | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Tessa-Saumu/FlyRank-ML-Internship/blob/main/work/notebooks/w06_validation_audit.ipynb?flush_cache=true) | ☑ |
+| `notebooks/w07_action_playbook.ipynb` | ML-10 | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Tessa-Saumu/FlyRank-ML-Internship/blob/main/work/notebooks/w07_action_playbook.ipynb?flush_cache=true) | ☑ |
+| `notebooks/capstone.ipynb` | ML-11 (the paper mirrors it) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Tessa-Saumu/FlyRank-ML-Internship/blob/main/work/notebooks/capstone.ipynb?flush_cache=true) | ☑ |
+| closing section of `notebooks/capstone.ipynb` | ML-12: 5-minute demo outline, social-post cut, employer summary | (same notebook, last cells) | ☑ |
+
+Every analysis section in these notebooks follows one pattern: **question, why it matters (the FlyRank principle it
+serves), method, result, what it changes.**
+
+## Layout
 
 ```text
 work/
-  notebooks/            your experiment notebooks
-  scripts/              copied + modified pipeline pieces
-  figures/              charts for your report
-  capstone_report.md    your capstone write-up (start from the template)
+  notebooks/            the submission, one notebook per card (executed, outputs committed)
+  scripts/              the pipeline, one module per stage (see below)
+  outputs/              JSON receipts every number traces back to (committed); row-level CSVs are gitignored
+  figures/              charts for the paper and notebooks (drawn from receipts only)
+  paper/index.html      the research paper (deployed to GitHub Pages)
+  capstone_report.md    the capstone write-up (from the template)
+  archive/              earlier Lane 2 experiments, not for marking
 ```
 
-## Capstone
+| Script | Stage |
+|---|---|
+| `wh.py` | DuckDB views over the pinned, locally cached warehouse snapshot; downloads it once with an `HF_TOKEN` |
+| `build_page_month.py` | page x month cache (row level, written to `~/.cache/flyrank_freestyle`, never to git) |
+| `eda_00_panel.py` to `eda_04_client_level.py`, `panel_fe.py` | exploratory and inferential analysis (ML-06) |
+| `erosion_frame.py` | forward-origin frame, honest label, noise floor |
+| `erosion_model.py` | features, frozen baselines, nested tuning, forward and sealed evaluation, leakage checks |
+| `erosion_analysis.py` | reproduces the sealed result and profiles its errors |
+| `erosion_playbook.py` | ML-07 rule queue and the ML-10 live queue with reason codes |
+| `make_figures.py`, `make_paper.py`, `deploy_paper.py` | figures, paper, publishing |
+| `verify_evidence.py` | offline check: runs the capstone notebook and matches headline numbers to receipts |
 
-Copy `capstone_report_template.md` to `capstone_report.md` and fill it in as you go — it
-mirrors the eight axes your work is graded on, so writing it early keeps you honest.
+## Reproduce
 
-## Your assignment index
+1. `pip install -r requirements.txt scipy`
+2. Set `HF_TOKEN` (a read token) as an environment variable or Colab secret. Never type it into a cell.
+3. Run the notebooks in card order. The first data notebook downloads the pinned snapshot (about 1.2 GB) and builds the
+   page-month cache (about 7 minutes). After that, every query runs locally.
+4. `python work/scripts/verify_evidence.py` checks the receipts, the figures and the paper offline.
 
-Your skeleton notebooks are already in `notebooks/` — one per assignment, pre-named.
-Tick them off as you go; this table is the map of your work (each badge opens the notebook
-in Colab, straight from your repo):
+**Seeds:** 42 everywhere. **Revision:** `50cbf7c3909d07be4d1b5906b4d09e882e5acbf2`.
 
-| Notebook | Assignment | Open | Status |
-|---|---|---|---|
-| `notebooks/w01_research_question.ipynb` | ML-02 | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Tessa-Saumu/FlyRank-ML-Internship/blob/main/work/notebooks/w01_research_question.ipynb?flush_cache=true) | ☐ |
-| `notebooks/w02_ml_task_framing.ipynb` | ML-03 | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Tessa-Saumu/FlyRank-ML-Internship/blob/main/work/notebooks/w02_ml_task_framing.ipynb?flush_cache=true) | ☐ |
-| `notebooks/w03_data_contract.ipynb` | ML-04 | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Tessa-Saumu/FlyRank-ML-Internship/blob/main/work/notebooks/w03_data_contract.ipynb?flush_cache=true) | ☐ |
-| `notebooks/w03_feature_leakage_check.ipynb` | ML-05 — optional stretch (card retired 2026-07-13; its core lives in ML-04 now) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Tessa-Saumu/FlyRank-ML-Internship/blob/main/work/notebooks/w03_feature_leakage_check.ipynb?flush_cache=true) | optional |
-| `notebooks/w04_signal_audit.ipynb` | ML-06 — optional stretch (card retired 2026-07-13; its core lives in ML-07 now) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Tessa-Saumu/FlyRank-ML-Internship/blob/main/work/notebooks/w04_signal_audit.ipynb?flush_cache=true) | optional |
-| `notebooks/w04_baseline_score.ipynb` | ML-07 | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Tessa-Saumu/FlyRank-ML-Internship/blob/main/work/notebooks/w04_baseline_score.ipynb?flush_cache=true) | ☐ |
-| `notebooks/w05_model.ipynb` | ML-08 | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Tessa-Saumu/FlyRank-ML-Internship/blob/main/work/notebooks/w05_model.ipynb?flush_cache=true) | ☐ |
-| `notebooks/w06_validation_audit.ipynb` | ML-09 | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Tessa-Saumu/FlyRank-ML-Internship/blob/main/work/notebooks/w06_validation_audit.ipynb?flush_cache=true) | ☐ |
-| `notebooks/w07_action_playbook.ipynb` | ML-10 | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Tessa-Saumu/FlyRank-ML-Internship/blob/main/work/notebooks/w07_action_playbook.ipynb?flush_cache=true) | ☐ |
-| `notebooks/capstone.ipynb` | ML-11 (the paper mirrors it) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Tessa-Saumu/FlyRank-ML-Internship/blob/main/work/notebooks/capstone.ipynb?flush_cache=true) | ☐ |
-| closing section of `notebooks/capstone.ipynb` | ML-12 — 5-min demo outline + social-post cut + employer-facing summary | (same notebook, last markdown cells) | ☐ |
+## Rules of the road (from the template, kept)
 
-When your paper is deployed, put its exact URL in `../submission/paper_url.txt` (one line).
-ML-12 lives in your capstone notebook's closing markdown cells — it's the smallest card and
-the easiest to forget, which is exactly why it has a row here.
+1. **Copy, don't edit.** `scripts/` at the repository root is the pristine reference pipeline and is untouched.
+2. **No datasets in git.** Row-level outputs are gitignored. The JSON receipts are committed.
+3. **Stay reproducible.** Fixed seeds, a pinned revision, receipts for every number.
+4. **Public-safety language.** Observed, measured, directional, decision-support. No client-identifying details, and no
+   causal claims without a design.

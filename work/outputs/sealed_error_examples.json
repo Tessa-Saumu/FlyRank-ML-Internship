@@ -1,0 +1,66 @@
+[
+ {
+  "client":0,
+  "pos_f":6.22,
+  "ctr_vs_client":0.57,
+  "ctr_growth":-4.42,
+  "imp_growth":7.88,
+  "outcome":"did not erode"
+ },
+ {
+  "client":0,
+  "pos_f":6.52,
+  "ctr_vs_client":1.16,
+  "ctr_growth":-3.24,
+  "imp_growth":6.42,
+  "outcome":"did not erode"
+ },
+ {
+  "client":2,
+  "pos_f":1.94,
+  "ctr_vs_client":1.95,
+  "ctr_growth":-3.83,
+  "imp_growth":8.56,
+  "outcome":"did not erode"
+ },
+ {
+  "client":16,
+  "pos_f":5.0,
+  "ctr_vs_client":0.32,
+  "ctr_growth":-5.21,
+  "imp_growth":8.51,
+  "outcome":"did not erode"
+ },
+ {
+  "client":16,
+  "pos_f":6.68,
+  "ctr_vs_client":2.15,
+  "ctr_growth":-3.14,
+  "imp_growth":7.36,
+  "outcome":"eroded"
+ },
+ {
+  "client":7,
+  "pos_f":3.67,
+  "ctr_vs_client":1.96,
+  "ctr_growth":2.17,
+  "imp_growth":1.16,
+  "outcome":"eroded"
+ },
+ {
+  "client":27,
+  "pos_f":7.43,
+  "ctr_vs_client":1.78,
+  "ctr_growth":-3.52,
+  "imp_growth":8.9,
+  "outcome":"eroded"
+ },
+ {
+  "client":19,
+  "pos_f":4.34,
+  "ctr_vs_client":0.85,
+  "ctr_growth":-3.71,
+  "imp_growth":7.72,
+  "outcome":"eroded"
+ }
+]

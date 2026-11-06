@@ -1,0 +1,248 @@
+{
+ "design": {
+  "dev_origins": [
+   "2026-02",
+   "2026-03",
+   "2026-04"
+  ],
+  "sealed_origin": "2026-05",
+  "k": 50,
+  "features": 34
+ },
+ "origins": {
+  "2026-05": {
+   "train_origins": [
+    "2025-12",
+    "2026-01",
+    "2026-02",
+    "2026-03"
+   ],
+   "n_train": 26859,
+   "n_test": 10977,
+   "test_clients": 30,
+   "base_rate": 0.2397,
+   "null_noise_rate": 0.0709,
+   "rule_distinct_scores_top50": 1,
+   "best_baseline": "client_shock",
+   "features_used": 34,
+   "features_dropped_all_missing": [],
+   "tuning": {
+    "lr_C": 1.0,
+    "hgb_params": {
+     "learning_rate": 0.06,
+     "max_leaf_nodes": 7,
+     "min_samples_leaf": 50,
+     "l2_regularization": 1.0,
+     "max_features": 1.0
+    },
+    "lr_inner_ap": {
+     "0.003": 0.3887,
+     "0.01": 0.3946,
+     "0.03": 0.399,
+     "0.1": 0.4031,
+     "1.0": 0.4086
+    },
+    "hgb_inner_best_ap": 0.4295,
+    "hgb_trials": 16,
+    "blend_weight_on_model": 1.0
+   },
+   "metrics": {
+    "rule_position_slipping": {
+     "p@20": 0.35,
+     "p@50": 0.38,
+     "p@100": 0.35,
+     "ap": 0.2342,
+     "auc": 0.4526,
+     "within_client_p@10": 0.2765,
+     "clients_in_top50": 9
+    },
+    "mean_reversion_ctr_excess": {
+     "p@20": 0.4,
+     "p@50": 0.32,
+     "p@100": 0.25,
+     "ap": 0.2227,
+     "auc": 0.4674,
+     "within_client_p@10": 0.3353,
+     "clients_in_top50": 13
+    },
+    "client_shock": {
+     "p@20": 0.4,
+     "p@50": 0.4,
+     "p@100": 0.47,
+     "ap": 0.2342,
+     "auc": 0.4337,
+     "within_client_p@10": 0.2471,
+     "clients_in_top50": 2
+    },
+    "persistence_prev_ratio": {
+     "p@20": 0.3,
+     "p@50": 0.18,
+     "p@100": 0.17,
+     "ap": 0.2155,
+     "auc": 0.4779,
+     "within_client_p@10": 0.2353,
+     "clients_in_top50": 9
+    },
+    "logreg": {
+     "p@20": 0.55,
+     "p@50": 0.42,
+     "p@100": 0.43,
+     "ap": 0.3478,
+     "auc": 0.6577,
+     "within_client_p@10": 0.5,
+     "clients_in_top50": 15
+    },
+    "hgb": {
+     "p@20": 0.4,
+     "p@50": 0.52,
+     "p@100": 0.49,
+     "ap": 0.2985,
+     "auc": 0.5687,
+     "within_client_p@10": 0.5059,
+     "clients_in_top50": 13
+    },
+    "logreg_rule_blend": {
+     "p@20": 0.55,
+     "p@50": 0.42,
+     "p@100": 0.43,
+     "ap": 0.3478,
+     "auc": 0.6577,
+     "within_client_p@10": 0.5,
+     "clients_in_top50": 15
+    }
+   },
+   "bootstrap": {
+    "rule_position_slipping": {
+     "p@50_ci": [
+      0.2,
+      0.5
+     ],
+     "delta_vs_client_shock_ci": [
+      -0.2,
+      0.2
+     ],
+     "p_delta_le_0": 0.703
+    },
+    "mean_reversion_ctr_excess": {
+     "p@50_ci": [
+      0.16,
+      0.52
+     ],
+     "delta_vs_client_shock_ci": [
+      -0.28,
+      0.2
+     ],
+     "p_delta_le_0": 0.751
+    },
+    "client_shock": {
+     "p@50_ci": [
+      0.18,
+      0.5
+     ],
+     "delta_vs_client_shock_ci": [
+      0.0,
+      0.0
+     ],
+     "p_delta_le_0": 1.0
+    },
+    "persistence_prev_ratio": {
+     "p@50_ci": [
+      0.08,
+      0.38
+     ],
+     "delta_vs_client_shock_ci": [
+      -0.4,
+      0.04
+     ],
+     "p_delta_le_0": 0.946
+    },
+    "logreg": {
+     "p@50_ci": [
+      0.28,
+      0.7
+     ],
+     "delta_vs_client_shock_ci": [
+      -0.18,
+      0.38
+     ],
+     "p_delta_le_0": 0.364
+    },
+    "hgb": {
+     "p@50_ci": [
+      0.34,
+      0.72
+     ],
+     "delta_vs_client_shock_ci": [
+      -0.08,
+      0.44
+     ],
+     "p_delta_le_0": 0.218
+    },
+    "logreg_rule_blend": {
+     "p@50_ci": [
+      0.28,
+      0.7
+     ],
+     "delta_vs_client_shock_ci": [
+      -0.18,
+      0.38
+     ],
+     "p_delta_le_0": 0.364
+    }
+   }
+  }
+ },
+ "permutation_importance_last_origin": {
+  "ctr_growth": 0.01973,
+  "l_age": 0.0196,
+  "spikiness": 0.01689,
+  "page_prev_ratio": 0.01661,
+  "c_l_pages": 0.00698,
+  "imp_l14_share": 0.00619,
+  "imp_growth": 0.00603,
+  "l_imp_f": 0.00543,
+  "ctr_vs_client": 0.00375,
+  "ctr_vs_ref": 0.00311,
+  "pos_f": 0.00223,
+  "click_day_share": 0.00182,
+  "l_search_volume": 0.001,
+  "word_count": 0.00069,
+  "intent_transactional": 0.00037
+ },
+ "logreg_coef_last_origin": {
+  "most_negative": {
+   "l_clk_f": -2.267,
+   "click_day_share": -0.462,
+   "intent_transactional": -0.312,
+   "intent_informational": -0.283,
+   "intent_commercial": -0.239,
+   "ctr_recency": -0.216
+  },
+  "most_positive": {
+   "c_l_pages": 0.166,
+   "imp_growth": 0.171,
+   "ctr_vs_client": 0.203,
+   "ctr_growth": 1.082,
+   "ctr_vs_ref": 2.072,
+   "l_imp_f": 2.912
+  }
+ },
+ "top50_error_profile_last_origin": {
+  "0": {
+   "pos_f": 4.645,
+   "ctr_vs_client": 0.084,
+   "ctr_growth": -4.615,
+   "c_ctr_growth": -4.871,
+   "l_imp_f": 8.622,
+   "page_prev_ratio": 0.551
+  },
+  "1": {
+   "pos_f": 4.9,
+   "ctr_vs_client": 0.539,
+   "ctr_growth": -4.01,
+   "c_ctr_growth": -0.243,
+   "l_imp_f": 8.554,
+   "page_prev_ratio": 0.489
+  }
+ }
+}
