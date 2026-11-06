@@ -17,8 +17,8 @@ process that led to this question is on record. Its README explains each one in 
 | Data | FlyRank internship warehouse, build v20260703, revision `50cbf7c3`: 78.8 M daily rows, Jan 2025 to Jun 2026 |
 | Finding | same page, same position: top-3 CTR in April 2026 at 0.642x October 2025 (95% CI 0.615 to 0.669, 35 clients) |
 | Pipeline | **V2**, pre-registered in `V2_SPEC.md` before any V2 run: 36 features, four frozen baselines, four learned candidates (a logistic model with L2, L1 and elastic-net options, two boosted models, a rank-average ensemble) selected on two validation folds, a confirmation fold that decides nothing, a test month scored once. V1 stays in the repository as the first process |
-| Result | no challenger beat the logistic champion; its AP is above all four baselines in 4 of 4 months. Test month: AP 0.333 (95% CI 0.267 to 0.424) against 0.234 for the best baseline; P@50 0.52 against a base rate of 0.24, and 0.34 if pages that later lost visibility count as misses |
-| Honest reading | V2 is a process upgrade, not a better result than V1 (test AP 0.333 against V1's 0.348, P@50 0.52 against 0.42, both inside the noise). About five effective clients per month; P@50 differences between rankers are not established |
+| Result | no challenger beat the logistic champion; its AP is above all four baselines in 4 of 4 months. Test month: AP 0.333 (95% CI 0.267 to 0.424) against 0.234 for the best baseline; P@50 0.52 against a base rate of 0.24, and 0.34 if pages that later lost visibility count as misses, against 0.38 for the editor's rule (April: 0.16 against 0.50). Counted this way, the editor's rule scores higher than the champion at 50 pages in every month; the champion's queue favours pages that later lose visibility. The April AP gain interval includes 0, and the AP lead is whole-ranking, not P@50 |
+| Honest reading | V2 is a process upgrade, not a better result than V1 (test AP 0.333 against V1's 0.348, P@50 0.52 against 0.42, both inside the noise). About five effective clients per month; P@50 differences between rankers are not established. Model choice used AP because it scores the whole ranking and is far less noisy than P@50 at about 5 effective clients (P@50 intervals are roughly plus or minus 0.2); P@50 remains the reported operational metric. |
 | Output | a monthly 50-page review queue with reason codes, guardrails and retrain triggers; the July 2026 queue is frozen by its SHA-256 |
 
 **Disclosure.** The test month (May 2026) was seen during V1, so it is not a pristine holdout. No V2 decision (features, models, hyperparameters, selection rule) used it; all were made on validation folds whose outcome windows end before the test window opens. The V2 test result may therefore be optimistic.
@@ -85,6 +85,8 @@ work/
    Then set `RERUN_PIPELINE = True`, or run `python work/scripts/v2_rerun.py` (about ten minutes, scratch copy). The unseal step is not repeated: it refuses a second run by design.
 
 **Seeds:** 42 everywhere. **Revision:** `50cbf7c3909d07be4d1b5906b4d09e882e5acbf2`.
+
+**Privacy.** Pseudonymous client and content IDs are redacted (`client_[redacted]`, `content_[redacted]`) in every tracked text file, including the saved outputs of the starter notebooks in `notebooks/`; `verify_evidence.py` scans all tracked text files for them.
 
 **One logged deviation.** `V2_SPEC.md` was edited once after it was committed, to add its deviation log (section 13: a column that carries no information in a given boosted fit is left out of that fit only), before any V2 result was used. So its current hash differs from the pre-registered one, and `outputs/v2_freeze.json` records both.
 

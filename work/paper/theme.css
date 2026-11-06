@@ -397,3 +397,10 @@ footer .credit{font-family:var(--mono);font-size:11px;letter-spacing:.05em;color
   body{background:#fff}
   .hero-inner{padding-top:0}
 }
+
+/* ---------- blue academic headings (audit F5): section headings, table headers and labels use the blue palette ---------- */
+h2,.sec h2,.tldr h2,.gloss h2{color:var(--blue-dark)}
+h3{color:var(--blue-dark)}
+th,table.spec th,.top-pages th{color:var(--blue-dark)}
+.kicker,.secnum,.tldr dt,.claim .lbl,.card .lbl,.kpi-label,.credit,footer .credit{color:var(--blue)}
+.secnum{border-color:var(--blue)}

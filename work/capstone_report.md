@@ -11,13 +11,11 @@ run. V1 stays in the repository as the first process, and V1 numbers are labelle
 
 ## 0. Abstract
 
-AI answers in search are the new variable in FlyRank's business, yet nobody had measured what they do to the clicks a page earns from Google at the rank it already holds. On FlyRank's pseudonymized
-internship warehouse (78.8 million daily rows, January 2025 to June 2026), page fixed effects with client-clustered errors put top-3 click-through in April 2026 at 0.642
-times its October 2025 level for the same page in the same position band (95% CI 0.615 to 0.669). I built a monthly ranking of top-10 pages likely to lose at least a quarter of their expected clicks in the next two
-months, using an observed label designed so that visible momentum cannot give it away, 36 features, four frozen baselines and a V2 pipeline in which four learned candidates compete under a selection rule fixed in advance, with a confirmation fold that decides nothing and a
-test month scored once. No challenger beat the logistic champion; its AP was above all four baselines in 4 of 4 evaluated months, and on the test month its AP was 0.333 (95% CI 0.267 to 0.424) against 0.234 for the best baseline
-and its P@50 was 0.52 against a base rate of 0.24, falling to 0.34 if pages that later lost visibility count as misses. The output is a reviewed monthly queue for editors: decision support, predictive and not causal, limited by about five effective clients and by a
-test month that was seen during V1.
+AI answers in search are the new variable in FlyRank's business, so I asked which top-10 pages are about to lose clicks at the rank they already hold, so that an editor can protect 50 of them first each month. I used FlyRank's pseudonymized
+internship warehouse (78.8 million daily rows, January 2025 to June 2026), where page fixed effects with client-clustered errors put top-3 click-through in April 2026 at 0.642
+times its October 2025 level for the same page in the same position band (95% CI 0.615 to 0.669). The monthly ranking comes from a pipeline that was specified and hashed before it ran: a label that visible momentum cannot give away,
+36 features, four frozen baselines, four learned candidates compared under a selection rule fixed in advance, and a test month scored once. The logistic champion had the highest average precision (AP) in 4 of 4 evaluated months, although the April gain interval includes 0; on the test month its AP was 0.333 (95% CI 0.267 to 0.424) against 0.234 for the best baseline,
+and its precision at 50 pages (P@50) was 0.52 against a base rate of 0.24, which falls to 0.34 when pages that later lost visibility count as misses, below the editor's rule at 0.38. The output is a reviewed monthly queue for editors, a predictive and not causal decision aid whose intervals are wide at 4.4 to 5.8 effective clients and whose test month was seen during V1, so the result may be optimistic.
 
 ## 1. Problem framing
 
@@ -75,7 +73,7 @@ The editor's rule has P@50 of 0.46, 0.76, 0.50 and 0.38; on the test month its A
 
 - **Target, in one sentence:** a page erodes if its clicks in the two months after the decision fall below 75% of what
   its latest-month CTR, shrunk toward its client's position-adjusted CTR, predicts at its new position.
-- **Noise floor:** a Poisson simulation gives 0.045 to 0.058, against base rates of 0.23 to 0.34 in the evaluated months.
+- **Noise floor:** a Poisson simulation gives 0.045 to 0.071 across the training, validation, confirmation and test months, against base rates of 0.23 to 0.34 in the evaluated months.
 - **Features (36, listed in `v2_features.json`):** the 34 V1 features minus three (`page_prev_ratio`, `client_prev_erode_rate`, `word_count`) plus five date and rhythm features
   (`weekday_share`, `days_since_last_click`, `longest_zero_click_run`, `days_since_peak`, `keyword_to_content_gap_days`). They come from a mentor's advice that a date column yields many derived features; they are not claimed to be motivated by V1's errors.
 - **Left out on purpose:** query-mix features (window overlap), anything from the outcome months, an outcome-window calendar, client tenure and plain month of year (with six origins they would let a model memorise the origin or the client), and the rule "require activity in both feature months" (it came from V1's look at the test month).
@@ -89,8 +87,8 @@ The editor's rule has P@50 of 0.46, 0.76, 0.50 and 0.38; on the test month its A
 | L1 | 10 | 0.4007 |
 | Elastic net (0.5) | 100 | 0.4006 |
 
-  The three differ by 0.0009: sparsity did not help. Selected: L2, C = 100.
-- **Selection rule, fixed before any run:** mean AP over the two validation folds (AP is the only criterion); the logistic model is the champion; a challenger replaces it only if its paired AP gain has a client-bootstrap 95% lower bound above 0 and stays above 0 when any single client is left out.
+  The three differ by 0.0009: sparsity did not help. Selected: L2, C = 100. The selected C = 100 sits at the edge of the searched grid, but on a plateau (mean AP 0.399 at C = 1 against 0.401 at C = 100), so the edge position is harmless.
+- **Selection rule, fixed before any run:** mean AP over the two validation folds (AP is the only criterion). Model choice used AP because it scores the whole ranking and is far less noisy than P@50 at about 5 effective clients (P@50 intervals are roughly plus or minus 0.2); P@50 remains the reported operational metric. The logistic model is the champion; a challenger replaces it only if its paired AP gain has a client-bootstrap 95% lower bound above 0 and stays above 0 when any single client is left out.
   There were 3 challenger comparisons, not corrected for multiplicity (Bonferroni bounds are printed for information).
 
 | Challenger | Mean AP gain | 95% interval | Lower bound | Clients whose removal makes the gain <= 0 | Passes |
@@ -121,12 +119,25 @@ The editor's rule has P@50 of 0.46, 0.76, 0.50 and 0.38; on the test month its A
 - **Before and after:** on the V2 rows a random split reports AP 0.492 and holding clients out gives 0.445 (V1 measured 0.538 against 0.422); the forward March fold gives 0.477.
 - **Disclosure.** The test month (May 2026) was seen during V1, so it is not a pristine holdout. No V2 decision (features, models, hyperparameters, selection rule) used it; all were made on validation folds whose outcome windows end before the test window opens. The V2 test result may therefore be optimistic.
 
-| Month | Role | Base rate | Editor's rule P@50 | Best other baseline P@50 | V2 P@50 (95% CI) | V2 P@50, unmeasurable = miss | Best baseline AP | V2 AP (95% CI) | AP gain over best baseline (95% CI) |
-|---|---|---|---|---|---|---|---|---|---|
-| 2026-02 | validation | 0.227 | 0.46 | 0.46 | 0.56 (0.38 to 0.68) | 0.34 | 0.234 | 0.326 (0.280 to 0.393) | +0.093 (+0.059 to +0.127) |
-| 2026-03 | validation | 0.338 | 0.76 | 0.76 | 0.70 (0.44 to 0.86) | 0.50 | 0.385 | 0.477 (0.382 to 0.530) | +0.092 (+0.040 to +0.153) |
-| 2026-04 | confirmation | 0.308 | 0.50 | 0.56 | 0.60 (0.38 to 0.82) | 0.16 | 0.371 | 0.415 (0.322 to 0.537) | +0.044 (-0.031 to +0.112) |
-| 2026-05 | test | 0.240 | 0.38 | 0.40 | 0.52 (0.32 to 0.72) | 0.34 | 0.234 | 0.333 (0.267 to 0.424) | +0.099 (+0.040 to +0.128) |
+| Month | Role | Base rate | Editor's rule P@50 | Best baseline P@50 | V2 P@50 (95% CI) | V2 P@50, unmeasurable = miss | Editor's rule P@50, unmeasurable = miss | Best baseline AP | V2 AP (95% CI) | AP gain over best baseline (95% CI) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 2026-02 | validation | 0.227 | 0.46 | 0.46 (Editor's rule) | 0.56 (0.38 to 0.68) | 0.34 | 0.42 | 0.234 | 0.326 (0.280 to 0.393) | +0.093 (+0.059 to +0.127) |
+| 2026-03 | validation | 0.338 | 0.76 | 0.76 (Editor's rule) | 0.70 (0.44 to 0.86) | 0.50 | 0.76 | 0.385 | 0.477 (0.382 to 0.530) | +0.092 (+0.040 to +0.153) |
+| 2026-04 | confirmation | 0.308 | 0.50 | 0.56 (Client shock) | 0.60 (0.38 to 0.82) | 0.16 | 0.50 | 0.371 | 0.415 (0.322 to 0.537) | +0.044 (-0.031 to +0.112) |
+| 2026-05 | test | 0.240 | 0.38 | 0.40 (Client shock) | 0.52 (0.32 to 0.72) | 0.34 | 0.38 | 0.234 | 0.333 (0.267 to 0.424) | +0.099 (+0.040 to +0.128) |
+
+In Feb and Mar the best baseline at 50 pages is the editor's rule itself, so the two baseline columns repeat there.
+
+Pages that later lost visibility counted as misses, rule against champion (the click-shortfall shares are on measurable pages, because unmeasurable pages have no measured clicks):
+
+| Month | Role | Editor's rule P@50 | V2 P@50 | Editor's rule P@50, unmeasurable = miss | V2 P@50, unmeasurable = miss | Rule: share of click shortfall in its top 50 | V2: share of click shortfall in its top 50 |
+|---|---|---|---|---|---|---|---|
+| 2026-02 | validation | 0.46 | 0.56 | 0.42 | 0.34 | 2.1% | 1.2% |
+| 2026-03 | validation | 0.76 | 0.70 | 0.76 | 0.50 | 7.2% | 3.5% |
+| 2026-04 | confirmation | 0.50 | 0.60 | 0.50 | 0.16 | 1.7% | 2.2% |
+| 2026-05 | test | 0.38 | 0.52 | 0.38 | 0.34 | 2.5% | 3.2% |
+
+**Counted this way, the editor's rule scores higher than the champion at 50 pages in every month; the champion's queue favours pages that later lose visibility.**
 
 - **On the whole ranking (AP):** the champion is above all four frozen baselines in 4 of 4 months, and the interval of its AP gain over the best baseline excludes 0 in 3 (Feb, Mar and May); in Apr the interval includes 0.
 - **At 50 pages:** its P@50 is above all four baselines in 3 of 4 months (not in Mar). The P@50 gain over the best-AP baseline has an interval that excludes 0 in only 1 month (Feb); on the test month it is -0.04 to 0.38. P@50 differences are not established.
@@ -144,7 +155,7 @@ The editor's rule has P@50 of 0.46, 0.76, 0.50 and 0.38; on the test month its A
 On the test month V2's AP is slightly lower than V1's (0.333 against 0.348) and its P@50 higher (0.52 against 0.42); V1's values lie inside V2's 95% intervals, so the receipts do not show a difference in either direction. V2 is a process upgrade, not a better result.
 
 **Errors.**
-- **Unmeasurable pages.** 4.13% to 16.09% of eligible pages per month lose so much visibility that the label cannot be measured, so the headline metrics drop them. Counting them as misses, P@50 falls from 0.52 to 0.34 on the test month and from 0.60 to 0.16 on the confirmation month (validation: 0.56 to 0.34 and 0.70 to 0.50). What happened to those pages cannot be measured with this label.
+- **Unmeasurable pages.** 4.13% to 16.09% of eligible pages per month lose so much visibility that the label cannot be measured, so the headline metrics drop them. Counting them as misses, P@50 falls from 0.52 to 0.34 on the test month and from 0.60 to 0.16 on the confirmation month (validation: 0.56 to 0.34 and 0.70 to 0.50). The editor's rule, under the same count, scores 0.42, 0.76, 0.50 and 0.38 (February to May). Counted this way, the editor's rule scores higher than the champion at 50 pages in every month; the champion's queue favours pages that later lose visibility. What happened to those pages cannot be measured with this label.
 - **A thin slice of the clicks at stake:** the test month's top 50 holds 3.2% of the month's total click shortfall on measurable pages (1.2% to 3.5% across the four months), because the model ranks the probability of erosion and not its size.
 - **Concentration:** the top 50 come from 8 to 14 clients; the largest client holds 22% to 30% of it.
 - **The best rule changes by month:** the editor's rule wins P@50 in March (0.76 against 0.70) and has an AUC of 0.453 on the test month.
