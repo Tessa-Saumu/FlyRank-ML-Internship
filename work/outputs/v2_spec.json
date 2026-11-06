@@ -1,0 +1,122 @@
+{
+ "spec_version": "v2.0",
+ "spec_markdown": "work/V2_SPEC.md",
+ "disclosure": "The test month (May 2026) was seen during V1, so it is not a pristine holdout. No V2 decision (features, models, hyperparameters, selection rule) used it; all were made on validation folds whose outcome windows end before the test window opens. The V2 test result may therefore be optimistic.",
+ "seed": 42,
+ "warehouse_revision": "50cbf7c3909d07be4d1b5906b4d09e882e5acbf2",
+ "timeline": {
+  "feature_months": "o-2, o-1 (imp_growth_prev also uses o-3)",
+  "outcome_months": "o, o+1",
+  "train_rule": "a model scoring origin o may train only on origins <= o-2"
+ },
+ "origins": {
+  "all_labelled": ["2025-12", "2026-01", "2026-02", "2026-03", "2026-04", "2026-05"],
+  "sealed_test": "2026-05",
+  "live": "2026-07"
+ },
+ "folds": {
+  "validation_1": {"score": "2026-02", "train": ["2025-12"], "outcome_window": ["2026-02", "2026-03"], "used_for_decisions": true},
+  "validation_2": {"score": "2026-03", "train": ["2025-12", "2026-01"], "outcome_window": ["2026-03", "2026-04"], "used_for_decisions": true},
+  "confirmation": {"score": "2026-04", "train": ["2025-12", "2026-01", "2026-02"], "outcome_window": ["2026-04", "2026-05"], "used_for_decisions": false},
+  "test": {"score": "2026-05", "train": ["2025-12", "2026-01", "2026-02", "2026-03"], "outcome_window": ["2026-05", "2026-06"], "used_for_decisions": false, "sealed": true},
+  "live": {"score": "2026-07", "train": ["2025-12", "2026-01", "2026-02", "2026-03", "2026-04", "2026-05"], "outcome_window": null, "used_for_decisions": false}
+ },
+ "features": {
+  "n_v1": 34,
+  "removed": ["page_prev_ratio", "client_prev_erode_rate", "word_count"],
+  "set_missing": {"imp_growth_prev": ["2025-12"]},
+  "added": ["weekday_share", "days_since_last_click", "longest_zero_click_run", "days_since_peak", "keyword_to_content_gap_days"],
+  "n_total": 36,
+  "not_added": ["outcome-window calendar", "client tenure", "plain month-of-year", "require-activity-in-both-feature-months rule"],
+  "drop_if_all_missing_in_training": true
+ },
+ "candidates": ["LOGISTIC", "HGB_CLF", "POISSON_RATE", "ENSEMBLE"],
+ "champion": "LOGISTIC",
+ "challengers": ["HGB_CLF", "POISSON_RATE", "ENSEMBLE"],
+ "baselines": ["rule_position_slipping", "mean_reversion_ctr_excess", "client_shock", "persistence_prev_ratio"],
+ "models": {
+  "LOGISTIC": {
+   "pipeline": "SimpleImputer(median, add_indicator) + StandardScaler + LogisticRegression",
+   "C": [0.001, 0.01, 0.1, 1.0, 10.0, 100.0],
+   "penalties": {"l2": 0.0, "l1": 1.0, "elasticnet": 0.5},
+   "solver": {"l2": "lbfgs", "l1": "saga", "elasticnet": "saga"},
+   "max_iter": {"lbfgs": 5000, "saga": 20000},
+   "n_configs": 18
+  },
+  "HGB_CLF": {
+   "n_configs": 20,
+   "sampler_seed": 42,
+   "learning_rate_loguniform": [0.02, 0.2],
+   "max_leaf_nodes": [7, 15, 31],
+   "min_samples_leaf_fraction": [0.005, 0.015, 0.04],
+   "min_samples_leaf_floor": 20,
+   "l2_regularization": [0, 1, 5, 20],
+   "max_features": [0.5, 0.8, 1.0],
+   "max_iter_cap": 600,
+   "early_stopping": "argmin of validation log loss over staged predictions; refit on all training rows with that iteration count",
+   "validation_block": "latest training origin (fit on earlier origins); client-grouped 20 percent of clients when only one training origin",
+   "grouped_holdout_row_share_range": [0.10, 0.40],
+   "seeds": [42, 43, 44, 45, 46]
+  },
+  "POISSON_RATE": {
+   "estimator": "HistGradientBoostingRegressor(loss=poisson)",
+   "target": "clk_out / exp_out",
+   "sample_weight": "exp_out",
+   "same_search_space_as": "HGB_CLF",
+   "score": "minus predicted ratio",
+   "early_stopping_loss": "weighted Poisson deviance"
+  },
+  "ENSEMBLE": {"members": ["LOGISTIC", "HGB_CLF"], "combine": "equal-weight average of percentile ranks", "selected_by_search": false}
+ },
+ "selection": {
+  "criterion": "AP",
+  "tuning": "mean AP over validation folds 1 and 2",
+  "tie_tolerance_ap": 0.0001,
+  "bootstrap_B": 2000,
+  "bootstrap_seed": 42,
+  "bootstrap_ci": [2.5, 97.5],
+  "pass_rule": "lower bound > 0 AND leave-one-client-out minimum mean gain > 0",
+  "n_challenger_comparisons": 3,
+  "multiple_challengers_pass": "pick the larger mean gain",
+  "nested_check": "select on fold 1 only, evaluate on fold 2"
+ },
+ "metrics": {
+  "ks": [20, 50, 100],
+  "headline_k": 50,
+  "within_client_k": 10,
+  "within_client_min_rows": 30,
+  "bootstrap_B": 2000,
+  "best_baseline_by": "AP",
+  "list": ["p@20", "p@50", "p@100", "ap", "auc", "within_client_p@10", "lift", "clicks_lost_captured", "top_client_share_top50", "clients_in_top50", "effective_clients", "p@50_ci", "ap_ci", "loco_delta_ap_min_max", "p@50_unmeasurable_as_miss", "base_rate", "noise_only_rate"]
+ },
+ "secondary_label": {
+  "name": "erode_rel",
+  "definition": "log((clk_out+0.5)/(exp_out+0.5)) minus client median over measurable pages in the same origin <= ln(0.75)",
+  "model": "LOGISTIC with its selected config only",
+  "evaluated_on": ["validation_1", "validation_2", "confirmation", "test (at unseal)"],
+  "used_for_selection": false
+ },
+ "leakage_checks": {
+  "folds": ["validation_1", "validation_2"],
+  "planted_feature": "log_ratio_out + N(0, 0.3), on fold 2",
+  "kfold": "random-row KFold vs client GroupKFold on Feb+Mar rows, 5 folds",
+  "timeline_assertions": true
+ },
+ "sealed_protocol": {
+  "sealed_origin": "2026-05",
+  "drop_outcome_columns": ["erode", "clk_out", "imp_out", "pos_out", "exp_out", "log_ratio_out", "null_erode", "measurable"],
+  "live_origin_rows_removed_before_unseal": true,
+  "unseal_requires": ["--unseal flag", "v2_freeze.json exists", "stored code and spec hashes match current files", "v2_test.json absent"],
+  "rhythm_cache_for_test_outcome_months_built_after_test": ["2026-05", "2026-06"]
+ },
+ "playbook": {
+  "order": "selected model score",
+  "reason_code": "largest positive standardised contribution of the champion LOGISTIC",
+  "min_age_days": 90,
+  "client_cap": 10,
+  "queue_size": 50,
+  "cap_in_selection_or_headline": false,
+  "new_families": {"DEMAND_SHIFT": ["days_since_peak"], "STALE_ACTIVITY": ["days_since_last_click", "longest_zero_click_run"], "WEEKDAY_PROFILE": ["weekday_share"]}
+ },
+ "receipts": ["v2_spec.json", "v2_spec_hash.json", "v2_features.json", "v2_selection.json", "v2_validation_folds.json", "v2_confirmation_apr.json", "v2_secondary_label.json", "v2_leakage_checks.json", "v2_freeze.json", "v2_test.json", "v2_playbook_summary.json"]
+}
