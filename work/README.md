@@ -90,6 +90,11 @@ work/
 
 **One logged deviation.** `V2_SPEC.md` was edited once after it was committed, to add its deviation log (section 13: a column that carries no information in a given boosted fit is left out of that fit only), before any V2 result was used. So its current hash differs from the pre-registered one, and `outputs/v2_freeze.json` records both.
 
+## Notes for FlyRank
+
+- **Data-release issue.** `dim_content.provider_used` carries strings that look like client brand names in some rows. It is never selected in this project, no value appears in any committed file, and it is listed here so the release owner can review it.
+- **CI.** GitHub Actions is not running on this repository because of a billing lock on my GitHub account, unrelated to the code. `python work/scripts/verify_evidence.py` is the verification of record (it passed locally on 2026-11-06).
+
 ## Rules of the road (from the template, kept)
 
 1. **Copy, don't edit.** `scripts/` at the repository root is the pristine reference pipeline and is untouched.

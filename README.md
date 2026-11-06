@@ -72,3 +72,7 @@ python work/scripts/verify_evidence.py      # offline checks of every receipt, t
 Built on the [FlyRank ML Internship dataset](https://flyrank.ai) (`FlyRank/internship-warehouse`, build v20260703).
 Client identities are pseudonymized, IDs are used only for grouping, and no data, ID or query is committed. See
 `DATA_USE.md`.
+
+**Known data-release issue.** The column `dim_content.provider_used` holds strings that look like client brand names in some rows. It is never selected anywhere in this project and no value appears in any committed file. It is noted here for FlyRank's attention.
+
+**Verification.** GitHub Actions is not running on this repository because of a billing lock on my GitHub account, unrelated to the code. The local check `python work/scripts/verify_evidence.py` is the verification of record (last run and passed on 2026-11-06).

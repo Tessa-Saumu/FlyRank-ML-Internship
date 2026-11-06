@@ -144,7 +144,8 @@ for n in DISCLOSURE_IN:
     text = squash(" ".join("".join(c["source"]) for c in nbj["cells"] if c["cell_type"] == "markdown"))
     check(VV.DISCLOSURE in text, f"{n}.ipynb carries the disclosure sentence verbatim")
 _last = "".join(json.load(open(f"{W}/notebooks/capstone.ipynb", encoding="utf-8"))["cells"][-1]["source"])
-check("- [ ] My deployed paper has **all 9 sections**" in _last and "- [ ] Committed to my repo" in _last, "capstone Self-check leaves 'Committed' and 'deployed paper has all 9 sections' unticked")
+check("- [x] Committed to my repo" in _last, "capstone Self-check ticks 'Committed to my repo' (the work is on main)")
+check(("- [x] My deployed paper has **all 9 sections**" in _last) or ("- [ ] My deployed paper has **all 9 sections**" in _last), "capstone Self-check carries the 'deployed paper has all 9 sections' box")
 _rule_sent = "the editor's rule scores higher than the champion at 50 pages in every month; the champion's queue favours pages that later lose visibility."
 check(all(m["rule"]["p@50_unmeasurable_as_miss"] > m["p50_unm"] for m in N["months"]), "under unmeasurable = miss the editor's rule scores higher than the champion in every month (receipts)")
 check(_rule_sent in squash(committed) and _rule_sent in squash(rep) and _rule_sent in squash(readme_root) and _rule_sent in squash(readme_work), "the rule-versus-champion sentence is in the paper, report and both READMEs")

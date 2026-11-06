@@ -169,7 +169,7 @@ def sec(name, i, body=""):
     return md(TEMPLATE[name]["sec"][i - 1] + ("\n\n" + body.strip("\n") if body.strip() else ""))
 
 
-def selfcheck(name, ticks=(True, True, True, True, False)):
+def selfcheck(name, ticks=(True, True, True, True, True)):
     """FlyRank's Self-check cell, verbatim, with a box ticked only where it is true."""
     out, k = [], 0
     for line in TEMPLATE[name]["selfcheck"].split("\n"):
@@ -1840,7 +1840,7 @@ clicks to AI-answer search, on {mon['daily_rows'] / 1e6:.1f} million rows of pse
 from FlyRank's internship warehouse. I showed with page fixed-effects regression that click-through at a fixed position
 fell by about a third at the top three positions in six months, and I designed a leak-free label, frozen baselines, a pre-registered pipeline with four candidate models, a confirmation fold and a test month scored once.
 The champion had a higher average precision than every frozen rule in all four evaluated months, but its intervals are wide and a conservative check that counts pages that lost visibility as misses lowers its precision, so I report it as decision support and turned it into a reviewed playbook with reason codes, guardrails and retrain triggers.
-"""), selfcheck("capstone", (True, True, True, True, False, False, True))]
+"""), selfcheck("capstone", (True, True, True, True, True, False, True))]
 
 NOTEBOOKS = {"w01_research_question.ipynb": w01, "w02_ml_task_framing.ipynb": w02, "w03_data_contract.ipynb": w03,
              "w03_feature_leakage_check.ipynb": w03b, "w04_signal_audit.ipynb": w04s, "w04_baseline_score.ipynb": w04,

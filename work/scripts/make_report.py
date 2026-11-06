@@ -110,7 +110,7 @@ report does not measure this.
 - **Data:** the warehouse release `FlyRank/internship-warehouse` (build v20260703, pinned revision `{summ['warehouse_revision'][:8]}`): the daily
   performance fact table, `dim_content` and `dim_clients`. Cached locally outside the repository; no data in git. The warehouse has one revision and ends on 2026-06-30, so there is no more data.
 - **Excluded on purpose:**
-  - `provider_used`, which contains brand-like strings (never selected; flagged to my mentor);
+  - `provider_used`, which contains brand-like strings (never selected; see the data-release note in `work/README.md`);
   - the 90-day query table, whose window overlaps every outcome window;
   - `model_used` as a treatment, because it records the latest regeneration, not the author;
   - AI-referral sessions as a target, because they are too thin ({sum(r['ai'] or 0 for r in mon['months']):,.0f} sessions, two clients hold 68%);
