@@ -1,0 +1,66 @@
+{
+  "notebook": "w07_action_playbook_two_lane",
+  "origin": "2026-04",
+  "training_months": [
+    "2026-02"
+  ],
+  "client_cap": 5,
+  "budget": 50,
+  "lanes": [
+    {
+      "lane": "triage",
+      "rows": 50,
+      "decline_rate_lower": 0.8,
+      "unknown": 8,
+      "clients": 15,
+      "largest_client_share": 0.1,
+      "actions": {
+        "investigate_collapse": 40,
+        "verify_then_review": 10
+      },
+      "reasons": {
+        "low_ctr_top10": 18,
+        "stale_visible": 13,
+        "stale_low_ctr_top10": 12,
+        "visible_only": 7
+      },
+      "run_rate_bands": {
+        "<0.3 collapsed": 50,
+        "0.3-0.5": 0,
+        "0.5-0.8": 0,
+        "0.8-1.0": 0,
+        ">=1.0 healthy": 0
+      }
+    },
+    {
+      "lane": "onset",
+      "rows": 50,
+      "decline_rate_lower": 0.64,
+      "unknown": 0,
+      "clients": 16,
+      "largest_client_share": 0.1,
+      "actions": {
+        "review_before_revert": 42,
+        "monitor_only": 8
+      },
+      "reasons": {
+        "stale_low_ctr_top10": 40,
+        "stale_visible": 4,
+        "visible_only": 4,
+        "low_ctr_top10": 2
+      },
+      "run_rate_bands": {
+        "<0.3 collapsed": 0,
+        "0.3-0.5": 0,
+        "0.5-0.8": 0,
+        "0.8-1.0": 0,
+        ">=1.0 healthy": 50
+      }
+    }
+  ],
+  "triage_ranker": "coverage_adjusted_acceleration_rule",
+  "onset_ranker": "momentum:logistic_regression",
+  "frame_source": "cache",
+  "seed": 42,
+  "scope": "Development ranking for human review. Lane 1 marks traffic already sliding; lane 2 marks still-healthy pages the model expects to slip. No causal claim."
+}
