@@ -216,4 +216,9 @@ was designed in V1 on the development origins.
 
 ## 13. Deviation log
 
-None at the time of writing.
+- 2026-11-06, before any V2 result was used (implementation note, not a methodological change). scikit-learn 1.9's
+  histogram binner raises an error on a column with fewer than two distinct non-missing values. In the boosted fits,
+  a column that carries no information in a given fit (all missing or constant; for example `imp_growth_prev` in the
+  early-stopping fit that uses origin 2025-12 alone, or `intent_navigational` in the early origins) is left out of
+  that fit only. Such a column cannot be split on, so the trees are the ones the spec describes; the number of
+  columns left out is recorded per fit in the receipts.
