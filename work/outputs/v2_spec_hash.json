@@ -1,0 +1,9 @@
+{
+ "spec_version": "v2.0",
+ "sha256_normalised_lf": {
+  "work/V2_SPEC.md": "dae0cd5b5a9cdf72e62d4963ee350344baf352e2948b1ee93144e8b042410b79",
+  "work/outputs/v2_spec.json": "3b4fb02ab65ed54e3401702dc2a607d5469a537eea2e98fca361070d4fae64df"
+ },
+ "note": "SHA-256 of the file bytes with CRLF normalised to LF (core.autocrlf is on). Written before any V2 model code existed.",
+ "written_at": "2026-11-06T13:31:57"
+}
