@@ -42,9 +42,24 @@ def build():
         ms = [VV.MONTH_NAME[m["month"]] for m in months if pred(m)]
         return ", ".join(ms[:-1]) + " and " + ms[-1] if len(ms) > 1 else (ms[0] if ms else "none")
 
+    SHORT = {"rule_position_slipping": "Editor's rule", "mean_reversion_ctr_excess": "CTR above peers", "client_shock": "Client shock",
+             "persistence_prev_ratio": "Persistence"}
+    nulls_all = nulls + [m["noise"] for m in months]
+    assert all(m["rule"]["p@50_unmeasurable_as_miss"] > m["p50_unm"] for m in months)
+    RULE_SENT = ("Counted this way, the editor's rule scores higher than the champion at 50 pages in every month; "
+                 "the champion's queue favours pages that later lose visibility.")
+    rule_best_months = names(lambda m: m["best_p50_name"] == "rule_position_slipping")
+    ap_c1 = next(r for r in sel["configs"]["LOGISTIC"] if r["cfg"] == {"C": 1.0, "penalty": "l2"})
+    clause_c = (f"The selected C = {pen['l2']['C']:g} sits at the edge of the searched grid, but on a plateau (mean AP {ap_c1['mean_ap']:.3f} at C = 1 "
+                f"against {pen['l2']['mean_ap']:.3f} at C = {pen['l2']['C']:g}), so the edge position is harmless.")
+    AP_WHY = ("Model choice used AP because it scores the whole ranking and is far less noisy than P@50 at about 5 effective clients "
+              "(P@50 intervals are roughly plus or minus 0.2); P@50 remains the reported operational metric.")
+    unm_rows = "\n".join(
+        f"| {m['month']} | {m['role']} | {f2(m['rule']['p@50'])} | {f2(m['p50'])} | {f2(m['rule']['p@50_unmeasurable_as_miss'])} | {f2(m['p50_unm'])} | "
+        f"{m['rule']['clicks_lost_captured'] * 100:.1f}% | {m['clk'] * 100:.1f}% |" for m in months)
     month_rows = "\n".join(
-        f"| {m['month']} | {m['role']} | {f3(m['base_rate'])} | {f2(m['rule']['p@50'])} | {f2(m['best_p50'])} | {f2(m['p50'])} ({f2(m['p50_ci'][0])} to {f2(m['p50_ci'][1])}) | "
-        f"{f2(m['p50_unm'])} | {f3(m['best_ap'])} | {f3(m['ap'])} ({f3(m['ap_ci'][0])} to {f3(m['ap_ci'][1])}) | {m['d_ap']:+.3f} ({m['d_ap_ci'][0]:+.3f} to {m['d_ap_ci'][1]:+.3f}) |"
+        f"| {m['month']} | {m['role']} | {f3(m['base_rate'])} | {f2(m['rule']['p@50'])} | {f2(m['best_p50'])} ({SHORT[m['best_p50_name']]}) | {f2(m['p50'])} ({f2(m['p50_ci'][0])} to {f2(m['p50_ci'][1])}) | "
+        f"{f2(m['p50_unm'])} | {f2(m['rule']['p@50_unmeasurable_as_miss'])} | {f3(m['best_ap'])} | {f3(m['ap'])} ({f3(m['ap_ci'][0])} to {f3(m['ap_ci'][1])}) | {m['d_ap']:+.3f} ({m['d_ap_ci'][0]:+.3f} to {m['d_ap_ci'][1]:+.3f}) |"
         for m in months)
     v1v2_rows = "\n".join(
         f"| {m['month']} | {m['role']} | {f3(m['v1_ap'])} | {f3(m['ap'])} | {f2(m['v1_p50'])} | {f2(m['p50'])} |" for m in months)
@@ -69,13 +84,11 @@ run. V1 stays in the repository as the first process, and V1 numbers are labelle
 
 ## 0. Abstract
 
-AI answers in search are the new variable in FlyRank's business, yet nobody had measured what they do to the clicks a page earns from Google at the rank it already holds. On FlyRank's pseudonymized
-internship warehouse ({mon['daily_rows'] / 1e6:.1f} million daily rows, January 2025 to June 2026), page fixed effects with client-clustered errors put top-3 click-through in April 2026 at {top3['ctr_multiplier']:.3f}
-times its October 2025 level for the same page in the same position band (95% CI {top3['ci95'][0]} to {top3['ci95'][1]}). I built a monthly ranking of top-10 pages likely to lose at least a quarter of their expected clicks in the next two
-months, using an observed label designed so that visible momentum cannot give it away, {N['n_features']} features, four frozen baselines and a V2 pipeline in which four learned candidates compete under a selection rule fixed in advance, with a confirmation fold that decides nothing and a
-test month scored once. No challenger beat the logistic champion; its AP was above all four baselines in {N['ap_lead_months']} of 4 evaluated months, and on the test month its AP was {f3(may['ap'])} (95% CI {ci3(may['ap_ci'])}) against {f3(may['best_ap'])} for the best baseline
-and its P@50 was {f2(may['p50'])} against a base rate of {f2(may['base_rate'])}, falling to {f2(may['p50_unm'])} if pages that later lost visibility count as misses. The output is a reviewed monthly queue for editors: decision support, predictive and not causal, limited by about five effective clients and by a
-test month that was seen during V1.
+AI answers in search are the new variable in FlyRank's business, so I asked which top-10 pages are about to lose clicks at the rank they already hold, so that an editor can protect 50 of them first each month. I used FlyRank's pseudonymized
+internship warehouse ({mon['daily_rows'] / 1e6:.1f} million daily rows, January 2025 to June 2026), where page fixed effects with client-clustered errors put top-3 click-through in April 2026 at {top3['ctr_multiplier']:.3f}
+times its October 2025 level for the same page in the same position band (95% CI {top3['ci95'][0]} to {top3['ci95'][1]}). The monthly ranking comes from a pipeline that was specified and hashed before it ran: a label that visible momentum cannot give away,
+{N['n_features']} features, four frozen baselines, four learned candidates compared under a selection rule fixed in advance, and a test month scored once. The logistic champion had the highest average precision (AP) in {N['ap_lead_months']} of 4 evaluated months, although the {names(lambda m: not m['d_ap_excl0']).replace('Apr', 'April')} gain interval includes 0; on the test month its AP was {f3(may['ap'])} (95% CI {ci3(may['ap_ci'])}) against {f3(may['best_ap'])} for the best baseline,
+and its precision at 50 pages (P@50) was {f2(may['p50'])} against a base rate of {f2(may['base_rate'])}, which falls to {f2(may['p50_unm'])} when pages that later lost visibility count as misses, below the editor's rule at {f2(may['rule']['p@50_unmeasurable_as_miss'])}. The output is a reviewed monthly queue for editors, a predictive and not causal decision aid whose intervals are wide at {N['eff_range'][0]:.1f} to {N['eff_range'][1]:.1f} effective clients and whose test month was seen during V1, so the result may be optimistic.
 
 ## 1. Problem framing
 
@@ -130,7 +143,7 @@ The editor's rule has P@50 of {f2(feb['rule']['p@50'])}, {f2(mar['rule']['p@50']
 
 - **Target, in one sentence:** a page erodes if its clicks in the two months after the decision fall below 75% of what
   its latest-month CTR, shrunk toward its client's position-adjusted CTR, predicts at its new position.
-- **Noise floor:** a Poisson simulation gives {min(nulls):.3f} to {max(nulls):.3f}, against base rates of {f2(N['base_rate_range'][0])} to {f2(N['base_rate_range'][1])} in the evaluated months.
+- **Noise floor:** a Poisson simulation gives {min(nulls_all):.3f} to {max(nulls_all):.3f} across the training, validation, confirmation and test months, against base rates of {f2(N['base_rate_range'][0])} to {f2(N['base_rate_range'][1])} in the evaluated months.
 - **Features ({N['n_features']}, listed in `v2_features.json`):** the {N['n_v1_features']} V1 features minus three (`page_prev_ratio`, `client_prev_erode_rate`, `word_count`) plus five date and rhythm features
   (`weekday_share`, `days_since_last_click`, `longest_zero_click_run`, `days_since_peak`, `keyword_to_content_gap_days`). They come from a mentor's advice that a date column yields many derived features; they are not claimed to be motivated by V1's errors.
 - **Left out on purpose:** query-mix features (window overlap), anything from the outcome months, an outcome-window calendar, client tenure and plain month of year (with six origins they would let a model memorise the origin or the client), and the rule "require activity in both feature months" (it came from V1's look at the test month).
@@ -142,8 +155,8 @@ The editor's rule has P@50 of {f2(feb['rule']['p@50'])}, {f2(mar['rule']['p@50']
 |---|---|---|
 {pen_rows}
 
-  The three differ by {max(p['mean_ap'] for p in pen.values()) - min(p['mean_ap'] for p in pen.values()):.4f}: sparsity did not help. Selected: L2, C = {pen['l2']['C']:g}.
-- **Selection rule, fixed before any run:** mean AP over the two validation folds (AP is the only criterion); the logistic model is the champion; a challenger replaces it only if its paired AP gain has a client-bootstrap 95% lower bound above 0 and stays above 0 when any single client is left out.
+  The three differ by {max(p['mean_ap'] for p in pen.values()) - min(p['mean_ap'] for p in pen.values()):.4f}: sparsity did not help. Selected: L2, C = {pen['l2']['C']:g}. {clause_c}
+- **Selection rule, fixed before any run:** mean AP over the two validation folds (AP is the only criterion). {AP_WHY} The logistic model is the champion; a challenger replaces it only if its paired AP gain has a client-bootstrap 95% lower bound above 0 and stays above 0 when any single client is left out.
   There were {N['n_comparisons']} challenger comparisons, not corrected for multiplicity (Bonferroni bounds are printed for information).
 
 | Challenger | Mean AP gain | 95% interval | Lower bound | Clients whose removal makes the gain <= 0 | Passes |
@@ -172,9 +185,19 @@ The editor's rule has P@50 of {f2(feb['rule']['p@50'])}, {f2(mar['rule']['p@50']
 - **Before and after:** on the V2 rows a random split reports AP {N['rvg']['random_row_kfold']['ap_mean']:.3f} and holding clients out gives {N['rvg']['client_group_kfold']['ap_mean']:.3f} (V1 measured {lk1['random_row_kfold']['ap_mean']:.3f} against {lk1['client_group_kfold']['ap_mean']:.3f}); the forward March fold gives {f3(mar['ap'])}.
 - **Disclosure.** {DISC}
 
-| Month | Role | Base rate | Editor's rule P@50 | Best other baseline P@50 | V2 P@50 (95% CI) | V2 P@50, unmeasurable = miss | Best baseline AP | V2 AP (95% CI) | AP gain over best baseline (95% CI) |
-|---|---|---|---|---|---|---|---|---|---|
+| Month | Role | Base rate | Editor's rule P@50 | Best baseline P@50 | V2 P@50 (95% CI) | V2 P@50, unmeasurable = miss | Editor's rule P@50, unmeasurable = miss | Best baseline AP | V2 AP (95% CI) | AP gain over best baseline (95% CI) |
+|---|---|---|---|---|---|---|---|---|---|---|
 {month_rows}
+
+In {rule_best_months} the best baseline at 50 pages is the editor's rule itself, so the two baseline columns repeat there.
+
+Pages that later lost visibility counted as misses, rule against champion (the click-shortfall shares are on measurable pages, because unmeasurable pages have no measured clicks):
+
+| Month | Role | Editor's rule P@50 | V2 P@50 | Editor's rule P@50, unmeasurable = miss | V2 P@50, unmeasurable = miss | Rule: share of click shortfall in its top 50 | V2: share of click shortfall in its top 50 |
+|---|---|---|---|---|---|---|---|
+{unm_rows}
+
+**{RULE_SENT}**
 
 - **On the whole ranking (AP):** the champion is above all four frozen baselines in {N['ap_lead_months']} of 4 months, and the interval of its AP gain over the best baseline excludes 0 in {N['d_ap_excl0_months']} ({names(lambda m: m['d_ap_excl0'])}); in {names(lambda m: not m['d_ap_excl0'])} the interval includes 0.
 - **At 50 pages:** its P@50 is above all four baselines in {N['p50_lead_months']} of 4 months (not in {names(lambda m: not m['p50_above_all'])}). The P@50 gain over the best-AP baseline has an interval that excludes 0 in only {N['d_p50_excl0_months']} month ({names(lambda m: m['d_p50_excl0'])}); on the test month it is {ci2(may['d_p50_ci'])}. P@50 differences are not established.
@@ -189,7 +212,7 @@ The editor's rule has P@50 of {f2(feb['rule']['p@50'])}, {f2(mar['rule']['p@50']
 On the test month V2's AP is slightly lower than V1's ({f3(may['ap'])} against {f3(may['v1_ap'])}) and its P@50 higher ({f2(may['p50'])} against {f2(may['v1_p50'])}); V1's values lie inside V2's 95% intervals, so the receipts do not show a difference in either direction. V2 is a process upgrade, not a better result.
 
 **Errors.**
-- **Unmeasurable pages.** {f2(N['unm_range'][0] * 100)}% to {f2(N['unm_range'][1] * 100)}% of eligible pages per month lose so much visibility that the label cannot be measured, so the headline metrics drop them. Counting them as misses, P@50 falls from {f2(may['p50'])} to {f2(may['p50_unm'])} on the test month and from {f2(apr['p50'])} to {f2(apr['p50_unm'])} on the confirmation month (validation: {f2(feb['p50'])} to {f2(feb['p50_unm'])} and {f2(mar['p50'])} to {f2(mar['p50_unm'])}). What happened to those pages cannot be measured with this label.
+- **Unmeasurable pages.** {f2(N['unm_range'][0] * 100)}% to {f2(N['unm_range'][1] * 100)}% of eligible pages per month lose so much visibility that the label cannot be measured, so the headline metrics drop them. Counting them as misses, P@50 falls from {f2(may['p50'])} to {f2(may['p50_unm'])} on the test month and from {f2(apr['p50'])} to {f2(apr['p50_unm'])} on the confirmation month (validation: {f2(feb['p50'])} to {f2(feb['p50_unm'])} and {f2(mar['p50'])} to {f2(mar['p50_unm'])}). The editor's rule, under the same count, scores {f2(feb['rule']['p@50_unmeasurable_as_miss'])}, {f2(mar['rule']['p@50_unmeasurable_as_miss'])}, {f2(apr['rule']['p@50_unmeasurable_as_miss'])} and {f2(may['rule']['p@50_unmeasurable_as_miss'])} (February to May). {RULE_SENT} What happened to those pages cannot be measured with this label.
 - **A thin slice of the clicks at stake:** the test month's top 50 holds {may['clk'] * 100:.1f}% of the month's total click shortfall on measurable pages ({min(m['clk'] for m in months) * 100:.1f}% to {max(m['clk'] for m in months) * 100:.1f}% across the four months), because the model ranks the probability of erosion and not its size.
 - **Concentration:** the top 50 come from {min(m['clients_top50'] for m in months)} to {max(m['clients_top50'] for m in months)} clients; the largest client holds {min(m['top_client'] for m in months) * 100:.0f}% to {max(m['top_client'] for m in months) * 100:.0f}% of it.
 - **The best rule changes by month:** the editor's rule wins P@50 in March ({f2(mar['rule']['p@50'])} against {f2(mar['p50'])}) and has an AUC of {f3(may['rule']['auc'])} on the test month.

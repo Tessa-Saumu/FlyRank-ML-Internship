@@ -145,6 +145,10 @@ for n in DISCLOSURE_IN:
     check(VV.DISCLOSURE in text, f"{n}.ipynb carries the disclosure sentence verbatim")
 _last = "".join(json.load(open(f"{W}/notebooks/capstone.ipynb", encoding="utf-8"))["cells"][-1]["source"])
 check("- [ ] My deployed paper has **all 9 sections**" in _last and "- [ ] Committed to my repo" in _last, "capstone Self-check leaves 'Committed' and 'deployed paper has all 9 sections' unticked")
+_rule_sent = "the editor's rule scores higher than the champion at 50 pages in every month; the champion's queue favours pages that later lose visibility."
+check(all(m["rule"]["p@50_unmeasurable_as_miss"] > m["p50_unm"] for m in N["months"]), "under unmeasurable = miss the editor's rule scores higher than the champion in every month (receipts)")
+check(_rule_sent in squash(committed) and _rule_sent in squash(rep) and _rule_sent in squash(readme_root) and _rule_sent in squash(readme_work), "the rule-versus-champion sentence is in the paper, report and both READMEs")
+check("far less noisy than P@50" in squash(committed) and "far less noisy than P@50" in squash(rep) and "far less noisy than P@50" in squash(readme_root), "the reason AP selects the model is stated in the paper, report and README")
 _mot = [m.start() for m in re.finditer("motivated by V1", committed + rep)]
 check(all((committed + rep)[max(0, i - 20):i].endswith("not claimed to be ") for i in _mot), "the V2 features are never claimed to be motivated by V1 errors")
 
@@ -181,6 +185,13 @@ targets = (glob.glob(f"{W}/outputs/*.json") + glob.glob(f"{W}/notebooks/*.ipynb"
            + glob.glob(f"{W}/archive/**/*.ipynb", recursive=True) + glob.glob(f"{W}/archive/**/*.json", recursive=True) + glob.glob(f"{W}/archive/**/*.md", recursive=True))
 leaks = [os.path.relpath(p, ROOT) for p in targets if ID_PATTERN.search(open(p, encoding="utf-8", errors="ignore").read())]
 check(not leaks, f"no pseudonymous IDs in committed outputs, notebooks, paper, report, READMEs or the archive {leaks if leaks else ''}")
+try:  # widened scan: every tracked text file (the starter notebooks and outputs too), found with git ls-files
+    _tracked = subprocess.run(["git", "-C", ROOT, "ls-files"], capture_output=True, text=True, check=True).stdout.split("\n")
+    _text = [f for f in _tracked if f.endswith((".ipynb", ".json", ".md", ".html", ".py", ".txt", ".csv", ".svg", ".css", ".yml", ".toml", ".cfg", ".tex"))]
+    _hits = [f for f in _text if os.path.exists(f"{ROOT}/{f}") and ID_PATTERN.search(open(f"{ROOT}/{f}", encoding="utf-8", errors="ignore").read())]
+    check(not _hits, f"no pseudonymous IDs in any of {len(_text)} tracked text files {_hits if _hits else ''}")
+except Exception:  # noqa: BLE001  (not a git checkout)
+    print("SKIP tracked-text ID scan (not a git checkout)")
 prov = [os.path.relpath(p, ROOT) for p in targets if re.search(r"---(openai|google|gemini)", open(p, encoding="utf-8", errors="ignore").read(), re.I)]
 check(not prov, f"no provider_used values anywhere {prov if prov else ''}")
 try:

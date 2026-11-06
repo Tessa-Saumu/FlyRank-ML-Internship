@@ -82,9 +82,12 @@ def main():
             ax[1].bar(pos, vals, w, color=col, label=lab, yerr=[[m["p50"] - m["p50_ci"][0] for m in months], [m["p50_ci"][1] - m["p50"] for m in months]],
                       capsize=2, error_kw={"lw": 1, "ecolor": INK})
             ax[1].scatter(pos, [m["p50_unm"] for m in months], marker="D", s=34, facecolor="white", edgecolor=RED, lw=1.6, zorder=5,
-                          label="Same queue, unmeasurable pages counted as misses")
+                          label="V2 queue, unmeasurable pages counted as misses")
         else:
             ax[1].bar(pos, vals, w, color=col, label=lab)
+            if lab == "Editor's rule":
+                ax[1].scatter(pos, [m["rule"]["p@50_unmeasurable_as_miss"] for m in months], marker="s", s=30, facecolor="white", edgecolor=RED, lw=1.6, zorder=5,
+                              label="Editor's rule, unmeasurable pages counted as misses")
     ax[1].set_xticks(xs)
     ax[1].set_xticklabels(labs, fontsize=9)
     ax[1].set_ylabel("Precision@50")
