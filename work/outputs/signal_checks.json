@@ -1,0 +1,102 @@
+{
+ "check1_position_tier": [
+  {
+   "era": "design_dec_jan",
+   "tier": "1-3",
+   "n": 2917,
+   "erosion_rate": 0.266
+  },
+  {
+   "era": "design_dec_jan",
+   "tier": "4-6",
+   "n": 5929,
+   "erosion_rate": 0.279
+  },
+  {
+   "era": "design_dec_jan",
+   "tier": "7-10",
+   "n": 2317,
+   "erosion_rate": 0.31
+  },
+  {
+   "era": "later_feb_apr",
+   "tier": "1-3",
+   "n": 8577,
+   "erosion_rate": 0.282
+  },
+  {
+   "era": "later_feb_apr",
+   "tier": "4-6",
+   "n": 12808,
+   "erosion_rate": 0.305
+  },
+  {
+   "era": "later_feb_apr",
+   "tier": "7-10",
+   "n": 5497,
+   "erosion_rate": 0.299
+  }
+ ],
+ "check2_recent_ctr_change": [
+  {
+   "era": "design_dec_jan",
+   "ctr_change": "fell >26%",
+   "n": 3958,
+   "erosion_rate": 0.254
+  },
+  {
+   "era": "design_dec_jan",
+   "ctr_change": "fell 5-26%",
+   "n": 2711,
+   "erosion_rate": 0.245
+  },
+  {
+   "era": "design_dec_jan",
+   "ctr_change": "flat",
+   "n": 1109,
+   "erosion_rate": 0.243
+  },
+  {
+   "era": "design_dec_jan",
+   "ctr_change": "rose 5-35%",
+   "n": 1933,
+   "erosion_rate": 0.325
+  },
+  {
+   "era": "design_dec_jan",
+   "ctr_change": "rose >35%",
+   "n": 1452,
+   "erosion_rate": 0.399
+  },
+  {
+   "era": "later_feb_apr",
+   "ctr_change": "fell >26%",
+   "n": 8095,
+   "erosion_rate": 0.307
+  },
+  {
+   "era": "later_feb_apr",
+   "ctr_change": "fell 5-26%",
+   "n": 5498,
+   "erosion_rate": 0.241
+  },
+  {
+   "era": "later_feb_apr",
+   "ctr_change": "flat",
+   "n": 3409,
+   "erosion_rate": 0.204
+  },
+  {
+   "era": "later_feb_apr",
+   "ctr_change": "rose 5-35%",
+   "n": 5097,
+   "erosion_rate": 0.289
+  },
+  {
+   "era": "later_feb_apr",
+   "ctr_change": "rose >35%",
+   "n": 4783,
+   "erosion_rate": 0.417
+  }
+ ]
+}

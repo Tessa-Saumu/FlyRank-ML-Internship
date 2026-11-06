@@ -1,0 +1,45 @@
+{
+ "frozen_at": "2026-11-05T15:37:22",
+ "final_model": "logreg",
+ "reason": "Chosen on dev origins only: beats the best baseline on PR-AUC in 3/3 dev origins and on P@50 in 2/3; HGB is unstable when trained on one origin (Feb P@50 0.32). Nested rule+model blend selected weight 1.0 (pure model) in 3/3 origins, so no blend.",
+ "primary_metric": "P@50 per origin vs best baseline; base rate alongside",
+ "sealed_origin": "2026-05",
+ "code_sha256_16": {
+  "erosion_frame.py": "0b274ed1ebc89c2f",
+  "erosion_model.py": "0fb058d8adc0ffd9"
+ },
+ "dev_p50": {
+  "2026-02": {
+   "logreg": 0.52,
+   "hgb": 0.32,
+   "rule_position_slipping": 0.46,
+   "client_shock": 0.34,
+   "mean_reversion_ctr_excess": 0.26,
+   "persistence_prev_ratio": 0.28
+  },
+  "2026-03": {
+   "logreg": 0.6,
+   "hgb": 0.76,
+   "rule_position_slipping": 0.76,
+   "client_shock": 0.32,
+   "mean_reversion_ctr_excess": 0.38,
+   "persistence_prev_ratio": 0.22
+  },
+  "2026-04": {
+   "logreg": 0.66,
+   "hgb": 0.64,
+   "rule_position_slipping": 0.5,
+   "client_shock": 0.56,
+   "mean_reversion_ctr_excess": 0.3,
+   "persistence_prev_ratio": 0.38
+  }
+ },
+ "post_freeze_changes": [
+  {
+   "file": "erosion_frame.py",
+   "change": "added the live decision origin 2026-07 (features May-Jun 2026, no outcome) for the playbook queue; labels, features and model untouched",
+   "new_sha256_16": "91bedceb3b4152c5",
+   "verification": "after the change every logreg and baseline metric on the 3 dev origins and the sealed origin is identical to the frozen run; only hgb differs (hgb is not bit-reproducible across runs on this machine, another reason it was not frozen)"
+  }
+ ]
+}

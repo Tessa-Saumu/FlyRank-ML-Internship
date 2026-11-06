@@ -1,95 +1,65 @@
-# FlyRank: Ranking Pages for Content Review
+# FlyRank: Same Rank, Fewer Clicks
 
-This research capstone ranks pages for a limited editorial review budget using month-end signals to estimate next-month search-impression decline.
+An early-warning ranking for pages that are losing Google clicks at the rank they already hold, the pattern AI answers
+in search would cause. This is my capstone for the FlyRank ML Internship (freestyle track).
+
+**Paper:** https://tessa-saumu.github.io/FlyRank-ML-Internship/ · **Submission guide for reviewers:** [`work/README.md`](work/README.md)
 
 ## The problem
 
-An editor can review only about 50 pages per month. I tested whether a learned ranking selects more pages that subsequently decline than a transparent rule. Search impressions count how often a page appears in search results; the task is review prioritization, not predicting Google's algorithm or proving that an edit restores traffic.
+AI answers in search (Google AI Overviews and AI Mode, ChatGPT, Perplexity, Gemini) are the new variable in FlyRank's
+business. A content team can review about 50 pages a month. Which ranking pages are about to lose clicks, and should be
+protected first?
 
-## What I built
+## What I found
 
-My work under `work/` defines the task and data contract, builds monthly analysis frames, compares a rule with logistic regression and random forest, audits validation and translates the findings into a human-review playbook. I assembled a research paper, saved metric receipts, figures and an offline evidence checker. FlyRank supplied the curriculum, warehouse and starter pipeline.
+- **Same page, same position, fewer clicks.** Click-through in Google's top three positions in April 2026 was 0.642
+  times its October 2025 level (95% CI 0.615 to 0.669; page fixed effects, errors clustered by client, 35 clients).
+  CTR at a stable rank fell in 10 of 11 clients. Transactional pages fell more than informational ones.
+- **A ranking that earns its place.** On four forward months, including a sealed month scored once after freezing, a
+  logistic ranking on 34 engineered features put 42% to 66% eroding pages in a 50-page queue, against base rates of 23%
+  to 34%. It led every frozen baseline on PR-AUC in all four months. The editor's intuitive rule ("top positions are most
+  exposed, slipping keeps slipping") failed out of sample.
+- **The pages to protect** are those earning more clicks than their rank normally earns: that excess is what an AI
+  answer can take.
+- **AI-assistant discovery follows exposure, not Google rank** (within-client AUC 0.715 against 0.506).
 
-## Architecture
-
-```mermaid
-flowchart LR
-    A[Authorized pseudonymized warehouse] --> B[DuckDB monthly frame queries]
-    B --> C[Five month-end features and future label]
-    C --> D[Rule and learned model rankings]
-    D --> E[Client-grouped and forward validation]
-    E --> F[Saved metrics and review playbook]
-    F --> G[Figures and static research paper]
-```
+Observational and decision-support only: Search Console has no AI-answer flag, so the click loss is consistent with AI
+answers, not proven to be caused by them.
 
 ## How it works
 
-The personal notebooks query the authorized warehouse with DuckDB, a SQL analytics engine, and build one row per page per month. Eligibility and tracking checks determine the evaluated population. A rule and two models score the retained pages; evaluation compares the top 50 with observed next-month outcomes. Saved receipts feed the figures and paper. The offline checker validates these recorded results without warehouse access or retraining.
-
-## ML / AI methodology
-
-- **Target:** next-30-day impressions below 80% of the last-30-day value, an observed decline greater than 20%.
-- **Features:** logged recent impressions, click-through rate, average search position, active days and content age, all known at month-end. Click-through rate is clicks divided by impressions.
-- **Baseline/models:** transparent rule score, logistic regression and random forest.
-- **Validation:** five March splits holding out whole clients, then March training with April scoring. Pages from the same client stay on one side of each grouped split.
-- **Primary metric:** precision at 50 (P@50), the fraction of the 50 selected pages that actually declined. The population decline rate provides context.
-
-## Engineering
-
-The personal notebooks assert feature/label timing, schema and client separation. JSON receipts record metrics and populations. A pinned offline environment runs capstone cells, checks 31 headline numbers and fold counts, and regenerates five figures in a temporary directory. Figure generation and the deployment script maintain a single static paper. GitHub Actions workflows include personal-evidence checks and Pages publishing. This is batch research, with no live prediction API or automated editorial deployment.
-
-## Results
-
-| Evaluation | Logistic regression P@50 | Rule P@50 | Population decline rate |
-|---|---:|---:|---:|
-| March: mean of five client-grouped splits | 63.6% | 51.2% | about 49.1% |
-| Train March, score April | 54% | 44% | about 56% |
-
-Logistic regression won four grouped splits and lost one; random forest won three and tied two. The mean logistic-regression advantage over the rule was **12.4 percentage points**, but these overlapping splits are not independent confirmations. The grouped advantage did **not** translate into forward lift above April's population rate at the 50-page budget.
-
-The retained March/April frames contain **95,810/99,279 pages** across **40/44 clients**. Missing or thin outcome tracking excluded **2.6%/3.6%** of candidate pages. These filters and uneven client populations constrain interpretation. [Model metrics](work/outputs/model_metrics.json) and [validation receipts](work/outputs/validation_audit_metrics.json) contain the measured details.
-
-## Demo
-
-The [published research paper](https://tessa-saumu.github.io/FlyRank-ML-Internship/) is live, including the corrected split comparisons and five figures. It is a static research presentation, not an interactive model service.
-
-![Grouped model comparison from saved research receipts](work/figures/paper_fig1_results.png)
-
-[Personal capstone report](work/capstone_report.md) · [Review-playbook results](work/outputs/action_playbook_summary.json)
-
-## Run locally
-
-From the repository root, use Python 3.12, preferably in a virtual environment:
-
-```bash
-python -m pip install -r work/requirements-evidence.txt
-python work/scripts/verify_evidence.py
+```mermaid
+flowchart LR
+    A[Pinned warehouse snapshot, 78.8M daily rows] --> B[DuckDB page-month cache]
+    B --> C[Inferential EDA: fixed effects, client-level tests]
+    B --> D[Forward-origin frame: leak-checked label, 34 features]
+    D --> E[Frozen baselines vs tuned models]
+    E --> F[Forward months + sealed month + leak harness]
+    F --> G[Reviewed 50-page queue with reason codes]
+    C --> H[Paper and receipts]
+    G --> H
 ```
 
-This workflow passed on 13 October 2026. It checks saved evidence and generates temporary figures; it does not access the warehouse, change the paper or retrain models. A full data-to-model rebuild requires authorized access and the `w03`–`w07` notebooks; it was not rerun in this update. Historical modelling versions remain recorded separately in the receipts.
+## Repository map
 
-## Repository structure
-
-| Path | Purpose |
+| Path | What it is |
 |---|---|
-| `work/notebooks/` | My task framing, data contract, model, validation and capstone |
-| `work/outputs/` | Saved personal research receipts |
-| `work/scripts/`, `work/figures/`, `work/paper/` | Evidence verification, figures and deployable paper |
-| Root `scripts/`, `notebooks/`, `outputs/` | Supplied starter pipeline and example results |
-| `docs/`, `DATA_USE.md` | Supplied reference documentation and data-use boundaries |
+| `work/` | **the submission**: notebooks (one per card), pipeline scripts, receipts, figures, paper, capstone report |
+| `work/archive/` | my two earlier Lane 2 (refresh) experiments, kept for the record and **not for marking** |
+| `scripts/`, `notebooks/`, `outputs/` | FlyRank's starter reference pipeline and guided notebooks (unchanged) |
+| `GUIDE.md`, `SETUP.md`, `DATA_USE.md` | FlyRank's operating manual, setup and data rules |
 
-[Starter setup](SETUP.md), [repository guide](GUIDE.md) and [personal work index](work/README.md) retain assignment context. Starter sample metrics describe a different target and are not my capstone results.
+## Reproduce
 
-## Limitations
+```bash
+pip install -r requirements.txt scipy
+python work/scripts/run_notebooks.py        # needs HF_TOKEN (env var or Colab secret); downloads the pinned snapshot once
+python work/scripts/verify_evidence.py      # offline checks of every receipt, the paper and the report
+```
 
-No controlled content-refresh experiment, editor adoption or revenue effect was measured. Random-split and deliberately leaked results are diagnostics, not headline performance. The approximate 79-million-row source release is not my local training scale. Access and publication boundaries remain governed by [DATA_USE.md](DATA_USE.md). A fresh warehouse/training rebuild and durable advantage across later months remain unverified.
+## Data and safety
 
-## What I would improve next
-
-1. Evaluate additional future months without changing selection against already-used test periods.
-2. Report performance and review coverage by client to expose concentration and uneven tracking.
-3. Test the review playbook with editors and a controlled intervention before making impact claims.
-
-## My contribution
-
-This is my individual internship capstone, with AI assistance in implementation and documentation. My work is the personal research under `work/`; FlyRank supplied the curriculum, data warehouse and reference material elsewhere. This boundary follows the documented template convention; the bundled original history cannot independently prove every authorship detail. The repository supports capstone work, not employer-verified tenure or business impact.
+Built on the [FlyRank ML Internship dataset](https://flyrank.ai) (`FlyRank/internship-warehouse`, build v20260703).
+Client identities are pseudonymized, IDs are used only for grouping, and no data, ID or query is committed. See
+`DATA_USE.md`.

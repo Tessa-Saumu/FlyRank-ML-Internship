@@ -1,0 +1,28 @@
+{
+ "q1_duplicate_grain_rows": 0,
+ "q2": {
+  "rows_": 9841378,
+  "first_day": "2026-03-01",
+  "last_day": "2026-03-31",
+  "clients": 55,
+  "pages": 331437
+ },
+ "q3": {
+  "gsc_true": 3611061,
+  "gsc_not_true": 6230317,
+  "gsc_null": 0,
+  "ga4_true": 413966,
+  "ga4_null": 3018741
+ },
+ "leak_demo": {
+  "five_features": {
+   "p@50": 0.36,
+   "pr_auc": 0.376
+  },
+  "with_leak_clk_out": {
+   "p@50": 1.0,
+   "pr_auc": 1.0
+  },
+  "base_rate_2026-03": 0.338
+ }
+}

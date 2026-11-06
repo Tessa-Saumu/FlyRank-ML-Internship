@@ -1,0 +1,387 @@
+{
+ "content_model_mix": [
+  {
+   "model_used": "gemini-3-flash-preview",
+   "n": 174628,
+   "clients": 49,
+   "first_created": "2024-12-11T00:00:00.000",
+   "last_created": "2026-07-06T00:00:00.000"
+  },
+  {
+   "model_used": "gpt-4o-mini",
+   "n": 158468,
+   "clients": 28,
+   "first_created": "2024-10-16T00:00:00.000",
+   "last_created": "2026-04-13T00:00:00.000"
+  },
+  {
+   "model_used": null,
+   "n": 84963,
+   "clients": 11,
+   "first_created": "2024-11-28T00:00:00.000",
+   "last_created": "2026-04-28T00:00:00.000"
+  },
+  {
+   "model_used": "gpt-5-mini",
+   "n": 66410,
+   "clients": 16,
+   "first_created": "2024-11-22T00:00:00.000",
+   "last_created": "2026-07-05T00:00:00.000"
+  },
+  {
+   "model_used": "gemini-2.5-flash",
+   "n": 29325,
+   "clients": 17,
+   "first_created": "2025-06-17T00:00:00.000",
+   "last_created": "2026-02-13T00:00:00.000"
+  },
+  {
+   "model_used": "unknown",
+   "n": 5812,
+   "clients": 3,
+   "first_created": "2025-01-23T00:00:00.000",
+   "last_created": "2025-07-12T00:00:00.000"
+  }
+ ],
+ "content_type_intent": [
+  {
+   "content_type": "keyword article",
+   "main_intent": "informational",
+   "n": 256829
+  },
+  {
+   "content_type": "keyword article",
+   "main_intent": null,
+   "n": 91371
+  },
+  {
+   "content_type": "feedly article",
+   "main_intent": null,
+   "n": 57024
+  },
+  {
+   "content_type": "keyword article",
+   "main_intent": "transactional",
+   "n": 55955
+  },
+  {
+   "content_type": "keyword article",
+   "main_intent": "commercial",
+   "n": 52762
+  },
+  {
+   "content_type": "comparison article",
+   "main_intent": "informational",
+   "n": 3404
+  },
+  {
+   "content_type": "keyword article",
+   "main_intent": "navigational",
+   "n": 2257
+  },
+  {
+   "content_type": "comparison article",
+   "main_intent": null,
+   "n": 3
+  },
+  {
+   "content_type": "comparison article",
+   "main_intent": "transactional",
+   "n": 1
+  }
+ ],
+ "content_fields": [
+  {
+   "n": 519606,
+   "med_words": 2593.0,
+   "kw_tokens": 5.0230482327,
+   "med_sv": 10.0,
+   "share_optimized": 0.0873661967,
+   "opt_min": "2026-04-24T00:00:00.000",
+   "opt_max": "2026-07-06T00:00:00.000"
+  }
+ ],
+ "ai_concentration": [
+  {
+   "pages_with_ga4_sessions": 205933,
+   "pages_with_any_ai": 13270,
+   "total_ai": 83618.0,
+   "top10_pages_share": 0.0515080485,
+   "top1pct_share": 0.3959793346,
+   "top10pct_share": 0.6446817671,
+   "pages_exactly_1": 4569
+  }
+ ],
+ "ai_by_client_top": [
+  {
+   "client_rank": 1,
+   "ai": 30697.0,
+   "ai_share": 0.3671099524,
+   "ai_per_1k_sess": 11.3026614662
+  },
+  {
+   "client_rank": 2,
+   "ai": 26194.0,
+   "ai_share": 0.313257911,
+   "ai_per_1k_sess": 65.9718724184
+  },
+  {
+   "client_rank": 3,
+   "ai": 4832.0,
+   "ai_share": 0.057786601,
+   "ai_per_1k_sess": 2.8478509688
+  },
+  {
+   "client_rank": 4,
+   "ai": 2602.0,
+   "ai_share": 0.0311177019,
+   "ai_per_1k_sess": 3.9509547128
+  },
+  {
+   "client_rank": 5,
+   "ai": 2105.0,
+   "ai_share": 0.0251740056,
+   "ai_per_1k_sess": 30.4459133051
+  },
+  {
+   "client_rank": 6,
+   "ai": 1910.0,
+   "ai_share": 0.0228419718,
+   "ai_per_1k_sess": 14.0111502347
+  },
+  {
+   "client_rank": 7,
+   "ai": 1889.0,
+   "ai_share": 0.0225908297,
+   "ai_per_1k_sess": 45.8963020555
+  },
+  {
+   "client_rank": 8,
+   "ai": 1782.0,
+   "ai_share": 0.0213112009,
+   "ai_per_1k_sess": 3.7708459857
+  }
+ ],
+ "june_spike_top_pages_share": [
+  {
+   "total_gpt": 29113.0,
+   "top1": 803.0,
+   "top5": 2422.0
+  }
+ ],
+ "cohort_trend": [
+  {
+   "month": "2025-12",
+   "clients": 4,
+   "sess": 184001.0,
+   "org": 232425.0,
+   "ai": 2988.0,
+   "ai_per_1k_sess": 16.24,
+   "ai_per_1k_org": 12.86,
+   "ai_pages": 1015,
+   "gpt_pct": 55.1,
+   "gem_pct": 19.3,
+   "ppx_pct": 22.9,
+   "ctr_pct": 0.429,
+   "pos": 8.0
+  },
+  {
+   "month": "2026-01",
+   "clients": 4,
+   "sess": 200606.0,
+   "org": 266258.0,
+   "ai": 4128.0,
+   "ai_per_1k_sess": 20.58,
+   "ai_per_1k_org": 15.5,
+   "ai_pages": 1358,
+   "gpt_pct": 47.8,
+   "gem_pct": 34.0,
+   "ppx_pct": 16.8,
+   "ctr_pct": 0.425,
+   "pos": 8.7
+  },
+  {
+   "month": "2026-02",
+   "clients": 4,
+   "sess": 315238.0,
+   "org": 277196.0,
+   "ai": 4700.0,
+   "ai_per_1k_sess": 14.91,
+   "ai_per_1k_org": 16.96,
+   "ai_pages": 1505,
+   "gpt_pct": 52.1,
+   "gem_pct": 32.5,
+   "ppx_pct": 13.8,
+   "ctr_pct": 0.318,
+   "pos": 15.5
+  },
+  {
+   "month": "2026-03",
+   "clients": 4,
+   "sess": 830378.0,
+   "org": 266462.0,
+   "ai": 5736.0,
+   "ai_per_1k_sess": 6.91,
+   "ai_per_1k_org": 21.53,
+   "ai_pages": 2263,
+   "gpt_pct": 51.5,
+   "gem_pct": 38.2,
+   "ppx_pct": 8.9,
+   "ctr_pct": 0.254,
+   "pos": 20.8
+  },
+  {
+   "month": "2026-04",
+   "clients": 4,
+   "sess": 364959.0,
+   "org": 346591.0,
+   "ai": 8135.0,
+   "ai_per_1k_sess": 22.29,
+   "ai_per_1k_org": 23.47,
+   "ai_pages": 2320,
+   "gpt_pct": 54.2,
+   "gem_pct": 37.7,
+   "ppx_pct": 6.9,
+   "ctr_pct": 0.258,
+   "pos": 20.0
+  },
+  {
+   "month": "2026-05",
+   "clients": 4,
+   "sess": 916039.0,
+   "org": 382152.0,
+   "ai": 4139.0,
+   "ai_per_1k_sess": 4.52,
+   "ai_per_1k_org": 10.83,
+   "ai_pages": 1335,
+   "gpt_pct": 53.9,
+   "gem_pct": 35.5,
+   "ppx_pct": 7.3,
+   "ctr_pct": 0.331,
+   "pos": 19.8
+  },
+  {
+   "month": "2026-06",
+   "clients": 4,
+   "sess": 505193.0,
+   "org": 399715.0,
+   "ai": 2556.0,
+   "ai_per_1k_sess": 5.06,
+   "ai_per_1k_org": 6.39,
+   "ai_pages": 818,
+   "gpt_pct": 63.6,
+   "gem_pct": 27.5,
+   "ppx_pct": 3.6,
+   "ctr_pct": 0.418,
+   "pos": 14.5
+  }
+ ],
+ "cohort_trend_ex_top_client": [
+  {
+   "month": "2025-12",
+   "ai": 822.0,
+   "ai_per_1k_sess": 8.86
+  },
+  {
+   "month": "2026-01",
+   "ai": 711.0,
+   "ai_per_1k_sess": 9.04
+  },
+  {
+   "month": "2026-02",
+   "ai": 510.0,
+   "ai_per_1k_sess": 6.38
+  },
+  {
+   "month": "2026-03",
+   "ai": 666.0,
+   "ai_per_1k_sess": 7.98
+  },
+  {
+   "month": "2026-04",
+   "ai": 413.0,
+   "ai_per_1k_sess": 5.14
+  },
+  {
+   "month": "2026-05",
+   "ai": 240.0,
+   "ai_per_1k_sess": 2.28
+  },
+  {
+   "month": "2026-06",
+   "ai": 697.0,
+   "ai_per_1k_sess": 3.86
+  }
+ ],
+ "engagement_pure_channel_days": [
+  {
+   "ch": "ai",
+   "page_days": 10165,
+   "sess": 13744.0,
+   "engaged_pct": 3.5,
+   "sec_per_sess": 3.4,
+   "pv_per_sess": 1.36
+  },
+  {
+   "ch": "direct",
+   "page_days": 293820,
+   "sess": 359367.0,
+   "engaged_pct": 0.9,
+   "sec_per_sess": 1.6,
+   "pv_per_sess": 1.05
+  },
+  {
+   "ch": "organic",
+   "page_days": 605640,
+   "sess": 982340.0,
+   "engaged_pct": 1.5,
+   "sec_per_sess": 3.0,
+   "pv_per_sess": 1.15
+  },
+  {
+   "ch": "referral",
+   "page_days": 9748,
+   "sess": 12407.0,
+   "engaged_pct": 3.0,
+   "sec_per_sess": 4.9,
+   "pv_per_sess": 1.24
+  }
+ ],
+ "engagement_pure_ai_by_platform": [
+  {
+   "plat": "chatgpt",
+   "page_days": 6942,
+   "sess": 8973.0,
+   "engaged_pct": 2.6,
+   "sec_per_sess": 2.5
+  },
+  {
+   "plat": "gemini",
+   "page_days": 1608,
+   "sess": 2566.0,
+   "engaged_pct": 5.6,
+   "sec_per_sess": 4.1
+  },
+  {
+   "plat": "perplexity",
+   "page_days": 1068,
+   "sess": 1470.0,
+   "engaged_pct": 4.6,
+   "sec_per_sess": 4.9
+  },
+  {
+   "plat": "copilot",
+   "page_days": 327,
+   "sess": 398.0,
+   "engaged_pct": 4.0,
+   "sec_per_sess": 11.5
+  },
+  {
+   "plat": "mixed/other",
+   "page_days": 220,
+   "sess": 337.0,
+   "engaged_pct": 5.0,
+   "sec_per_sess": 4.5
+  }
+ ]
+}

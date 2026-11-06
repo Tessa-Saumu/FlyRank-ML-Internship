@@ -1,0 +1,112 @@
+[
+ {
+  "rank":1,
+  "position":2.4,
+  "ctr_change_pct":-99.0,
+  "ctr_vs_peers_pct":118.0,
+  "clicks_last_month":366,
+  "reason_code":"TOP3_SLIPPING",
+  "action":"review now",
+  "why":"position 2.4, CTR -99% last month",
+  "what_would_make_it_wrong":"a tracking gap or demand drop, not AI answers (check impressions and season)"
+ },
+ {
+  "rank":2,
+  "position":1.8,
+  "ctr_change_pct":-99.0,
+  "ctr_vs_peers_pct":94.0,
+  "clicks_last_month":46,
+  "reason_code":"TOP3_SLIPPING",
+  "action":"review now",
+  "why":"position 1.8, CTR -99% last month",
+  "what_would_make_it_wrong":"a tracking gap or demand drop, not AI answers (check impressions and season)"
+ },
+ {
+  "rank":3,
+  "position":2.2,
+  "ctr_change_pct":-99.0,
+  "ctr_vs_peers_pct":60.0,
+  "clicks_last_month":57,
+  "reason_code":"TOP3_SLIPPING",
+  "action":"review now",
+  "why":"position 2.2, CTR -99% last month",
+  "what_would_make_it_wrong":"a tracking gap or demand drop, not AI answers (check impressions and season)"
+ },
+ {
+  "rank":4,
+  "position":2.7,
+  "ctr_change_pct":-99.0,
+  "ctr_vs_peers_pct":63.0,
+  "clicks_last_month":36,
+  "reason_code":"TOP3_SLIPPING",
+  "action":"review now",
+  "why":"position 2.7, CTR -99% last month",
+  "what_would_make_it_wrong":"a tracking gap or demand drop, not AI answers (check impressions and season)"
+ },
+ {
+  "rank":5,
+  "position":0.5,
+  "ctr_change_pct":-97.0,
+  "ctr_vs_peers_pct":222.0,
+  "clicks_last_month":76,
+  "reason_code":"TOP3_SLIPPING",
+  "action":"review now",
+  "why":"position 0.5, CTR -97% last month",
+  "what_would_make_it_wrong":"a tracking gap or demand drop, not AI answers (check impressions and season)"
+ },
+ {
+  "rank":6,
+  "position":3.2,
+  "ctr_change_pct":-99.0,
+  "ctr_vs_peers_pct":32.0,
+  "clicks_last_month":75,
+  "reason_code":"TOP3_SLIPPING",
+  "action":"review now",
+  "why":"position 3.2, CTR -99% last month",
+  "what_would_make_it_wrong":"a tracking gap or demand drop, not AI answers (check impressions and season)"
+ },
+ {
+  "rank":7,
+  "position":2.8,
+  "ctr_change_pct":-98.0,
+  "ctr_vs_peers_pct":189.0,
+  "clicks_last_month":87,
+  "reason_code":"TOP3_SLIPPING",
+  "action":"review now",
+  "why":"position 2.8, CTR -98% last month",
+  "what_would_make_it_wrong":"a tracking gap or demand drop, not AI answers (check impressions and season)"
+ },
+ {
+  "rank":8,
+  "position":1.7,
+  "ctr_change_pct":-98.0,
+  "ctr_vs_peers_pct":87.0,
+  "clicks_last_month":35,
+  "reason_code":"TOP3_SLIPPING",
+  "action":"review now",
+  "why":"position 1.7, CTR -98% last month",
+  "what_would_make_it_wrong":"a tracking gap or demand drop, not AI answers (check impressions and season)"
+ },
+ {
+  "rank":9,
+  "position":2.6,
+  "ctr_change_pct":-99.0,
+  "ctr_vs_peers_pct":93.0,
+  "clicks_last_month":97,
+  "reason_code":"TOP3_SLIPPING",
+  "action":"review now",
+  "why":"position 2.6, CTR -99% last month",
+  "what_would_make_it_wrong":"a tracking gap or demand drop, not AI answers (check impressions and season)"
+ },
+ {
+  "rank":10,
+  "position":3.4,
+  "ctr_change_pct":-99.0,
+  "ctr_vs_peers_pct":72.0,
+  "clicks_last_month":21,
+  "reason_code":"TOP3_SLIPPING",
+  "action":"review now",
+  "why":"position 3.4, CTR -99% last month",
+  "what_would_make_it_wrong":"a tracking gap or demand drop, not AI answers (check impressions and season)"
+ }
+]

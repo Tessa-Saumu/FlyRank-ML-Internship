@@ -1,0 +1,61 @@
+{
+ "decision_origin": "2026-07",
+ "feature_window": [
+  "2026-05",
+  "2026-06"
+ ],
+ "trained_on_origins": [
+  "2025-12",
+  "2026-01",
+  "2026-02",
+  "2026-03",
+  "2026-04",
+  "2026-05"
+ ],
+ "train_rows": 49022,
+ "lr_C": 1.0,
+ "eligible_pages": 14100,
+ "excluded_younger_than_90_days": 3243,
+ "queue_size": 50,
+ "queue_clients": 7,
+ "max_pages_one_client": 10,
+ "reason_codes": {
+  "CTR_ABOVE_PEERS": 40,
+  "DEMAND_SHIFT": 10
+ },
+ "queue_median_position": 4.8,
+ "clicks_at_risk_2_months_if_25pct_lost": 25324,
+ "score_quantiles_eligible": {
+  "0.5": 0.2291,
+  "0.9": 0.4285,
+  "0.99": 0.8354
+ },
+ "queue_min_score": 0.8037,
+ "client_cap": 10,
+ "cap_cost_forward_origins": {
+  "2026-02": {
+   "uncapped_p@50": 0.52,
+   "capped_p@50": 0.54,
+   "uncapped_clients": 6,
+   "capped_clients": 8
+  },
+  "2026-03": {
+   "uncapped_p@50": 0.6,
+   "capped_p@50": 0.62,
+   "uncapped_clients": 11,
+   "capped_clients": 11
+  },
+  "2026-04": {
+   "uncapped_p@50": 0.66,
+   "capped_p@50": 0.66,
+   "uncapped_clients": 9,
+   "capped_clients": 11
+  },
+  "2026-05": {
+   "uncapped_p@50": 0.42,
+   "capped_p@50": 0.54,
+   "uncapped_clients": 15,
+   "capped_clients": 16
+  }
+ }
+}

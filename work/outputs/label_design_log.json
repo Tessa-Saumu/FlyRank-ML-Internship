@@ -1,0 +1,23 @@
+{
+ "purpose": "Development log of the label definition. Each version was run on the three dev origins only (2026-02, 2026-03, 2026-04); the sealed origin was untouched. Kept so the iteration is auditable, not to claim the earlier numbers.",
+ "versions": {
+  "v1_anchor_two_month_average": {
+   "expected_clicks_from": "feature-window (two-month) CTR shrunk toward client prior",
+   "problem_found": "a page whose CTR already fell in month -1 counts as 'eroding' even if it only stays at its new level: momentum leaks into the label",
+   "base_rate": [0.2577, 0.3293, 0.3452],
+   "p50": {"rule_position_slipping": [0.46, 0.76, 0.50], "logreg": [0.68, 0.60, 0.74], "hgb": [0.90, 0.72, 0.88]}
+  },
+  "v2_anchor_last_month_shrunk_to_own_history": {
+   "expected_clicks_from": "month -1 CTR shrunk toward the page's own two-month CTR",
+   "problem_found": "for a declining page its own history is higher than its present, so shrinking toward it still inflates the expectation (the same leak through the back door)",
+   "base_rate": [0.2662, 0.3659, 0.3368],
+   "p50": {"rule_position_slipping": [0.48, 0.82, 0.56], "logreg": [0.64, 0.68, 0.72], "hgb": [0.80, 0.68, 0.80]},
+   "ap": {"logreg": [0.4235, 0.4723, 0.4174], "hgb": [0.4407, 0.4897, 0.4419]}
+  },
+  "v3_final_anchor_last_month_shrunk_to_client_prior": {
+   "expected_clicks_from": "month -1 CTR shrunk toward the client's position-adjusted CTR (independent of the page's own trend)",
+   "receipts": "erosion_frame_summary.json, erosion_model_metrics.json"
+  }
+ },
+ "lesson": "Both leaky versions made the learned models look better (hgb P@50 up to 0.90). The honest label lowers every model score; that drop is the evidence that the leak was real."
+}

@@ -1,0 +1,18 @@
+{
+ "false positive":{
+  "pages":29,
+  "median_position":6.376,
+  "median_ctr_vs_peers":0.694,
+  "share_impressions_jumped_3x":0.862,
+  "share_active_one_month_only":0.724,
+  "clients":7
+ },
+ "true positive":{
+  "pages":21,
+  "median_position":6.476,
+  "median_ctr_vs_peers":1.174,
+  "share_impressions_jumped_3x":0.81,
+  "share_active_one_month_only":0.667,
+  "clients":13
+ }
+}
