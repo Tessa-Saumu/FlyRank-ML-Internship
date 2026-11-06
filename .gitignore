@@ -37,3 +37,9 @@ __pycache__/
 .venv/
 venv/
 .env
+
+# --- Private notes (investigation + results reports): never committed -------
+.private/
+# archived frame caches (parquet already ignored; their regenerated manifests too)
+work/archive/**/local_final_pipeline_floor*/
+.claude/

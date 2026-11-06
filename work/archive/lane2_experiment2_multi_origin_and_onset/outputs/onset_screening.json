@@ -1,0 +1,4339 @@
+{
+  "notebook": "onset_screening",
+  "seed": 42,
+  "provenance": {
+    "source": "warehouse",
+    "revision": "50cbf7c3909d07be4d1b5906b4d09e882e5acbf2",
+    "floor": 1000,
+    "config": {
+      "seed": 42,
+      "primary_reporting_lag_days": 7,
+      "reporting_lag_sensitivity_days": [],
+      "top_k": [
+        20,
+        50,
+        100
+      ],
+      "minimum_recent_coverage_days": 14,
+      "minimum_impressions": 1000,
+      "minimum_label_coverage_days": 14,
+      "decline_threshold": 0.8,
+      "practical_hurdle_cases_per_50": 5,
+      "practical_hurdle_origins": 4,
+      "feature_months": [
+        "2025-10",
+        "2025-11",
+        "2025-12",
+        "2026-01",
+        "2026-02",
+        "2026-03",
+        "2026-04"
+      ],
+      "prediction_origins": [
+        "2025-12",
+        "2026-01",
+        "2026-02",
+        "2026-03",
+        "2026-04"
+      ],
+      "output_dir": "work/outputs/warehouse_feature_experiments"
+    }
+  },
+  "configuration": {
+    "k_values": [
+      20,
+      50
+    ],
+    "onset_threshold": 1.0,
+    "onset_min_days": 3,
+    "bootstrap_reps": 2000,
+    "decline_threshold": 0.8,
+    "label_min_coverage_days": 14,
+    "origins": [
+      "2025-12",
+      "2026-01",
+      "2026-02",
+      "2026-03",
+      "2026-04"
+    ]
+  },
+  "origin_results": {
+    "2025-12": {
+      "origin": "2025-12",
+      "training_months": [
+        "2025-10"
+      ],
+      "training_rows": 9524,
+      "candidates": 19073,
+      "pool_rows": 8395,
+      "pool_share_of_candidates": 0.44015099879410685,
+      "pool_base_rate": 0.2145666944808678,
+      "pool_unknown_share": 0.0007147111375818939,
+      "coverage": {
+        "recent7_days_median": 7.0,
+        "recent30_days_median": 30.0,
+        "bounce_share": 0.1527099463966647
+      },
+      "metrics": {
+        "static_rule": {
+          "p_at_20": {
+            "rows": 8395,
+            "available": true,
+            "precision_lower": 0.2,
+            "precision_upper": 0.2,
+            "precision_measurable": 0.2,
+            "unknown": 0,
+            "base_rate": 0.2145666944808678
+          },
+          "p_at_50": {
+            "rows": 8395,
+            "available": true,
+            "precision_lower": 0.14,
+            "precision_upper": 0.14,
+            "precision_measurable": 0.14,
+            "unknown": 0,
+            "base_rate": 0.2145666944808678
+          }
+        },
+        "acceleration_rule": {
+          "p_at_20": {
+            "rows": 8395,
+            "available": true,
+            "precision_lower": 0.0,
+            "precision_upper": 0.0,
+            "precision_measurable": 0.0,
+            "unknown": 0,
+            "base_rate": 0.2145666944808678
+          },
+          "p_at_50": {
+            "rows": 8395,
+            "available": true,
+            "precision_lower": 0.0,
+            "precision_upper": 0.0,
+            "precision_measurable": 0.0,
+            "unknown": 0,
+            "base_rate": 0.2145666944808678
+          }
+        },
+        "coverage_adjusted_acceleration_rule": {
+          "p_at_20": {
+            "rows": 8395,
+            "available": true,
+            "precision_lower": 0.3,
+            "precision_upper": 0.3,
+            "precision_measurable": 0.3,
+            "unknown": 0,
+            "base_rate": 0.2145666944808678
+          },
+          "p_at_50": {
+            "rows": 8395,
+            "available": true,
+            "precision_lower": 0.12,
+            "precision_upper": 0.12,
+            "precision_measurable": 0.12,
+            "unknown": 0,
+            "base_rate": 0.2145666944808678
+          }
+        },
+        "control:logistic_regression": {
+          "p_at_20": {
+            "rows": 8395,
+            "available": true,
+            "precision_lower": 0.3,
+            "precision_upper": 0.35,
+            "precision_measurable": 0.3157894736842105,
+            "unknown": 1,
+            "base_rate": 0.2145666944808678
+          },
+          "p_at_50": {
+            "rows": 8395,
+            "available": true,
+            "precision_lower": 0.24,
+            "precision_upper": 0.28,
+            "precision_measurable": 0.25,
+            "unknown": 2,
+            "base_rate": 0.2145666944808678
+          }
+        },
+        "control:random_forest": {
+          "p_at_20": {
+            "rows": 8395,
+            "available": true,
+            "precision_lower": 0.3,
+            "precision_upper": 0.3,
+            "precision_measurable": 0.3,
+            "unknown": 0,
+            "base_rate": 0.2145666944808678
+          },
+          "p_at_50": {
+            "rows": 8395,
+            "available": true,
+            "precision_lower": 0.18,
+            "precision_upper": 0.18,
+            "precision_measurable": 0.18,
+            "unknown": 0,
+            "base_rate": 0.2145666944808678
+          }
+        },
+        "momentum:logistic_regression": {
+          "p_at_20": {
+            "rows": 8395,
+            "available": true,
+            "precision_lower": 0.4,
+            "precision_upper": 0.5,
+            "precision_measurable": 0.4444444444444444,
+            "unknown": 2,
+            "base_rate": 0.2145666944808678
+          },
+          "p_at_50": {
+            "rows": 8395,
+            "available": true,
+            "precision_lower": 0.26,
+            "precision_upper": 0.3,
+            "precision_measurable": 0.2708333333333333,
+            "unknown": 2,
+            "base_rate": 0.2145666944808678
+          }
+        },
+        "momentum:random_forest": {
+          "p_at_20": {
+            "rows": 8395,
+            "available": true,
+            "precision_lower": 0.35,
+            "precision_upper": 0.35,
+            "precision_measurable": 0.35,
+            "unknown": 0,
+            "base_rate": 0.2145666944808678
+          },
+          "p_at_50": {
+            "rows": 8395,
+            "available": true,
+            "precision_lower": 0.34,
+            "precision_upper": 0.34,
+            "precision_measurable": 0.34,
+            "unknown": 0,
+            "base_rate": 0.2145666944808678
+          }
+        }
+      },
+      "metrics_all_training_rows": {
+        "static_rule": {
+          "p_at_20": {
+            "rows": 8395,
+            "available": true,
+            "precision_lower": 0.2,
+            "precision_upper": 0.2,
+            "precision_measurable": 0.2,
+            "unknown": 0,
+            "base_rate": 0.2145666944808678
+          },
+          "p_at_50": {
+            "rows": 8395,
+            "available": true,
+            "precision_lower": 0.14,
+            "precision_upper": 0.14,
+            "precision_measurable": 0.14,
+            "unknown": 0,
+            "base_rate": 0.2145666944808678
+          }
+        },
+        "acceleration_rule": {
+          "p_at_20": {
+            "rows": 8395,
+            "available": true,
+            "precision_lower": 0.0,
+            "precision_upper": 0.0,
+            "precision_measurable": 0.0,
+            "unknown": 0,
+            "base_rate": 0.2145666944808678
+          },
+          "p_at_50": {
+            "rows": 8395,
+            "available": true,
+            "precision_lower": 0.0,
+            "precision_upper": 0.0,
+            "precision_measurable": 0.0,
+            "unknown": 0,
+            "base_rate": 0.2145666944808678
+          }
+        },
+        "coverage_adjusted_acceleration_rule": {
+          "p_at_20": {
+            "rows": 8395,
+            "available": true,
+            "precision_lower": 0.3,
+            "precision_upper": 0.3,
+            "precision_measurable": 0.3,
+            "unknown": 0,
+            "base_rate": 0.2145666944808678
+          },
+          "p_at_50": {
+            "rows": 8395,
+            "available": true,
+            "precision_lower": 0.12,
+            "precision_upper": 0.12,
+            "precision_measurable": 0.12,
+            "unknown": 0,
+            "base_rate": 0.2145666944808678
+          }
+        },
+        "control:logistic_regression": {
+          "p_at_20": {
+            "rows": 8395,
+            "available": true,
+            "precision_lower": 0.25,
+            "precision_upper": 0.25,
+            "precision_measurable": 0.25,
+            "unknown": 0,
+            "base_rate": 0.2145666944808678
+          },
+          "p_at_50": {
+            "rows": 8395,
+            "available": true,
+            "precision_lower": 0.22,
+            "precision_upper": 0.22,
+            "precision_measurable": 0.22,
+            "unknown": 0,
+            "base_rate": 0.2145666944808678
+          }
+        },
+        "control:random_forest": {
+          "p_at_20": {
+            "rows": 8395,
+            "available": true,
+            "precision_lower": 0.4,
+            "precision_upper": 0.4,
+            "precision_measurable": 0.4,
+            "unknown": 0,
+            "base_rate": 0.2145666944808678
+          },
+          "p_at_50": {
+            "rows": 8395,
+            "available": true,
+            "precision_lower": 0.36,
+            "precision_upper": 0.36,
+            "precision_measurable": 0.36,
+            "unknown": 0,
+            "base_rate": 0.2145666944808678
+          }
+        },
+        "momentum:logistic_regression": {
+          "p_at_20": {
+            "rows": 8395,
+            "available": true,
+            "precision_lower": 0.4,
+            "precision_upper": 0.45,
+            "precision_measurable": 0.42105263157894735,
+            "unknown": 1,
+            "base_rate": 0.2145666944808678
+          },
+          "p_at_50": {
+            "rows": 8395,
+            "available": true,
+            "precision_lower": 0.3,
+            "precision_upper": 0.32,
+            "precision_measurable": 0.30612244897959184,
+            "unknown": 1,
+            "base_rate": 0.2145666944808678
+          }
+        },
+        "momentum:random_forest": {
+          "p_at_20": {
+            "rows": 8395,
+            "available": true,
+            "precision_lower": 0.5,
+            "precision_upper": 0.5,
+            "precision_measurable": 0.5,
+            "unknown": 0,
+            "base_rate": 0.2145666944808678
+          },
+          "p_at_50": {
+            "rows": 8395,
+            "available": true,
+            "precision_lower": 0.72,
+            "precision_upper": 0.72,
+            "precision_measurable": 0.72,
+            "unknown": 0,
+            "base_rate": 0.2145666944808678
+          }
+        }
+      },
+      "bootstrap": {
+        "p_at_20": {
+          "momentum:logistic_regression_minus_static_rule": {
+            "available": true,
+            "observed_delta": 0.2,
+            "mean": 0.1696,
+            "ci_low": -0.10000000000000003,
+            "ci_high": 0.45,
+            "share_above_zero": 0.8455,
+            "reps": 2000
+          },
+          "momentum:random_forest_minus_static_rule": {
+            "available": true,
+            "observed_delta": 0.14999999999999997,
+            "mean": 0.1714,
+            "ci_low": -0.10000000000000003,
+            "ci_high": 0.45000000000000007,
+            "share_above_zero": 0.847,
+            "reps": 2000
+          },
+          "momentum:logistic_regression_minus_acceleration_rule": {
+            "available": true,
+            "observed_delta": 0.4,
+            "mean": 0.3742,
+            "ci_low": 0.15,
+            "ci_high": 0.6,
+            "share_above_zero": 1.0,
+            "reps": 2000
+          }
+        },
+        "p_at_50": {
+          "momentum:logistic_regression_minus_static_rule": {
+            "available": true,
+            "observed_delta": 0.12,
+            "mean": 0.11587000000000001,
+            "ci_low": -0.06,
+            "ci_high": 0.28,
+            "share_above_zero": 0.8995,
+            "reps": 2000
+          },
+          "momentum:random_forest_minus_static_rule": {
+            "available": true,
+            "observed_delta": 0.2,
+            "mean": 0.18654,
+            "ci_low": 0.01999999999999999,
+            "ci_high": 0.36,
+            "share_above_zero": 0.979,
+            "reps": 2000
+          },
+          "momentum:logistic_regression_minus_acceleration_rule": {
+            "available": true,
+            "observed_delta": 0.26,
+            "mean": 0.26575,
+            "ci_low": 0.14,
+            "ci_high": 0.42,
+            "share_above_zero": 1.0,
+            "reps": 2000
+          }
+        }
+      },
+      "mechanism": {
+        "mechanism_2f": {
+          "rows": 8395,
+          "available": true,
+          "precision_lower": 0.4,
+          "precision_upper": 0.44,
+          "precision_measurable": 0.4166666666666667,
+          "unknown": 2,
+          "base_rate": 0.2145666944808678
+        },
+        "mechanism_2f_plus_flag": {
+          "rows": 8395,
+          "available": true,
+          "precision_lower": 0.4,
+          "precision_upper": 0.44,
+          "precision_measurable": 0.4166666666666667,
+          "unknown": 2,
+          "base_rate": 0.2145666944808678
+        },
+        "momentum:logistic_regression": {
+          "rows": 8395,
+          "available": true,
+          "precision_lower": 0.26,
+          "precision_upper": 0.3,
+          "precision_measurable": 0.2708333333333333,
+          "unknown": 2,
+          "base_rate": 0.2145666944808678
+        },
+        "bounce_share_of_pool": 0.1527099463966647,
+        "bounce_pool_base_rate": 0.06947697111631537,
+        "non_bounce_pool_base_rate": 0.24071468767585819
+      },
+      "robustness": {
+        "largest_client_share_of_pool": 0.37141155449672425,
+        "full": {
+          "static_rule": {
+            "rows": 8395,
+            "available": true,
+            "precision_lower": 0.14,
+            "precision_upper": 0.14,
+            "precision_measurable": 0.14,
+            "unknown": 0,
+            "base_rate": 0.2145666944808678
+          },
+          "acceleration_rule": {
+            "rows": 8395,
+            "available": true,
+            "precision_lower": 0.0,
+            "precision_upper": 0.0,
+            "precision_measurable": 0.0,
+            "unknown": 0,
+            "base_rate": 0.2145666944808678
+          },
+          "momentum:logistic_regression": {
+            "rows": 8395,
+            "available": true,
+            "precision_lower": 0.26,
+            "precision_upper": 0.3,
+            "precision_measurable": 0.2708333333333333,
+            "unknown": 2,
+            "base_rate": 0.2145666944808678
+          },
+          "momentum:random_forest": {
+            "rows": 8395,
+            "available": true,
+            "precision_lower": 0.34,
+            "precision_upper": 0.34,
+            "precision_measurable": 0.34,
+            "unknown": 0,
+            "base_rate": 0.2145666944808678
+          }
+        },
+        "without_largest_client": {
+          "static_rule": {
+            "rows": 5277,
+            "available": true,
+            "precision_lower": 0.22,
+            "precision_upper": 0.22,
+            "precision_measurable": 0.22,
+            "unknown": 0,
+            "base_rate": 0.3033579965850882
+          },
+          "acceleration_rule": {
+            "rows": 5277,
+            "available": true,
+            "precision_lower": 0.0,
+            "precision_upper": 0.0,
+            "precision_measurable": 0.0,
+            "unknown": 0,
+            "base_rate": 0.3033579965850882
+          },
+          "momentum:logistic_regression": {
+            "rows": 5277,
+            "available": true,
+            "precision_lower": 0.24,
+            "precision_upper": 0.28,
+            "precision_measurable": 0.25,
+            "unknown": 2,
+            "base_rate": 0.3033579965850882
+          },
+          "momentum:random_forest": {
+            "rows": 5277,
+            "available": true,
+            "precision_lower": 0.38,
+            "precision_upper": 0.38,
+            "precision_measurable": 0.38,
+            "unknown": 0,
+            "base_rate": 0.3033579965850882
+          }
+        },
+        "complete_coverage_only": {
+          "static_rule": {
+            "rows": 8274,
+            "available": true,
+            "precision_lower": 0.14,
+            "precision_upper": 0.14,
+            "precision_measurable": 0.14,
+            "unknown": 0,
+            "base_rate": 0.21308501632603702
+          },
+          "acceleration_rule": {
+            "rows": 8274,
+            "available": true,
+            "precision_lower": 0.0,
+            "precision_upper": 0.0,
+            "precision_measurable": 0.0,
+            "unknown": 0,
+            "base_rate": 0.21308501632603702
+          },
+          "momentum:logistic_regression": {
+            "rows": 8274,
+            "available": true,
+            "precision_lower": 0.18,
+            "precision_upper": 0.22,
+            "precision_measurable": 0.1875,
+            "unknown": 2,
+            "base_rate": 0.21308501632603702
+          },
+          "momentum:random_forest": {
+            "rows": 8274,
+            "available": true,
+            "precision_lower": 0.34,
+            "precision_upper": 0.34,
+            "precision_measurable": 0.34,
+            "unknown": 0,
+            "base_rate": 0.21308501632603702
+          }
+        }
+      },
+      "diagnostics": {
+        "coefficients": [
+          {
+            "feature": "has_prior30_gsc_coverage",
+            "coefficient_std_units": -0.45482541431622886
+          },
+          {
+            "feature": "recent30_ctr_pct",
+            "coefficient_std_units": -0.3936748929485615
+          },
+          {
+            "feature": "content_age_days",
+            "coefficient_std_units": 0.35808179798493994
+          },
+          {
+            "feature": "traffic_velocity_30d",
+            "coefficient_std_units": 0.17108015832105755
+          },
+          {
+            "feature": "log_recent30_impressions",
+            "coefficient_std_units": 0.13137311922298087
+          },
+          {
+            "feature": "recent30_avg_position",
+            "coefficient_std_units": 0.09404607537102676
+          },
+          {
+            "feature": "traffic_acceleration_7d",
+            "coefficient_std_units": -0.04599477549733286
+          },
+          {
+            "feature": "recent30_active_days",
+            "coefficient_std_units": 0.0456487186264955
+          }
+        ],
+        "permutation_importance": [
+          {
+            "feature": "recent30_ctr_pct",
+            "ap_drop_mean": 0.3105461436502093,
+            "ap_drop_std": 0.004178335131007486
+          },
+          {
+            "feature": "traffic_acceleration_7d",
+            "ap_drop_mean": 0.12309027562422167,
+            "ap_drop_std": 0.0035334680417413284
+          },
+          {
+            "feature": "log_recent30_impressions",
+            "ap_drop_mean": 0.1037080865966065,
+            "ap_drop_std": 0.004760332167938415
+          },
+          {
+            "feature": "traffic_velocity_30d",
+            "ap_drop_mean": 0.08271558459435065,
+            "ap_drop_std": 0.0032833726878775896
+          },
+          {
+            "feature": "content_age_days",
+            "ap_drop_mean": 0.023148743670495485,
+            "ap_drop_std": 0.007291375787331652
+          },
+          {
+            "feature": "has_prior30_gsc_coverage",
+            "ap_drop_mean": 0.007707639412314749,
+            "ap_drop_std": 0.0029538832549661884
+          },
+          {
+            "feature": "recent30_active_days",
+            "ap_drop_mean": 0.0021636820698036963,
+            "ap_drop_std": 0.0006601099737722616
+          },
+          {
+            "feature": "recent30_avg_position",
+            "ap_drop_mean": -0.012107132098251793,
+            "ap_drop_std": 0.00930933032585383
+          }
+        ],
+        "pool_ap_logistic_regression": 0.2945051368480017
+      }
+    },
+    "2026-01": {
+      "origin": "2026-01",
+      "training_months": [
+        "2025-11"
+      ],
+      "training_rows": 13721,
+      "candidates": 22340,
+      "pool_rows": 15138,
+      "pool_share_of_candidates": 0.6776186213070725,
+      "pool_base_rate": 0.09282030940103134,
+      "pool_unknown_share": 0.0007927070947284979,
+      "coverage": {
+        "recent7_days_median": 7.0,
+        "recent30_days_median": 30.0,
+        "bounce_share": 0.14704716607213636
+      },
+      "metrics": {
+        "static_rule": {
+          "p_at_20": {
+            "rows": 15138,
+            "available": true,
+            "precision_lower": 0.05,
+            "precision_upper": 0.05,
+            "precision_measurable": 0.05,
+            "unknown": 0,
+            "base_rate": 0.09282030940103134
+          },
+          "p_at_50": {
+            "rows": 15138,
+            "available": true,
+            "precision_lower": 0.12,
+            "precision_upper": 0.12,
+            "precision_measurable": 0.12,
+            "unknown": 0,
+            "base_rate": 0.09282030940103134
+          }
+        },
+        "acceleration_rule": {
+          "p_at_20": {
+            "rows": 15138,
+            "available": true,
+            "precision_lower": 0.15,
+            "precision_upper": 0.15,
+            "precision_measurable": 0.15,
+            "unknown": 0,
+            "base_rate": 0.09282030940103134
+          },
+          "p_at_50": {
+            "rows": 15138,
+            "available": true,
+            "precision_lower": 0.14,
+            "precision_upper": 0.14,
+            "precision_measurable": 0.14,
+            "unknown": 0,
+            "base_rate": 0.09282030940103134
+          }
+        },
+        "coverage_adjusted_acceleration_rule": {
+          "p_at_20": {
+            "rows": 15138,
+            "available": true,
+            "precision_lower": 0.1,
+            "precision_upper": 0.1,
+            "precision_measurable": 0.1,
+            "unknown": 0,
+            "base_rate": 0.09282030940103134
+          },
+          "p_at_50": {
+            "rows": 15138,
+            "available": true,
+            "precision_lower": 0.14,
+            "precision_upper": 0.14,
+            "precision_measurable": 0.14,
+            "unknown": 0,
+            "base_rate": 0.09282030940103134
+          }
+        },
+        "control:logistic_regression": {
+          "p_at_20": {
+            "rows": 15138,
+            "available": true,
+            "precision_lower": 0.45,
+            "precision_upper": 0.45,
+            "precision_measurable": 0.45,
+            "unknown": 0,
+            "base_rate": 0.09282030940103134
+          },
+          "p_at_50": {
+            "rows": 15138,
+            "available": true,
+            "precision_lower": 0.4,
+            "precision_upper": 0.4,
+            "precision_measurable": 0.4,
+            "unknown": 0,
+            "base_rate": 0.09282030940103134
+          }
+        },
+        "control:random_forest": {
+          "p_at_20": {
+            "rows": 15138,
+            "available": true,
+            "precision_lower": 0.15,
+            "precision_upper": 0.15,
+            "precision_measurable": 0.15,
+            "unknown": 0,
+            "base_rate": 0.09282030940103134
+          },
+          "p_at_50": {
+            "rows": 15138,
+            "available": true,
+            "precision_lower": 0.08,
+            "precision_upper": 0.08,
+            "precision_measurable": 0.08,
+            "unknown": 0,
+            "base_rate": 0.09282030940103134
+          }
+        },
+        "momentum:logistic_regression": {
+          "p_at_20": {
+            "rows": 15138,
+            "available": true,
+            "precision_lower": 0.75,
+            "precision_upper": 0.75,
+            "precision_measurable": 0.75,
+            "unknown": 0,
+            "base_rate": 0.09282030940103134
+          },
+          "p_at_50": {
+            "rows": 15138,
+            "available": true,
+            "precision_lower": 0.78,
+            "precision_upper": 0.78,
+            "precision_measurable": 0.78,
+            "unknown": 0,
+            "base_rate": 0.09282030940103134
+          }
+        },
+        "momentum:random_forest": {
+          "p_at_20": {
+            "rows": 15138,
+            "available": true,
+            "precision_lower": 0.05,
+            "precision_upper": 0.1,
+            "precision_measurable": 0.05263157894736842,
+            "unknown": 1,
+            "base_rate": 0.09282030940103134
+          },
+          "p_at_50": {
+            "rows": 15138,
+            "available": true,
+            "precision_lower": 0.02,
+            "precision_upper": 0.06,
+            "precision_measurable": 0.020833333333333332,
+            "unknown": 2,
+            "base_rate": 0.09282030940103134
+          }
+        }
+      },
+      "metrics_all_training_rows": {
+        "static_rule": {
+          "p_at_20": {
+            "rows": 15138,
+            "available": true,
+            "precision_lower": 0.05,
+            "precision_upper": 0.05,
+            "precision_measurable": 0.05,
+            "unknown": 0,
+            "base_rate": 0.09282030940103134
+          },
+          "p_at_50": {
+            "rows": 15138,
+            "available": true,
+            "precision_lower": 0.12,
+            "precision_upper": 0.12,
+            "precision_measurable": 0.12,
+            "unknown": 0,
+            "base_rate": 0.09282030940103134
+          }
+        },
+        "acceleration_rule": {
+          "p_at_20": {
+            "rows": 15138,
+            "available": true,
+            "precision_lower": 0.15,
+            "precision_upper": 0.15,
+            "precision_measurable": 0.15,
+            "unknown": 0,
+            "base_rate": 0.09282030940103134
+          },
+          "p_at_50": {
+            "rows": 15138,
+            "available": true,
+            "precision_lower": 0.14,
+            "precision_upper": 0.14,
+            "precision_measurable": 0.14,
+            "unknown": 0,
+            "base_rate": 0.09282030940103134
+          }
+        },
+        "coverage_adjusted_acceleration_rule": {
+          "p_at_20": {
+            "rows": 15138,
+            "available": true,
+            "precision_lower": 0.1,
+            "precision_upper": 0.1,
+            "precision_measurable": 0.1,
+            "unknown": 0,
+            "base_rate": 0.09282030940103134
+          },
+          "p_at_50": {
+            "rows": 15138,
+            "available": true,
+            "precision_lower": 0.14,
+            "precision_upper": 0.14,
+            "precision_measurable": 0.14,
+            "unknown": 0,
+            "base_rate": 0.09282030940103134
+          }
+        },
+        "control:logistic_regression": {
+          "p_at_20": {
+            "rows": 15138,
+            "available": true,
+            "precision_lower": 0.45,
+            "precision_upper": 0.45,
+            "precision_measurable": 0.45,
+            "unknown": 0,
+            "base_rate": 0.09282030940103134
+          },
+          "p_at_50": {
+            "rows": 15138,
+            "available": true,
+            "precision_lower": 0.42,
+            "precision_upper": 0.42,
+            "precision_measurable": 0.42,
+            "unknown": 0,
+            "base_rate": 0.09282030940103134
+          }
+        },
+        "control:random_forest": {
+          "p_at_20": {
+            "rows": 15138,
+            "available": true,
+            "precision_lower": 0.1,
+            "precision_upper": 0.1,
+            "precision_measurable": 0.1,
+            "unknown": 0,
+            "base_rate": 0.09282030940103134
+          },
+          "p_at_50": {
+            "rows": 15138,
+            "available": true,
+            "precision_lower": 0.1,
+            "precision_upper": 0.1,
+            "precision_measurable": 0.1,
+            "unknown": 0,
+            "base_rate": 0.09282030940103134
+          }
+        },
+        "momentum:logistic_regression": {
+          "p_at_20": {
+            "rows": 15138,
+            "available": true,
+            "precision_lower": 0.5,
+            "precision_upper": 0.5,
+            "precision_measurable": 0.5,
+            "unknown": 0,
+            "base_rate": 0.09282030940103134
+          },
+          "p_at_50": {
+            "rows": 15138,
+            "available": true,
+            "precision_lower": 0.44,
+            "precision_upper": 0.44,
+            "precision_measurable": 0.44,
+            "unknown": 0,
+            "base_rate": 0.09282030940103134
+          }
+        },
+        "momentum:random_forest": {
+          "p_at_20": {
+            "rows": 15138,
+            "available": true,
+            "precision_lower": 0.1,
+            "precision_upper": 0.15,
+            "precision_measurable": 0.10526315789473684,
+            "unknown": 1,
+            "base_rate": 0.09282030940103134
+          },
+          "p_at_50": {
+            "rows": 15138,
+            "available": true,
+            "precision_lower": 0.08,
+            "precision_upper": 0.12,
+            "precision_measurable": 0.08333333333333333,
+            "unknown": 2,
+            "base_rate": 0.09282030940103134
+          }
+        }
+      },
+      "bootstrap": {
+        "p_at_20": {
+          "momentum:logistic_regression_minus_static_rule": {
+            "available": true,
+            "observed_delta": 0.7,
+            "mean": 0.7349249999999999,
+            "ci_low": 0.5,
+            "ci_high": 0.9012499999999932,
+            "share_above_zero": 1.0,
+            "reps": 2000
+          },
+          "momentum:random_forest_minus_static_rule": {
+            "available": true,
+            "observed_delta": 0.0,
+            "mean": 8.326672684688674e-20,
+            "ci_low": -0.15,
+            "ci_high": 0.15,
+            "share_above_zero": 0.35,
+            "reps": 2000
+          },
+          "momentum:logistic_regression_minus_acceleration_rule": {
+            "available": true,
+            "observed_delta": 0.6,
+            "mean": 0.624,
+            "ci_low": 0.35,
+            "ci_high": 0.85,
+            "share_above_zero": 1.0,
+            "reps": 2000
+          }
+        },
+        "p_at_50": {
+          "momentum:logistic_regression_minus_static_rule": {
+            "available": true,
+            "observed_delta": 0.66,
+            "mean": 0.6737199999999999,
+            "ci_low": 0.52,
+            "ci_high": 0.8,
+            "share_above_zero": 1.0,
+            "reps": 2000
+          },
+          "momentum:random_forest_minus_static_rule": {
+            "available": true,
+            "observed_delta": -0.09999999999999999,
+            "mean": -0.08698000000000002,
+            "ci_low": -0.19999999999999998,
+            "ci_high": 0.02,
+            "share_above_zero": 0.0335,
+            "reps": 2000
+          },
+          "momentum:logistic_regression_minus_acceleration_rule": {
+            "available": true,
+            "observed_delta": 0.64,
+            "mean": 0.6431499999999999,
+            "ci_low": 0.48,
+            "ci_high": 0.78,
+            "share_above_zero": 1.0,
+            "reps": 2000
+          }
+        }
+      },
+      "mechanism": {
+        "mechanism_2f": {
+          "rows": 15138,
+          "available": true,
+          "precision_lower": 0.18,
+          "precision_upper": 0.18,
+          "precision_measurable": 0.18,
+          "unknown": 0,
+          "base_rate": 0.09282030940103134
+        },
+        "mechanism_2f_plus_flag": {
+          "rows": 15138,
+          "available": true,
+          "precision_lower": 0.22,
+          "precision_upper": 0.22,
+          "precision_measurable": 0.22,
+          "unknown": 0,
+          "base_rate": 0.09282030940103134
+        },
+        "momentum:logistic_regression": {
+          "rows": 15138,
+          "available": true,
+          "precision_lower": 0.78,
+          "precision_upper": 0.78,
+          "precision_measurable": 0.78,
+          "unknown": 0,
+          "base_rate": 0.09282030940103134
+        },
+        "bounce_share_of_pool": 0.14704716607213636,
+        "bounce_pool_base_rate": 0.0625,
+        "non_bounce_pool_base_rate": 0.0980468144473725
+      },
+      "robustness": {
+        "largest_client_share_of_pool": 0.3012947549213899,
+        "full": {
+          "static_rule": {
+            "rows": 15138,
+            "available": true,
+            "precision_lower": 0.12,
+            "precision_upper": 0.12,
+            "precision_measurable": 0.12,
+            "unknown": 0,
+            "base_rate": 0.09282030940103134
+          },
+          "acceleration_rule": {
+            "rows": 15138,
+            "available": true,
+            "precision_lower": 0.14,
+            "precision_upper": 0.14,
+            "precision_measurable": 0.14,
+            "unknown": 0,
+            "base_rate": 0.09282030940103134
+          },
+          "momentum:logistic_regression": {
+            "rows": 15138,
+            "available": true,
+            "precision_lower": 0.78,
+            "precision_upper": 0.78,
+            "precision_measurable": 0.78,
+            "unknown": 0,
+            "base_rate": 0.09282030940103134
+          },
+          "momentum:random_forest": {
+            "rows": 15138,
+            "available": true,
+            "precision_lower": 0.02,
+            "precision_upper": 0.06,
+            "precision_measurable": 0.020833333333333332,
+            "unknown": 2,
+            "base_rate": 0.09282030940103134
+          }
+        },
+        "without_largest_client": {
+          "static_rule": {
+            "rows": 10577,
+            "available": true,
+            "precision_lower": 0.12,
+            "precision_upper": 0.12,
+            "precision_measurable": 0.12,
+            "unknown": 0,
+            "base_rate": 0.10610506389020351
+          },
+          "acceleration_rule": {
+            "rows": 10577,
+            "available": true,
+            "precision_lower": 0.14,
+            "precision_upper": 0.14,
+            "precision_measurable": 0.14,
+            "unknown": 0,
+            "base_rate": 0.10610506389020351
+          },
+          "momentum:logistic_regression": {
+            "rows": 10577,
+            "available": true,
+            "precision_lower": 0.94,
+            "precision_upper": 0.94,
+            "precision_measurable": 0.94,
+            "unknown": 0,
+            "base_rate": 0.10610506389020351
+          },
+          "momentum:random_forest": {
+            "rows": 10577,
+            "available": true,
+            "precision_lower": 0.06,
+            "precision_upper": 0.1,
+            "precision_measurable": 0.0625,
+            "unknown": 2,
+            "base_rate": 0.10610506389020351
+          }
+        },
+        "complete_coverage_only": {
+          "static_rule": {
+            "rows": 14477,
+            "available": true,
+            "precision_lower": 0.12,
+            "precision_upper": 0.12,
+            "precision_measurable": 0.12,
+            "unknown": 0,
+            "base_rate": 0.0911667127453691
+          },
+          "acceleration_rule": {
+            "rows": 14477,
+            "available": true,
+            "precision_lower": 0.16,
+            "precision_upper": 0.16,
+            "precision_measurable": 0.16,
+            "unknown": 0,
+            "base_rate": 0.0911667127453691
+          },
+          "momentum:logistic_regression": {
+            "rows": 14477,
+            "available": true,
+            "precision_lower": 0.78,
+            "precision_upper": 0.78,
+            "precision_measurable": 0.78,
+            "unknown": 0,
+            "base_rate": 0.0911667127453691
+          },
+          "momentum:random_forest": {
+            "rows": 14477,
+            "available": true,
+            "precision_lower": 0.02,
+            "precision_upper": 0.06,
+            "precision_measurable": 0.020833333333333332,
+            "unknown": 2,
+            "base_rate": 0.0911667127453691
+          }
+        }
+      },
+      "diagnostics": {
+        "coefficients": [
+          {
+            "feature": "recent30_active_days",
+            "coefficient_std_units": 0.7345200158370524
+          },
+          {
+            "feature": "content_age_days",
+            "coefficient_std_units": 0.4285846567942709
+          },
+          {
+            "feature": "traffic_acceleration_7d",
+            "coefficient_std_units": 0.17487852944080182
+          },
+          {
+            "feature": "recent30_avg_position",
+            "coefficient_std_units": 0.16067390989548017
+          },
+          {
+            "feature": "log_recent30_impressions",
+            "coefficient_std_units": 0.11415646267015664
+          },
+          {
+            "feature": "recent30_ctr_pct",
+            "coefficient_std_units": 0.10838705800650314
+          },
+          {
+            "feature": "traffic_velocity_30d",
+            "coefficient_std_units": -0.0762950435140737
+          },
+          {
+            "feature": "has_prior30_gsc_coverage",
+            "coefficient_std_units": 0.03364335629255752
+          }
+        ],
+        "permutation_importance": [
+          {
+            "feature": "traffic_acceleration_7d",
+            "ap_drop_mean": 0.005963229918834918,
+            "ap_drop_std": 0.0007143497610430772
+          },
+          {
+            "feature": "log_recent30_impressions",
+            "ap_drop_mean": 0.004737178358935766,
+            "ap_drop_std": 0.000616471814199187
+          },
+          {
+            "feature": "content_age_days",
+            "ap_drop_mean": 0.003066098181718359,
+            "ap_drop_std": 0.0017718230567284447
+          },
+          {
+            "feature": "recent30_ctr_pct",
+            "ap_drop_mean": 0.002256590621043006,
+            "ap_drop_std": 0.0006309756240404479
+          },
+          {
+            "feature": "recent30_active_days",
+            "ap_drop_mean": -0.0003498184602620455,
+            "ap_drop_std": 0.0002640836033423802
+          },
+          {
+            "feature": "has_prior30_gsc_coverage",
+            "ap_drop_mean": -0.0004953101413505759,
+            "ap_drop_std": 0.0003058626936623162
+          },
+          {
+            "feature": "recent30_avg_position",
+            "ap_drop_mean": -0.0018804962988627244,
+            "ap_drop_std": 0.00131080096341933
+          },
+          {
+            "feature": "traffic_velocity_30d",
+            "ap_drop_mean": -0.0042717026143975195,
+            "ap_drop_std": 0.0006358972259535653
+          }
+        ],
+        "pool_ap_logistic_regression": 0.16538460240504266
+      }
+    },
+    "2026-02": {
+      "origin": "2026-02",
+      "training_months": [
+        "2025-12"
+      ],
+      "training_rows": 19022,
+      "candidates": 30275,
+      "pool_rows": 19781,
+      "pool_share_of_candidates": 0.6533773740710157,
+      "pool_base_rate": 0.13956968164697384,
+      "pool_unknown_share": 0.020221424599363026,
+      "coverage": {
+        "recent7_days_median": 7.0,
+        "recent30_days_median": 30.0,
+        "bounce_share": 0.14397654314746475
+      },
+      "metrics": {
+        "static_rule": {
+          "p_at_20": {
+            "rows": 19781,
+            "available": true,
+            "precision_lower": 0.15,
+            "precision_upper": 0.15,
+            "precision_measurable": 0.15,
+            "unknown": 0,
+            "base_rate": 0.13956968164697384
+          },
+          "p_at_50": {
+            "rows": 19781,
+            "available": true,
+            "precision_lower": 0.14,
+            "precision_upper": 0.14,
+            "precision_measurable": 0.14,
+            "unknown": 0,
+            "base_rate": 0.13956968164697384
+          }
+        },
+        "acceleration_rule": {
+          "p_at_20": {
+            "rows": 19781,
+            "available": true,
+            "precision_lower": 0.1,
+            "precision_upper": 0.1,
+            "precision_measurable": 0.1,
+            "unknown": 0,
+            "base_rate": 0.13956968164697384
+          },
+          "p_at_50": {
+            "rows": 19781,
+            "available": true,
+            "precision_lower": 0.14,
+            "precision_upper": 0.14,
+            "precision_measurable": 0.14,
+            "unknown": 0,
+            "base_rate": 0.13956968164697384
+          }
+        },
+        "coverage_adjusted_acceleration_rule": {
+          "p_at_20": {
+            "rows": 19781,
+            "available": true,
+            "precision_lower": 0.1,
+            "precision_upper": 0.1,
+            "precision_measurable": 0.1,
+            "unknown": 0,
+            "base_rate": 0.13956968164697384
+          },
+          "p_at_50": {
+            "rows": 19781,
+            "available": true,
+            "precision_lower": 0.12,
+            "precision_upper": 0.12,
+            "precision_measurable": 0.12,
+            "unknown": 0,
+            "base_rate": 0.13956968164697384
+          }
+        },
+        "control:logistic_regression": {
+          "p_at_20": {
+            "rows": 19781,
+            "available": true,
+            "precision_lower": 0.15,
+            "precision_upper": 0.15,
+            "precision_measurable": 0.15,
+            "unknown": 0,
+            "base_rate": 0.13956968164697384
+          },
+          "p_at_50": {
+            "rows": 19781,
+            "available": true,
+            "precision_lower": 0.14,
+            "precision_upper": 0.14,
+            "precision_measurable": 0.14,
+            "unknown": 0,
+            "base_rate": 0.13956968164697384
+          }
+        },
+        "control:random_forest": {
+          "p_at_20": {
+            "rows": 19781,
+            "available": true,
+            "precision_lower": 0.05,
+            "precision_upper": 0.05,
+            "precision_measurable": 0.05,
+            "unknown": 0,
+            "base_rate": 0.13956968164697384
+          },
+          "p_at_50": {
+            "rows": 19781,
+            "available": true,
+            "precision_lower": 0.04,
+            "precision_upper": 0.06,
+            "precision_measurable": 0.04081632653061224,
+            "unknown": 1,
+            "base_rate": 0.13956968164697384
+          }
+        },
+        "momentum:logistic_regression": {
+          "p_at_20": {
+            "rows": 19781,
+            "available": true,
+            "precision_lower": 0.4,
+            "precision_upper": 0.45,
+            "precision_measurable": 0.42105263157894735,
+            "unknown": 1,
+            "base_rate": 0.13956968164697384
+          },
+          "p_at_50": {
+            "rows": 19781,
+            "available": true,
+            "precision_lower": 0.28,
+            "precision_upper": 0.3,
+            "precision_measurable": 0.2857142857142857,
+            "unknown": 1,
+            "base_rate": 0.13956968164697384
+          }
+        },
+        "momentum:random_forest": {
+          "p_at_20": {
+            "rows": 19781,
+            "available": true,
+            "precision_lower": 0.2,
+            "precision_upper": 0.2,
+            "precision_measurable": 0.2,
+            "unknown": 0,
+            "base_rate": 0.13956968164697384
+          },
+          "p_at_50": {
+            "rows": 19781,
+            "available": true,
+            "precision_lower": 0.18,
+            "precision_upper": 0.18,
+            "precision_measurable": 0.18,
+            "unknown": 0,
+            "base_rate": 0.13956968164697384
+          }
+        }
+      },
+      "metrics_all_training_rows": {
+        "static_rule": {
+          "p_at_20": {
+            "rows": 19781,
+            "available": true,
+            "precision_lower": 0.15,
+            "precision_upper": 0.15,
+            "precision_measurable": 0.15,
+            "unknown": 0,
+            "base_rate": 0.13956968164697384
+          },
+          "p_at_50": {
+            "rows": 19781,
+            "available": true,
+            "precision_lower": 0.14,
+            "precision_upper": 0.14,
+            "precision_measurable": 0.14,
+            "unknown": 0,
+            "base_rate": 0.13956968164697384
+          }
+        },
+        "acceleration_rule": {
+          "p_at_20": {
+            "rows": 19781,
+            "available": true,
+            "precision_lower": 0.1,
+            "precision_upper": 0.1,
+            "precision_measurable": 0.1,
+            "unknown": 0,
+            "base_rate": 0.13956968164697384
+          },
+          "p_at_50": {
+            "rows": 19781,
+            "available": true,
+            "precision_lower": 0.14,
+            "precision_upper": 0.14,
+            "precision_measurable": 0.14,
+            "unknown": 0,
+            "base_rate": 0.13956968164697384
+          }
+        },
+        "coverage_adjusted_acceleration_rule": {
+          "p_at_20": {
+            "rows": 19781,
+            "available": true,
+            "precision_lower": 0.1,
+            "precision_upper": 0.1,
+            "precision_measurable": 0.1,
+            "unknown": 0,
+            "base_rate": 0.13956968164697384
+          },
+          "p_at_50": {
+            "rows": 19781,
+            "available": true,
+            "precision_lower": 0.12,
+            "precision_upper": 0.12,
+            "precision_measurable": 0.12,
+            "unknown": 0,
+            "base_rate": 0.13956968164697384
+          }
+        },
+        "control:logistic_regression": {
+          "p_at_20": {
+            "rows": 19781,
+            "available": true,
+            "precision_lower": 0.0,
+            "precision_upper": 0.0,
+            "precision_measurable": 0.0,
+            "unknown": 0,
+            "base_rate": 0.13956968164697384
+          },
+          "p_at_50": {
+            "rows": 19781,
+            "available": true,
+            "precision_lower": 0.06,
+            "precision_upper": 0.08,
+            "precision_measurable": 0.061224489795918366,
+            "unknown": 1,
+            "base_rate": 0.13956968164697384
+          }
+        },
+        "control:random_forest": {
+          "p_at_20": {
+            "rows": 19781,
+            "available": true,
+            "precision_lower": 0.25,
+            "precision_upper": 0.25,
+            "precision_measurable": 0.25,
+            "unknown": 0,
+            "base_rate": 0.13956968164697384
+          },
+          "p_at_50": {
+            "rows": 19781,
+            "available": true,
+            "precision_lower": 0.22,
+            "precision_upper": 0.22,
+            "precision_measurable": 0.22,
+            "unknown": 0,
+            "base_rate": 0.13956968164697384
+          }
+        },
+        "momentum:logistic_regression": {
+          "p_at_20": {
+            "rows": 19781,
+            "available": true,
+            "precision_lower": 0.45,
+            "precision_upper": 0.5,
+            "precision_measurable": 0.47368421052631576,
+            "unknown": 1,
+            "base_rate": 0.13956968164697384
+          },
+          "p_at_50": {
+            "rows": 19781,
+            "available": true,
+            "precision_lower": 0.28,
+            "precision_upper": 0.3,
+            "precision_measurable": 0.2857142857142857,
+            "unknown": 1,
+            "base_rate": 0.13956968164697384
+          }
+        },
+        "momentum:random_forest": {
+          "p_at_20": {
+            "rows": 19781,
+            "available": true,
+            "precision_lower": 0.15,
+            "precision_upper": 0.15,
+            "precision_measurable": 0.15,
+            "unknown": 0,
+            "base_rate": 0.13956968164697384
+          },
+          "p_at_50": {
+            "rows": 19781,
+            "available": true,
+            "precision_lower": 0.2,
+            "precision_upper": 0.24,
+            "precision_measurable": 0.20833333333333334,
+            "unknown": 2,
+            "base_rate": 0.13956968164697384
+          }
+        }
+      },
+      "bootstrap": {
+        "p_at_20": {
+          "momentum:logistic_regression_minus_static_rule": {
+            "available": true,
+            "observed_delta": 0.25,
+            "mean": 0.25595,
+            "ci_low": -0.04999999999999999,
+            "ci_high": 0.55,
+            "share_above_zero": 0.9445,
+            "reps": 2000
+          },
+          "momentum:random_forest_minus_static_rule": {
+            "available": true,
+            "observed_delta": 0.05000000000000002,
+            "mean": 0.07269999999999999,
+            "ci_low": -0.15,
+            "ci_high": 0.30000000000000004,
+            "share_above_zero": 0.6565,
+            "reps": 2000
+          },
+          "momentum:logistic_regression_minus_acceleration_rule": {
+            "available": true,
+            "observed_delta": 0.30000000000000004,
+            "mean": 0.280675,
+            "ci_low": 0.0,
+            "ci_high": 0.55,
+            "share_above_zero": 0.9595,
+            "reps": 2000
+          }
+        },
+        "p_at_50": {
+          "momentum:logistic_regression_minus_static_rule": {
+            "available": true,
+            "observed_delta": 0.14,
+            "mean": 0.15180000000000002,
+            "ci_low": 0.0,
+            "ci_high": 0.30000000000000004,
+            "share_above_zero": 0.961,
+            "reps": 2000
+          },
+          "momentum:random_forest_minus_static_rule": {
+            "available": true,
+            "observed_delta": 0.03999999999999998,
+            "mean": 0.0521,
+            "ci_low": -0.1,
+            "ci_high": 0.2,
+            "share_above_zero": 0.7155,
+            "reps": 2000
+          },
+          "momentum:logistic_regression_minus_acceleration_rule": {
+            "available": true,
+            "observed_delta": 0.14,
+            "mean": 0.12422000000000001,
+            "ci_low": -0.04000000000000001,
+            "ci_high": 0.28,
+            "share_above_zero": 0.9165,
+            "reps": 2000
+          }
+        }
+      },
+      "mechanism": {
+        "mechanism_2f": {
+          "rows": 19781,
+          "available": true,
+          "precision_lower": 0.3,
+          "precision_upper": 0.32,
+          "precision_measurable": 0.30612244897959184,
+          "unknown": 1,
+          "base_rate": 0.13956968164697384
+        },
+        "mechanism_2f_plus_flag": {
+          "rows": 19781,
+          "available": true,
+          "precision_lower": 0.3,
+          "precision_upper": 0.32,
+          "precision_measurable": 0.30612244897959184,
+          "unknown": 1,
+          "base_rate": 0.13956968164697384
+        },
+        "momentum:logistic_regression": {
+          "rows": 19781,
+          "available": true,
+          "precision_lower": 0.28,
+          "precision_upper": 0.3,
+          "precision_measurable": 0.2857142857142857,
+          "unknown": 1,
+          "base_rate": 0.13956968164697384
+        },
+        "bounce_share_of_pool": 0.14397654314746475,
+        "bounce_pool_base_rate": 0.11861917003305178,
+        "non_bounce_pool_base_rate": 0.14299435706567415
+      },
+      "robustness": {
+        "largest_client_share_of_pool": 0.2600475203478085,
+        "full": {
+          "static_rule": {
+            "rows": 19781,
+            "available": true,
+            "precision_lower": 0.14,
+            "precision_upper": 0.14,
+            "precision_measurable": 0.14,
+            "unknown": 0,
+            "base_rate": 0.13956968164697384
+          },
+          "acceleration_rule": {
+            "rows": 19781,
+            "available": true,
+            "precision_lower": 0.14,
+            "precision_upper": 0.14,
+            "precision_measurable": 0.14,
+            "unknown": 0,
+            "base_rate": 0.13956968164697384
+          },
+          "momentum:logistic_regression": {
+            "rows": 19781,
+            "available": true,
+            "precision_lower": 0.28,
+            "precision_upper": 0.3,
+            "precision_measurable": 0.2857142857142857,
+            "unknown": 1,
+            "base_rate": 0.13956968164697384
+          },
+          "momentum:random_forest": {
+            "rows": 19781,
+            "available": true,
+            "precision_lower": 0.18,
+            "precision_upper": 0.18,
+            "precision_measurable": 0.18,
+            "unknown": 0,
+            "base_rate": 0.13956968164697384
+          }
+        },
+        "without_largest_client": {
+          "static_rule": {
+            "rows": 14637,
+            "available": true,
+            "precision_lower": 0.14,
+            "precision_upper": 0.14,
+            "precision_measurable": 0.14,
+            "unknown": 0,
+            "base_rate": 0.12446442368476505
+          },
+          "acceleration_rule": {
+            "rows": 14637,
+            "available": true,
+            "precision_lower": 0.14,
+            "precision_upper": 0.14,
+            "precision_measurable": 0.14,
+            "unknown": 0,
+            "base_rate": 0.12446442368476505
+          },
+          "momentum:logistic_regression": {
+            "rows": 14637,
+            "available": true,
+            "precision_lower": 0.2,
+            "precision_upper": 0.24,
+            "precision_measurable": 0.20833333333333334,
+            "unknown": 2,
+            "base_rate": 0.12446442368476505
+          },
+          "momentum:random_forest": {
+            "rows": 14637,
+            "available": true,
+            "precision_lower": 0.14,
+            "precision_upper": 0.14,
+            "precision_measurable": 0.14,
+            "unknown": 0,
+            "base_rate": 0.12446442368476505
+          }
+        },
+        "complete_coverage_only": {
+          "static_rule": {
+            "rows": 18285,
+            "available": true,
+            "precision_lower": 0.14,
+            "precision_upper": 0.14,
+            "precision_measurable": 0.14,
+            "unknown": 0,
+            "base_rate": 0.1448935099781989
+          },
+          "acceleration_rule": {
+            "rows": 18285,
+            "available": true,
+            "precision_lower": 0.16,
+            "precision_upper": 0.16,
+            "precision_measurable": 0.16,
+            "unknown": 0,
+            "base_rate": 0.1448935099781989
+          },
+          "momentum:logistic_regression": {
+            "rows": 18285,
+            "available": true,
+            "precision_lower": 0.26,
+            "precision_upper": 0.28,
+            "precision_measurable": 0.2653061224489796,
+            "unknown": 1,
+            "base_rate": 0.1448935099781989
+          },
+          "momentum:random_forest": {
+            "rows": 18285,
+            "available": true,
+            "precision_lower": 0.16,
+            "precision_upper": 0.16,
+            "precision_measurable": 0.16,
+            "unknown": 0,
+            "base_rate": 0.1448935099781989
+          }
+        }
+      },
+      "diagnostics": {
+        "coefficients": [
+          {
+            "feature": "recent30_ctr_pct",
+            "coefficient_std_units": -1.1439131361278774
+          },
+          {
+            "feature": "log_recent30_impressions",
+            "coefficient_std_units": 0.7350974652599765
+          },
+          {
+            "feature": "traffic_velocity_30d",
+            "coefficient_std_units": 0.6186844378817606
+          },
+          {
+            "feature": "content_age_days",
+            "coefficient_std_units": -0.30433877163410933
+          },
+          {
+            "feature": "traffic_acceleration_7d",
+            "coefficient_std_units": -0.1718125934685266
+          },
+          {
+            "feature": "recent30_avg_position",
+            "coefficient_std_units": 0.08758528413167316
+          },
+          {
+            "feature": "recent30_active_days",
+            "coefficient_std_units": -0.05909344690953106
+          },
+          {
+            "feature": "has_prior30_gsc_coverage",
+            "coefficient_std_units": -0.0032029818202315057
+          }
+        ],
+        "permutation_importance": [
+          {
+            "feature": "recent30_ctr_pct",
+            "ap_drop_mean": 0.010302046237680215,
+            "ap_drop_std": 0.000760649227226476
+          },
+          {
+            "feature": "traffic_velocity_30d",
+            "ap_drop_mean": 0.0033345740703035085,
+            "ap_drop_std": 0.0007288544664041344
+          },
+          {
+            "feature": "traffic_acceleration_7d",
+            "ap_drop_mean": 0.001431105501798069,
+            "ap_drop_std": 0.00039398178481890865
+          },
+          {
+            "feature": "recent30_active_days",
+            "ap_drop_mean": -0.0006822294198502304,
+            "ap_drop_std": 7.072122900359997e-05
+          },
+          {
+            "feature": "has_prior30_gsc_coverage",
+            "ap_drop_mean": -0.0007368824008854496,
+            "ap_drop_std": 0.00014984685869516253
+          },
+          {
+            "feature": "log_recent30_impressions",
+            "ap_drop_mean": -0.0009624429947756641,
+            "ap_drop_std": 0.000631899671342774
+          },
+          {
+            "feature": "recent30_avg_position",
+            "ap_drop_mean": -0.007595480103059221,
+            "ap_drop_std": 0.0004636573172977579
+          },
+          {
+            "feature": "content_age_days",
+            "ap_drop_mean": -0.02354814692483787,
+            "ap_drop_std": 0.002171960247244058
+          }
+        ],
+        "pool_ap_logistic_regression": 0.14387598938989368
+      }
+    },
+    "2026-03": {
+      "origin": "2026-03",
+      "training_months": [
+        "2026-01"
+      ],
+      "training_rows": 22316,
+      "candidates": 41931,
+      "pool_rows": 20398,
+      "pool_share_of_candidates": 0.48646586058047747,
+      "pool_base_rate": 0.3194048905037808,
+      "pool_unknown_share": 0.001568781253064026,
+      "coverage": {
+        "recent7_days_median": 7.0,
+        "recent30_days_median": 30.0,
+        "bounce_share": 0.2121776644769095
+      },
+      "metrics": {
+        "static_rule": {
+          "p_at_20": {
+            "rows": 20398,
+            "available": true,
+            "precision_lower": 0.25,
+            "precision_upper": 0.25,
+            "precision_measurable": 0.25,
+            "unknown": 0,
+            "base_rate": 0.3194048905037808
+          },
+          "p_at_50": {
+            "rows": 20398,
+            "available": true,
+            "precision_lower": 0.3,
+            "precision_upper": 0.3,
+            "precision_measurable": 0.3,
+            "unknown": 0,
+            "base_rate": 0.3194048905037808
+          }
+        },
+        "acceleration_rule": {
+          "p_at_20": {
+            "rows": 20398,
+            "available": true,
+            "precision_lower": 0.4,
+            "precision_upper": 0.4,
+            "precision_measurable": 0.4,
+            "unknown": 0,
+            "base_rate": 0.3194048905037808
+          },
+          "p_at_50": {
+            "rows": 20398,
+            "available": true,
+            "precision_lower": 0.48,
+            "precision_upper": 0.48,
+            "precision_measurable": 0.48,
+            "unknown": 0,
+            "base_rate": 0.3194048905037808
+          }
+        },
+        "coverage_adjusted_acceleration_rule": {
+          "p_at_20": {
+            "rows": 20398,
+            "available": true,
+            "precision_lower": 0.25,
+            "precision_upper": 0.25,
+            "precision_measurable": 0.25,
+            "unknown": 0,
+            "base_rate": 0.3194048905037808
+          },
+          "p_at_50": {
+            "rows": 20398,
+            "available": true,
+            "precision_lower": 0.32,
+            "precision_upper": 0.32,
+            "precision_measurable": 0.32,
+            "unknown": 0,
+            "base_rate": 0.3194048905037808
+          }
+        },
+        "control:logistic_regression": {
+          "p_at_20": {
+            "rows": 20398,
+            "available": true,
+            "precision_lower": 0.45,
+            "precision_upper": 0.55,
+            "precision_measurable": 0.5,
+            "unknown": 2,
+            "base_rate": 0.3194048905037808
+          },
+          "p_at_50": {
+            "rows": 20398,
+            "available": true,
+            "precision_lower": 0.28,
+            "precision_upper": 0.36,
+            "precision_measurable": 0.30434782608695654,
+            "unknown": 4,
+            "base_rate": 0.3194048905037808
+          }
+        },
+        "control:random_forest": {
+          "p_at_20": {
+            "rows": 20398,
+            "available": true,
+            "precision_lower": 0.3,
+            "precision_upper": 0.35,
+            "precision_measurable": 0.3157894736842105,
+            "unknown": 1,
+            "base_rate": 0.3194048905037808
+          },
+          "p_at_50": {
+            "rows": 20398,
+            "available": true,
+            "precision_lower": 0.34,
+            "precision_upper": 0.4,
+            "precision_measurable": 0.3617021276595745,
+            "unknown": 3,
+            "base_rate": 0.3194048905037808
+          }
+        },
+        "momentum:logistic_regression": {
+          "p_at_20": {
+            "rows": 20398,
+            "available": true,
+            "precision_lower": 0.5,
+            "precision_upper": 0.55,
+            "precision_measurable": 0.5263157894736842,
+            "unknown": 1,
+            "base_rate": 0.3194048905037808
+          },
+          "p_at_50": {
+            "rows": 20398,
+            "available": true,
+            "precision_lower": 0.5,
+            "precision_upper": 0.58,
+            "precision_measurable": 0.5434782608695652,
+            "unknown": 4,
+            "base_rate": 0.3194048905037808
+          }
+        },
+        "momentum:random_forest": {
+          "p_at_20": {
+            "rows": 20398,
+            "available": true,
+            "precision_lower": 0.55,
+            "precision_upper": 0.55,
+            "precision_measurable": 0.55,
+            "unknown": 0,
+            "base_rate": 0.3194048905037808
+          },
+          "p_at_50": {
+            "rows": 20398,
+            "available": true,
+            "precision_lower": 0.62,
+            "precision_upper": 0.62,
+            "precision_measurable": 0.62,
+            "unknown": 0,
+            "base_rate": 0.3194048905037808
+          }
+        }
+      },
+      "metrics_all_training_rows": {
+        "static_rule": {
+          "p_at_20": {
+            "rows": 20398,
+            "available": true,
+            "precision_lower": 0.25,
+            "precision_upper": 0.25,
+            "precision_measurable": 0.25,
+            "unknown": 0,
+            "base_rate": 0.3194048905037808
+          },
+          "p_at_50": {
+            "rows": 20398,
+            "available": true,
+            "precision_lower": 0.3,
+            "precision_upper": 0.3,
+            "precision_measurable": 0.3,
+            "unknown": 0,
+            "base_rate": 0.3194048905037808
+          }
+        },
+        "acceleration_rule": {
+          "p_at_20": {
+            "rows": 20398,
+            "available": true,
+            "precision_lower": 0.4,
+            "precision_upper": 0.4,
+            "precision_measurable": 0.4,
+            "unknown": 0,
+            "base_rate": 0.3194048905037808
+          },
+          "p_at_50": {
+            "rows": 20398,
+            "available": true,
+            "precision_lower": 0.48,
+            "precision_upper": 0.48,
+            "precision_measurable": 0.48,
+            "unknown": 0,
+            "base_rate": 0.3194048905037808
+          }
+        },
+        "coverage_adjusted_acceleration_rule": {
+          "p_at_20": {
+            "rows": 20398,
+            "available": true,
+            "precision_lower": 0.25,
+            "precision_upper": 0.25,
+            "precision_measurable": 0.25,
+            "unknown": 0,
+            "base_rate": 0.3194048905037808
+          },
+          "p_at_50": {
+            "rows": 20398,
+            "available": true,
+            "precision_lower": 0.32,
+            "precision_upper": 0.32,
+            "precision_measurable": 0.32,
+            "unknown": 0,
+            "base_rate": 0.3194048905037808
+          }
+        },
+        "control:logistic_regression": {
+          "p_at_20": {
+            "rows": 20398,
+            "available": true,
+            "precision_lower": 0.4,
+            "precision_upper": 0.4,
+            "precision_measurable": 0.4,
+            "unknown": 0,
+            "base_rate": 0.3194048905037808
+          },
+          "p_at_50": {
+            "rows": 20398,
+            "available": true,
+            "precision_lower": 0.34,
+            "precision_upper": 0.34,
+            "precision_measurable": 0.34,
+            "unknown": 0,
+            "base_rate": 0.3194048905037808
+          }
+        },
+        "control:random_forest": {
+          "p_at_20": {
+            "rows": 20398,
+            "available": true,
+            "precision_lower": 0.15,
+            "precision_upper": 0.15,
+            "precision_measurable": 0.15,
+            "unknown": 0,
+            "base_rate": 0.3194048905037808
+          },
+          "p_at_50": {
+            "rows": 20398,
+            "available": true,
+            "precision_lower": 0.28,
+            "precision_upper": 0.28,
+            "precision_measurable": 0.28,
+            "unknown": 0,
+            "base_rate": 0.3194048905037808
+          }
+        },
+        "momentum:logistic_regression": {
+          "p_at_20": {
+            "rows": 20398,
+            "available": true,
+            "precision_lower": 0.5,
+            "precision_upper": 0.6,
+            "precision_measurable": 0.5555555555555556,
+            "unknown": 2,
+            "base_rate": 0.3194048905037808
+          },
+          "p_at_50": {
+            "rows": 20398,
+            "available": true,
+            "precision_lower": 0.44,
+            "precision_upper": 0.5,
+            "precision_measurable": 0.46808510638297873,
+            "unknown": 3,
+            "base_rate": 0.3194048905037808
+          }
+        },
+        "momentum:random_forest": {
+          "p_at_20": {
+            "rows": 20398,
+            "available": true,
+            "precision_lower": 0.7,
+            "precision_upper": 0.7,
+            "precision_measurable": 0.7,
+            "unknown": 0,
+            "base_rate": 0.3194048905037808
+          },
+          "p_at_50": {
+            "rows": 20398,
+            "available": true,
+            "precision_lower": 0.64,
+            "precision_upper": 0.64,
+            "precision_measurable": 0.64,
+            "unknown": 0,
+            "base_rate": 0.3194048905037808
+          }
+        }
+      },
+      "bootstrap": {
+        "p_at_20": {
+          "momentum:logistic_regression_minus_static_rule": {
+            "available": true,
+            "observed_delta": 0.25,
+            "mean": 0.23217500000000002,
+            "ci_low": -0.050000000000000044,
+            "ci_high": 0.5,
+            "share_above_zero": 0.9035,
+            "reps": 2000
+          },
+          "momentum:random_forest_minus_static_rule": {
+            "available": true,
+            "observed_delta": 0.30000000000000004,
+            "mean": 0.29675,
+            "ci_low": 0.0,
+            "ci_high": 0.6,
+            "share_above_zero": 0.9635,
+            "reps": 2000
+          },
+          "momentum:logistic_regression_minus_acceleration_rule": {
+            "available": true,
+            "observed_delta": 0.09999999999999998,
+            "mean": 0.12402500000000001,
+            "ci_low": -0.19999999999999996,
+            "ci_high": 0.44999999999999996,
+            "share_above_zero": 0.7405,
+            "reps": 2000
+          }
+        },
+        "p_at_50": {
+          "momentum:logistic_regression_minus_static_rule": {
+            "available": true,
+            "observed_delta": 0.2,
+            "mean": 0.21472000000000002,
+            "ci_low": 0.020000000000000018,
+            "ci_high": 0.4,
+            "share_above_zero": 0.9805,
+            "reps": 2000
+          },
+          "momentum:random_forest_minus_static_rule": {
+            "available": true,
+            "observed_delta": 0.32,
+            "mean": 0.29844,
+            "ci_low": 0.09999999999999998,
+            "ci_high": 0.5,
+            "share_above_zero": 0.999,
+            "reps": 2000
+          },
+          "momentum:logistic_regression_minus_acceleration_rule": {
+            "available": true,
+            "observed_delta": 0.020000000000000018,
+            "mean": 0.07132000000000001,
+            "ci_low": -0.12000000000000005,
+            "ci_high": 0.26000000000000006,
+            "share_above_zero": 0.728,
+            "reps": 2000
+          }
+        }
+      },
+      "mechanism": {
+        "mechanism_2f": {
+          "rows": 20398,
+          "available": true,
+          "precision_lower": 0.48,
+          "precision_upper": 0.5,
+          "precision_measurable": 0.4897959183673469,
+          "unknown": 1,
+          "base_rate": 0.3194048905037808
+        },
+        "mechanism_2f_plus_flag": {
+          "rows": 20398,
+          "available": true,
+          "precision_lower": 0.46,
+          "precision_upper": 0.48,
+          "precision_measurable": 0.46938775510204084,
+          "unknown": 1,
+          "base_rate": 0.3194048905037808
+        },
+        "momentum:logistic_regression": {
+          "rows": 20398,
+          "available": true,
+          "precision_lower": 0.5,
+          "precision_upper": 0.58,
+          "precision_measurable": 0.5434782608695652,
+          "unknown": 4,
+          "base_rate": 0.3194048905037808
+        },
+        "bounce_share_of_pool": 0.2121776644769095,
+        "bounce_pool_base_rate": 0.3122109158186864,
+        "non_bounce_pool_base_rate": 0.32134397207330756
+      },
+      "robustness": {
+        "largest_client_share_of_pool": 0.2252181586430042,
+        "full": {
+          "static_rule": {
+            "rows": 20398,
+            "available": true,
+            "precision_lower": 0.3,
+            "precision_upper": 0.3,
+            "precision_measurable": 0.3,
+            "unknown": 0,
+            "base_rate": 0.3194048905037808
+          },
+          "acceleration_rule": {
+            "rows": 20398,
+            "available": true,
+            "precision_lower": 0.48,
+            "precision_upper": 0.48,
+            "precision_measurable": 0.48,
+            "unknown": 0,
+            "base_rate": 0.3194048905037808
+          },
+          "momentum:logistic_regression": {
+            "rows": 20398,
+            "available": true,
+            "precision_lower": 0.5,
+            "precision_upper": 0.58,
+            "precision_measurable": 0.5434782608695652,
+            "unknown": 4,
+            "base_rate": 0.3194048905037808
+          },
+          "momentum:random_forest": {
+            "rows": 20398,
+            "available": true,
+            "precision_lower": 0.62,
+            "precision_upper": 0.62,
+            "precision_measurable": 0.62,
+            "unknown": 0,
+            "base_rate": 0.3194048905037808
+          }
+        },
+        "without_largest_client": {
+          "static_rule": {
+            "rows": 15804,
+            "available": true,
+            "precision_lower": 0.34,
+            "precision_upper": 0.34,
+            "precision_measurable": 0.34,
+            "unknown": 0,
+            "base_rate": 0.3337982628542446
+          },
+          "acceleration_rule": {
+            "rows": 15804,
+            "available": true,
+            "precision_lower": 0.54,
+            "precision_upper": 0.54,
+            "precision_measurable": 0.54,
+            "unknown": 0,
+            "base_rate": 0.3337982628542446
+          },
+          "momentum:logistic_regression": {
+            "rows": 15804,
+            "available": true,
+            "precision_lower": 0.5,
+            "precision_upper": 0.58,
+            "precision_measurable": 0.5434782608695652,
+            "unknown": 4,
+            "base_rate": 0.3337982628542446
+          },
+          "momentum:random_forest": {
+            "rows": 15804,
+            "available": true,
+            "precision_lower": 0.62,
+            "precision_upper": 0.62,
+            "precision_measurable": 0.62,
+            "unknown": 0,
+            "base_rate": 0.3337982628542446
+          }
+        },
+        "complete_coverage_only": {
+          "static_rule": {
+            "rows": 15136,
+            "available": true,
+            "precision_lower": 0.34,
+            "precision_upper": 0.34,
+            "precision_measurable": 0.34,
+            "unknown": 0,
+            "base_rate": 0.36188082798756693
+          },
+          "acceleration_rule": {
+            "rows": 15136,
+            "available": true,
+            "precision_lower": 0.5,
+            "precision_upper": 0.5,
+            "precision_measurable": 0.5,
+            "unknown": 0,
+            "base_rate": 0.36188082798756693
+          },
+          "momentum:logistic_regression": {
+            "rows": 15136,
+            "available": true,
+            "precision_lower": 0.44,
+            "precision_upper": 0.46,
+            "precision_measurable": 0.4489795918367347,
+            "unknown": 1,
+            "base_rate": 0.36188082798756693
+          },
+          "momentum:random_forest": {
+            "rows": 15136,
+            "available": true,
+            "precision_lower": 0.66,
+            "precision_upper": 0.66,
+            "precision_measurable": 0.66,
+            "unknown": 0,
+            "base_rate": 0.36188082798756693
+          }
+        }
+      },
+      "diagnostics": {
+        "coefficients": [
+          {
+            "feature": "recent30_ctr_pct",
+            "coefficient_std_units": -0.3944477395820005
+          },
+          {
+            "feature": "log_recent30_impressions",
+            "coefficient_std_units": 0.2831796105438866
+          },
+          {
+            "feature": "has_prior30_gsc_coverage",
+            "coefficient_std_units": -0.24667586703903552
+          },
+          {
+            "feature": "traffic_velocity_30d",
+            "coefficient_std_units": 0.19923075425814313
+          },
+          {
+            "feature": "traffic_acceleration_7d",
+            "coefficient_std_units": 0.19831793212582174
+          },
+          {
+            "feature": "content_age_days",
+            "coefficient_std_units": 0.1550959320017636
+          },
+          {
+            "feature": "recent30_avg_position",
+            "coefficient_std_units": 0.1375942533900205
+          },
+          {
+            "feature": "recent30_active_days",
+            "coefficient_std_units": 0.09989232478528098
+          }
+        ],
+        "permutation_importance": [
+          {
+            "feature": "recent30_ctr_pct",
+            "ap_drop_mean": 0.05504087324692537,
+            "ap_drop_std": 0.002875797467268264
+          },
+          {
+            "feature": "traffic_acceleration_7d",
+            "ap_drop_mean": 0.012241813990773832,
+            "ap_drop_std": 0.0013475548155372167
+          },
+          {
+            "feature": "content_age_days",
+            "ap_drop_mean": 0.002845161754266895,
+            "ap_drop_std": 0.0010101466266402535
+          },
+          {
+            "feature": "recent30_avg_position",
+            "ap_drop_mean": 0.0016118786846136325,
+            "ap_drop_std": 0.001031245671074512
+          },
+          {
+            "feature": "recent30_active_days",
+            "ap_drop_mean": 0.0015941694183218725,
+            "ap_drop_std": 0.00021415039898975522
+          },
+          {
+            "feature": "traffic_velocity_30d",
+            "ap_drop_mean": 0.0006596845652335592,
+            "ap_drop_std": 0.0025274048410607645
+          },
+          {
+            "feature": "log_recent30_impressions",
+            "ap_drop_mean": -0.002013830440719039,
+            "ap_drop_std": 0.0012967630175212126
+          },
+          {
+            "feature": "has_prior30_gsc_coverage",
+            "ap_drop_mean": -0.005344417404074081,
+            "ap_drop_std": 0.0006863219748364931
+          }
+        ],
+        "pool_ap_logistic_regression": 0.3059108885223156
+      }
+    },
+    "2026-04": {
+      "origin": "2026-04",
+      "training_months": [
+        "2026-02"
+      ],
+      "training_rows": 29638,
+      "candidates": 45664,
+      "pool_rows": 19850,
+      "pool_share_of_candidates": 0.4346969166082691,
+      "pool_base_rate": 0.5167118800225213,
+      "pool_unknown_share": 0.015768261964735516,
+      "coverage": {
+        "recent7_days_median": 7.0,
+        "recent30_days_median": 30.0,
+        "bounce_share": 0.2721410579345088
+      },
+      "metrics": {
+        "static_rule": {
+          "p_at_20": {
+            "rows": 19850,
+            "available": true,
+            "precision_lower": 0.3,
+            "precision_upper": 0.45,
+            "precision_measurable": 0.35294117647058826,
+            "unknown": 3,
+            "base_rate": 0.5167118800225213
+          },
+          "p_at_50": {
+            "rows": 19850,
+            "available": true,
+            "precision_lower": 0.36,
+            "precision_upper": 0.42,
+            "precision_measurable": 0.3829787234042553,
+            "unknown": 3,
+            "base_rate": 0.5167118800225213
+          }
+        },
+        "acceleration_rule": {
+          "p_at_20": {
+            "rows": 19850,
+            "available": true,
+            "precision_lower": 0.75,
+            "precision_upper": 0.75,
+            "precision_measurable": 0.75,
+            "unknown": 0,
+            "base_rate": 0.5167118800225213
+          },
+          "p_at_50": {
+            "rows": 19850,
+            "available": true,
+            "precision_lower": 0.64,
+            "precision_upper": 0.64,
+            "precision_measurable": 0.64,
+            "unknown": 0,
+            "base_rate": 0.5167118800225213
+          }
+        },
+        "coverage_adjusted_acceleration_rule": {
+          "p_at_20": {
+            "rows": 19850,
+            "available": true,
+            "precision_lower": 0.4,
+            "precision_upper": 0.4,
+            "precision_measurable": 0.4,
+            "unknown": 0,
+            "base_rate": 0.5167118800225213
+          },
+          "p_at_50": {
+            "rows": 19850,
+            "available": true,
+            "precision_lower": 0.52,
+            "precision_upper": 0.54,
+            "precision_measurable": 0.5306122448979592,
+            "unknown": 1,
+            "base_rate": 0.5167118800225213
+          }
+        },
+        "control:logistic_regression": {
+          "p_at_20": {
+            "rows": 19850,
+            "available": true,
+            "precision_lower": 0.45,
+            "precision_upper": 0.45,
+            "precision_measurable": 0.45,
+            "unknown": 0,
+            "base_rate": 0.5167118800225213
+          },
+          "p_at_50": {
+            "rows": 19850,
+            "available": true,
+            "precision_lower": 0.48,
+            "precision_upper": 0.48,
+            "precision_measurable": 0.48,
+            "unknown": 0,
+            "base_rate": 0.5167118800225213
+          }
+        },
+        "control:random_forest": {
+          "p_at_20": {
+            "rows": 19850,
+            "available": true,
+            "precision_lower": 0.35,
+            "precision_upper": 0.35,
+            "precision_measurable": 0.35,
+            "unknown": 0,
+            "base_rate": 0.5167118800225213
+          },
+          "p_at_50": {
+            "rows": 19850,
+            "available": true,
+            "precision_lower": 0.28,
+            "precision_upper": 0.28,
+            "precision_measurable": 0.28,
+            "unknown": 0,
+            "base_rate": 0.5167118800225213
+          }
+        },
+        "momentum:logistic_regression": {
+          "p_at_20": {
+            "rows": 19850,
+            "available": true,
+            "precision_lower": 0.8,
+            "precision_upper": 0.8,
+            "precision_measurable": 0.8,
+            "unknown": 0,
+            "base_rate": 0.5167118800225213
+          },
+          "p_at_50": {
+            "rows": 19850,
+            "available": true,
+            "precision_lower": 0.72,
+            "precision_upper": 0.72,
+            "precision_measurable": 0.72,
+            "unknown": 0,
+            "base_rate": 0.5167118800225213
+          }
+        },
+        "momentum:random_forest": {
+          "p_at_20": {
+            "rows": 19850,
+            "available": true,
+            "precision_lower": 0.7,
+            "precision_upper": 0.7,
+            "precision_measurable": 0.7,
+            "unknown": 0,
+            "base_rate": 0.5167118800225213
+          },
+          "p_at_50": {
+            "rows": 19850,
+            "available": true,
+            "precision_lower": 0.48,
+            "precision_upper": 0.48,
+            "precision_measurable": 0.48,
+            "unknown": 0,
+            "base_rate": 0.5167118800225213
+          }
+        }
+      },
+      "metrics_all_training_rows": {
+        "static_rule": {
+          "p_at_20": {
+            "rows": 19850,
+            "available": true,
+            "precision_lower": 0.3,
+            "precision_upper": 0.45,
+            "precision_measurable": 0.35294117647058826,
+            "unknown": 3,
+            "base_rate": 0.5167118800225213
+          },
+          "p_at_50": {
+            "rows": 19850,
+            "available": true,
+            "precision_lower": 0.36,
+            "precision_upper": 0.42,
+            "precision_measurable": 0.3829787234042553,
+            "unknown": 3,
+            "base_rate": 0.5167118800225213
+          }
+        },
+        "acceleration_rule": {
+          "p_at_20": {
+            "rows": 19850,
+            "available": true,
+            "precision_lower": 0.75,
+            "precision_upper": 0.75,
+            "precision_measurable": 0.75,
+            "unknown": 0,
+            "base_rate": 0.5167118800225213
+          },
+          "p_at_50": {
+            "rows": 19850,
+            "available": true,
+            "precision_lower": 0.64,
+            "precision_upper": 0.64,
+            "precision_measurable": 0.64,
+            "unknown": 0,
+            "base_rate": 0.5167118800225213
+          }
+        },
+        "coverage_adjusted_acceleration_rule": {
+          "p_at_20": {
+            "rows": 19850,
+            "available": true,
+            "precision_lower": 0.4,
+            "precision_upper": 0.4,
+            "precision_measurable": 0.4,
+            "unknown": 0,
+            "base_rate": 0.5167118800225213
+          },
+          "p_at_50": {
+            "rows": 19850,
+            "available": true,
+            "precision_lower": 0.52,
+            "precision_upper": 0.54,
+            "precision_measurable": 0.5306122448979592,
+            "unknown": 1,
+            "base_rate": 0.5167118800225213
+          }
+        },
+        "control:logistic_regression": {
+          "p_at_20": {
+            "rows": 19850,
+            "available": true,
+            "precision_lower": 0.5,
+            "precision_upper": 0.5,
+            "precision_measurable": 0.5,
+            "unknown": 0,
+            "base_rate": 0.5167118800225213
+          },
+          "p_at_50": {
+            "rows": 19850,
+            "available": true,
+            "precision_lower": 0.38,
+            "precision_upper": 0.38,
+            "precision_measurable": 0.38,
+            "unknown": 0,
+            "base_rate": 0.5167118800225213
+          }
+        },
+        "control:random_forest": {
+          "p_at_20": {
+            "rows": 19850,
+            "available": true,
+            "precision_lower": 0.5,
+            "precision_upper": 0.5,
+            "precision_measurable": 0.5,
+            "unknown": 0,
+            "base_rate": 0.5167118800225213
+          },
+          "p_at_50": {
+            "rows": 19850,
+            "available": true,
+            "precision_lower": 0.42,
+            "precision_upper": 0.42,
+            "precision_measurable": 0.42,
+            "unknown": 0,
+            "base_rate": 0.5167118800225213
+          }
+        },
+        "momentum:logistic_regression": {
+          "p_at_20": {
+            "rows": 19850,
+            "available": true,
+            "precision_lower": 0.7,
+            "precision_upper": 0.7,
+            "precision_measurable": 0.7,
+            "unknown": 0,
+            "base_rate": 0.5167118800225213
+          },
+          "p_at_50": {
+            "rows": 19850,
+            "available": true,
+            "precision_lower": 0.66,
+            "precision_upper": 0.66,
+            "precision_measurable": 0.66,
+            "unknown": 0,
+            "base_rate": 0.5167118800225213
+          }
+        },
+        "momentum:random_forest": {
+          "p_at_20": {
+            "rows": 19850,
+            "available": true,
+            "precision_lower": 0.65,
+            "precision_upper": 0.65,
+            "precision_measurable": 0.65,
+            "unknown": 0,
+            "base_rate": 0.5167118800225213
+          },
+          "p_at_50": {
+            "rows": 19850,
+            "available": true,
+            "precision_lower": 0.52,
+            "precision_upper": 0.52,
+            "precision_measurable": 0.52,
+            "unknown": 0,
+            "base_rate": 0.5167118800225213
+          }
+        }
+      },
+      "bootstrap": {
+        "p_at_20": {
+          "momentum:logistic_regression_minus_static_rule": {
+            "available": true,
+            "observed_delta": 0.5,
+            "mean": 0.491375,
+            "ci_low": 0.19999999999999996,
+            "ci_high": 0.75,
+            "share_above_zero": 0.998,
+            "reps": 2000
+          },
+          "momentum:random_forest_minus_static_rule": {
+            "available": true,
+            "observed_delta": 0.39999999999999997,
+            "mean": 0.36377499999999996,
+            "ci_low": 0.04999999999999999,
+            "ci_high": 0.65,
+            "share_above_zero": 0.987,
+            "reps": 2000
+          },
+          "momentum:logistic_regression_minus_acceleration_rule": {
+            "available": true,
+            "observed_delta": 0.050000000000000044,
+            "mean": 0.046950000000000006,
+            "ci_low": -0.25,
+            "ci_high": 0.30000000000000004,
+            "share_above_zero": 0.5645,
+            "reps": 2000
+          }
+        },
+        "p_at_50": {
+          "momentum:logistic_regression_minus_static_rule": {
+            "available": true,
+            "observed_delta": 0.36,
+            "mean": 0.35712,
+            "ci_low": 0.16000000000000003,
+            "ci_high": 0.54,
+            "share_above_zero": 0.9985,
+            "reps": 2000
+          },
+          "momentum:random_forest_minus_static_rule": {
+            "available": true,
+            "observed_delta": 0.12,
+            "mean": 0.13448000000000002,
+            "ci_low": -0.06,
+            "ci_high": 0.32,
+            "share_above_zero": 0.8805,
+            "reps": 2000
+          },
+          "momentum:logistic_regression_minus_acceleration_rule": {
+            "available": true,
+            "observed_delta": 0.07999999999999996,
+            "mean": 0.07694,
+            "ci_low": -0.12,
+            "ci_high": 0.26,
+            "share_above_zero": 0.7475,
+            "reps": 2000
+          }
+        }
+      },
+      "mechanism": {
+        "mechanism_2f": {
+          "rows": 19850,
+          "available": true,
+          "precision_lower": 0.66,
+          "precision_upper": 0.66,
+          "precision_measurable": 0.66,
+          "unknown": 0,
+          "base_rate": 0.5167118800225213
+        },
+        "mechanism_2f_plus_flag": {
+          "rows": 19850,
+          "available": true,
+          "precision_lower": 0.64,
+          "precision_upper": 0.64,
+          "precision_measurable": 0.64,
+          "unknown": 0,
+          "base_rate": 0.5167118800225213
+        },
+        "momentum:logistic_regression": {
+          "rows": 19850,
+          "available": true,
+          "precision_lower": 0.72,
+          "precision_upper": 0.72,
+          "precision_measurable": 0.72,
+          "unknown": 0,
+          "base_rate": 0.5167118800225213
+        },
+        "bounce_share_of_pool": 0.2721410579345088,
+        "bounce_pool_base_rate": 0.5375925925925926,
+        "non_bounce_pool_base_rate": 0.5087359411473439
+      },
+      "robustness": {
+        "largest_client_share_of_pool": 0.2892695214105793,
+        "full": {
+          "static_rule": {
+            "rows": 19850,
+            "available": true,
+            "precision_lower": 0.36,
+            "precision_upper": 0.42,
+            "precision_measurable": 0.3829787234042553,
+            "unknown": 3,
+            "base_rate": 0.5167118800225213
+          },
+          "acceleration_rule": {
+            "rows": 19850,
+            "available": true,
+            "precision_lower": 0.64,
+            "precision_upper": 0.64,
+            "precision_measurable": 0.64,
+            "unknown": 0,
+            "base_rate": 0.5167118800225213
+          },
+          "momentum:logistic_regression": {
+            "rows": 19850,
+            "available": true,
+            "precision_lower": 0.72,
+            "precision_upper": 0.72,
+            "precision_measurable": 0.72,
+            "unknown": 0,
+            "base_rate": 0.5167118800225213
+          },
+          "momentum:random_forest": {
+            "rows": 19850,
+            "available": true,
+            "precision_lower": 0.48,
+            "precision_upper": 0.48,
+            "precision_measurable": 0.48,
+            "unknown": 0,
+            "base_rate": 0.5167118800225213
+          }
+        },
+        "without_largest_client": {
+          "static_rule": {
+            "rows": 14108,
+            "available": true,
+            "precision_lower": 0.36,
+            "precision_upper": 0.42,
+            "precision_measurable": 0.3829787234042553,
+            "unknown": 3,
+            "base_rate": 0.4795215657847046
+          },
+          "acceleration_rule": {
+            "rows": 14108,
+            "available": true,
+            "precision_lower": 0.58,
+            "precision_upper": 0.58,
+            "precision_measurable": 0.58,
+            "unknown": 0,
+            "base_rate": 0.4795215657847046
+          },
+          "momentum:logistic_regression": {
+            "rows": 14108,
+            "available": true,
+            "precision_lower": 0.72,
+            "precision_upper": 0.72,
+            "precision_measurable": 0.72,
+            "unknown": 0,
+            "base_rate": 0.4795215657847046
+          },
+          "momentum:random_forest": {
+            "rows": 14108,
+            "available": true,
+            "precision_lower": 0.48,
+            "precision_upper": 0.48,
+            "precision_measurable": 0.48,
+            "unknown": 0,
+            "base_rate": 0.4795215657847046
+          }
+        },
+        "complete_coverage_only": {
+          "static_rule": {
+            "rows": 18105,
+            "available": true,
+            "precision_lower": 0.36,
+            "precision_upper": 0.42,
+            "precision_measurable": 0.3829787234042553,
+            "unknown": 3,
+            "base_rate": 0.5328020652112914
+          },
+          "acceleration_rule": {
+            "rows": 18105,
+            "available": true,
+            "precision_lower": 0.62,
+            "precision_upper": 0.62,
+            "precision_measurable": 0.62,
+            "unknown": 0,
+            "base_rate": 0.5328020652112914
+          },
+          "momentum:logistic_regression": {
+            "rows": 18105,
+            "available": true,
+            "precision_lower": 0.72,
+            "precision_upper": 0.72,
+            "precision_measurable": 0.72,
+            "unknown": 0,
+            "base_rate": 0.5328020652112914
+          },
+          "momentum:random_forest": {
+            "rows": 18105,
+            "available": true,
+            "precision_lower": 0.48,
+            "precision_upper": 0.48,
+            "precision_measurable": 0.48,
+            "unknown": 0,
+            "base_rate": 0.5328020652112914
+          }
+        }
+      },
+      "diagnostics": {
+        "coefficients": [
+          {
+            "feature": "recent30_avg_position",
+            "coefficient_std_units": -0.5269515806370355
+          },
+          {
+            "feature": "content_age_days",
+            "coefficient_std_units": 0.3241884939337425
+          },
+          {
+            "feature": "recent30_ctr_pct",
+            "coefficient_std_units": -0.28577262635530026
+          },
+          {
+            "feature": "traffic_acceleration_7d",
+            "coefficient_std_units": 0.23774383425247592
+          },
+          {
+            "feature": "has_prior30_gsc_coverage",
+            "coefficient_std_units": 0.13491912418861998
+          },
+          {
+            "feature": "recent30_active_days",
+            "coefficient_std_units": 0.08330912084219298
+          },
+          {
+            "feature": "traffic_velocity_30d",
+            "coefficient_std_units": 0.07810787146366134
+          },
+          {
+            "feature": "log_recent30_impressions",
+            "coefficient_std_units": 0.05325585198587041
+          }
+        ],
+        "permutation_importance": [
+          {
+            "feature": "traffic_velocity_30d",
+            "ap_drop_mean": 0.04061092983688314,
+            "ap_drop_std": 0.0007024737385408823
+          },
+          {
+            "feature": "recent30_ctr_pct",
+            "ap_drop_mean": 0.0254192724802993,
+            "ap_drop_std": 0.0006857060946020997
+          },
+          {
+            "feature": "content_age_days",
+            "ap_drop_mean": 0.021245858192176875,
+            "ap_drop_std": 0.002064597554898244
+          },
+          {
+            "feature": "traffic_acceleration_7d",
+            "ap_drop_mean": 0.007535950724608958,
+            "ap_drop_std": 0.0005445277210486064
+          },
+          {
+            "feature": "log_recent30_impressions",
+            "ap_drop_mean": 0.007374025288565444,
+            "ap_drop_std": 0.0004299085603496306
+          },
+          {
+            "feature": "has_prior30_gsc_coverage",
+            "ap_drop_mean": 0.006224791380727662,
+            "ap_drop_std": 0.0009809064098357488
+          },
+          {
+            "feature": "recent30_active_days",
+            "ap_drop_mean": 0.0009979870540291925,
+            "ap_drop_std": 0.0005339350090952107
+          },
+          {
+            "feature": "recent30_avg_position",
+            "ap_drop_mean": -0.07102033666535909,
+            "ap_drop_std": 0.002589202159519194
+          }
+        ],
+        "pool_ap_logistic_regression": 0.44207526479201514
+      }
+    }
+  },
+  "summary": {
+    "p_at_20": {
+      "table": [
+        {
+          "candidate": "acceleration_rule",
+          "mean_precision": 0.27999999999999997,
+          "median_precision": 0.15,
+          "worst": 0.0,
+          "best": 0.75,
+          "origins": 5
+        },
+        {
+          "candidate": "control:logistic_regression",
+          "mean_precision": 0.36,
+          "median_precision": 0.45,
+          "worst": 0.15,
+          "best": 0.45,
+          "origins": 5
+        },
+        {
+          "candidate": "control:random_forest",
+          "mean_precision": 0.22999999999999998,
+          "median_precision": 0.3,
+          "worst": 0.05,
+          "best": 0.35,
+          "origins": 5
+        },
+        {
+          "candidate": "coverage_adjusted_acceleration_rule",
+          "mean_precision": 0.22999999999999998,
+          "median_precision": 0.25,
+          "worst": 0.1,
+          "best": 0.4,
+          "origins": 5
+        },
+        {
+          "candidate": "momentum:logistic_regression",
+          "mean_precision": 0.57,
+          "median_precision": 0.5,
+          "worst": 0.4,
+          "best": 0.8,
+          "origins": 5
+        },
+        {
+          "candidate": "momentum:random_forest",
+          "mean_precision": 0.37,
+          "median_precision": 0.35,
+          "worst": 0.05,
+          "best": 0.7,
+          "origins": 5
+        },
+        {
+          "candidate": "static_rule",
+          "mean_precision": 0.19,
+          "median_precision": 0.2,
+          "worst": 0.05,
+          "best": 0.3,
+          "origins": 5
+        }
+      ],
+      "paired_vs_static_rule": {
+        "momentum:logistic_regression": {
+          "mean_delta": 0.38,
+          "median_delta": 0.25,
+          "positive_origins": 5,
+          "origins": 5,
+          "leave_one_out_means": [
+            0.425,
+            0.3,
+            0.4125,
+            0.4125,
+            0.35
+          ]
+        },
+        "momentum:random_forest": {
+          "mean_delta": 0.18,
+          "median_delta": 0.14999999999999997,
+          "positive_origins": 4,
+          "origins": 5,
+          "leave_one_out_means": [
+            0.1875,
+            0.225,
+            0.2125,
+            0.15,
+            0.125
+          ]
+        }
+      },
+      "base_rate_mean": 0.256614691211035
+    },
+    "p_at_50": {
+      "table": [
+        {
+          "candidate": "acceleration_rule",
+          "mean_precision": 0.27999999999999997,
+          "median_precision": 0.14,
+          "worst": 0.0,
+          "best": 0.64,
+          "origins": 5
+        },
+        {
+          "candidate": "control:logistic_regression",
+          "mean_precision": 0.308,
+          "median_precision": 0.28,
+          "worst": 0.14,
+          "best": 0.48,
+          "origins": 5
+        },
+        {
+          "candidate": "control:random_forest",
+          "mean_precision": 0.184,
+          "median_precision": 0.18,
+          "worst": 0.04,
+          "best": 0.34,
+          "origins": 5
+        },
+        {
+          "candidate": "coverage_adjusted_acceleration_rule",
+          "mean_precision": 0.244,
+          "median_precision": 0.14,
+          "worst": 0.12,
+          "best": 0.52,
+          "origins": 5
+        },
+        {
+          "candidate": "momentum:logistic_regression",
+          "mean_precision": 0.508,
+          "median_precision": 0.5,
+          "worst": 0.26,
+          "best": 0.78,
+          "origins": 5
+        },
+        {
+          "candidate": "momentum:random_forest",
+          "mean_precision": 0.328,
+          "median_precision": 0.34,
+          "worst": 0.02,
+          "best": 0.62,
+          "origins": 5
+        },
+        {
+          "candidate": "static_rule",
+          "mean_precision": 0.21200000000000002,
+          "median_precision": 0.14,
+          "worst": 0.12,
+          "best": 0.36,
+          "origins": 5
+        }
+      ],
+      "paired_vs_static_rule": {
+        "momentum:logistic_regression": {
+          "mean_delta": 0.296,
+          "median_delta": 0.2,
+          "positive_origins": 5,
+          "origins": 5,
+          "leave_one_out_means": [
+            0.33999999999999997,
+            0.205,
+            0.33499999999999996,
+            0.32,
+            0.28
+          ]
+        },
+        "momentum:random_forest": {
+          "mean_delta": 0.11600000000000002,
+          "median_delta": 0.12,
+          "positive_origins": 4,
+          "origins": 5,
+          "leave_one_out_means": [
+            0.09499999999999999,
+            0.16999999999999998,
+            0.135,
+            0.06499999999999999,
+            0.11499999999999999
+          ]
+        }
+      },
+      "base_rate_mean": 0.256614691211035
+    }
+  },
+  "claim_checks": {
+    "p_at_20": {
+      "logistic_beats_static_in_at_least_4_of_5": true,
+      "logistic_beats_base_rate_on_mean": true,
+      "momentum_rule_has_no_structural_edge_in_pool": true,
+      "values": {
+        "logistic_mean": 0.57,
+        "static_mean": 0.19,
+        "acceleration_mean": 0.27999999999999997,
+        "base_rate_mean": 0.256614691211035
+      }
+    },
+    "p_at_50": {
+      "logistic_beats_static_in_at_least_4_of_5": true,
+      "logistic_beats_base_rate_on_mean": true,
+      "momentum_rule_has_no_structural_edge_in_pool": true,
+      "values": {
+        "logistic_mean": 0.508,
+        "static_mean": 0.21200000000000002,
+        "acceleration_mean": 0.27999999999999997,
+        "base_rate_mean": 0.256614691211035
+      }
+    },
+    "training_population": {
+      "max_abs_difference_pool_vs_all_training": 0.34,
+      "stable_across_training_population": false
+    },
+    "january_robustness": {
+      "full_precision": 0.78,
+      "without_largest_client": 0.94,
+      "complete_coverage_only": 0.78,
+      "survives_dropping_largest_client": true
+    }
+  },
+  "cross_check_vs_ranking_diagnosis": {
+    "available": true,
+    "rows": [
+      {
+        "origin": "2025-12",
+        "candidate": "static_rule",
+        "diagnosis_p_at_k": 0.14,
+        "onset_screening_p_at_k": 0.14,
+        "difference": 0.0
+      },
+      {
+        "origin": "2025-12",
+        "candidate": "acceleration_rule",
+        "diagnosis_p_at_k": 0.0,
+        "onset_screening_p_at_k": 0.0,
+        "difference": 0.0
+      },
+      {
+        "origin": "2025-12",
+        "candidate": "momentum:logistic_regression",
+        "diagnosis_p_at_k": 0.26,
+        "onset_screening_p_at_k": 0.26,
+        "difference": 0.0
+      },
+      {
+        "origin": "2025-12",
+        "candidate": "momentum:random_forest",
+        "diagnosis_p_at_k": 0.34,
+        "onset_screening_p_at_k": 0.34,
+        "difference": 0.0
+      },
+      {
+        "origin": "2026-01",
+        "candidate": "static_rule",
+        "diagnosis_p_at_k": 0.12,
+        "onset_screening_p_at_k": 0.12,
+        "difference": 0.0
+      },
+      {
+        "origin": "2026-01",
+        "candidate": "acceleration_rule",
+        "diagnosis_p_at_k": 0.14,
+        "onset_screening_p_at_k": 0.14,
+        "difference": 0.0
+      },
+      {
+        "origin": "2026-01",
+        "candidate": "momentum:logistic_regression",
+        "diagnosis_p_at_k": 0.78,
+        "onset_screening_p_at_k": 0.78,
+        "difference": 0.0
+      },
+      {
+        "origin": "2026-01",
+        "candidate": "momentum:random_forest",
+        "diagnosis_p_at_k": 0.02,
+        "onset_screening_p_at_k": 0.02,
+        "difference": 0.0
+      },
+      {
+        "origin": "2026-02",
+        "candidate": "static_rule",
+        "diagnosis_p_at_k": 0.14,
+        "onset_screening_p_at_k": 0.14,
+        "difference": 0.0
+      },
+      {
+        "origin": "2026-02",
+        "candidate": "acceleration_rule",
+        "diagnosis_p_at_k": 0.14,
+        "onset_screening_p_at_k": 0.14,
+        "difference": 0.0
+      },
+      {
+        "origin": "2026-02",
+        "candidate": "momentum:logistic_regression",
+        "diagnosis_p_at_k": 0.28,
+        "onset_screening_p_at_k": 0.28,
+        "difference": 0.0
+      },
+      {
+        "origin": "2026-02",
+        "candidate": "momentum:random_forest",
+        "diagnosis_p_at_k": 0.18,
+        "onset_screening_p_at_k": 0.18,
+        "difference": 0.0
+      },
+      {
+        "origin": "2026-03",
+        "candidate": "static_rule",
+        "diagnosis_p_at_k": 0.3,
+        "onset_screening_p_at_k": 0.3,
+        "difference": 0.0
+      },
+      {
+        "origin": "2026-03",
+        "candidate": "acceleration_rule",
+        "diagnosis_p_at_k": 0.48,
+        "onset_screening_p_at_k": 0.48,
+        "difference": 0.0
+      },
+      {
+        "origin": "2026-03",
+        "candidate": "momentum:logistic_regression",
+        "diagnosis_p_at_k": 0.5,
+        "onset_screening_p_at_k": 0.5,
+        "difference": 0.0
+      },
+      {
+        "origin": "2026-03",
+        "candidate": "momentum:random_forest",
+        "diagnosis_p_at_k": 0.62,
+        "onset_screening_p_at_k": 0.62,
+        "difference": 0.0
+      },
+      {
+        "origin": "2026-04",
+        "candidate": "static_rule",
+        "diagnosis_p_at_k": 0.36,
+        "onset_screening_p_at_k": 0.36,
+        "difference": 0.0
+      },
+      {
+        "origin": "2026-04",
+        "candidate": "acceleration_rule",
+        "diagnosis_p_at_k": 0.64,
+        "onset_screening_p_at_k": 0.64,
+        "difference": 0.0
+      },
+      {
+        "origin": "2026-04",
+        "candidate": "momentum:logistic_regression",
+        "diagnosis_p_at_k": 0.72,
+        "onset_screening_p_at_k": 0.72,
+        "difference": 0.0
+      },
+      {
+        "origin": "2026-04",
+        "candidate": "momentum:random_forest",
+        "diagnosis_p_at_k": 0.48,
+        "onset_screening_p_at_k": 0.48,
+        "difference": 0.0
+      }
+    ],
+    "max_abs_difference": 0.0,
+    "worst_row": {
+      "origin": "2025-12",
+      "candidate": "static_rule",
+      "diagnosis_p_at_k": 0.14,
+      "onset_screening_p_at_k": 0.14,
+      "difference": 0.0
+    },
+    "verdict": "matches"
+  },
+  "scope": "Five development origins, latest-mature-month training, paired within origin. Outcome windows overlap and pages and clients repeat, so these are development slices, not independent tests. The onset pool excludes pages whose own last-seven-day rate already implies a decline; that is the whole point of the comparison.",
+  "sensitivity": {
+    "2025-12": [
+      {
+        "pool_metric": "raw",
+        "threshold": 0.9,
+        "min_days": 3,
+        "pool_rows": 10985,
+        "pool_base_rate": 0.19947171873576827,
+        "static_rule": 0.18,
+        "acceleration_rule": 0.18,
+        "momentum:logistic_regression": 0.34
+      },
+      {
+        "pool_metric": "raw",
+        "threshold": 0.9,
+        "min_days": 5,
+        "pool_rows": 10985,
+        "pool_base_rate": 0.19947171873576827,
+        "static_rule": 0.18,
+        "acceleration_rule": 0.18,
+        "momentum:logistic_regression": 0.34
+      },
+      {
+        "pool_metric": "raw",
+        "threshold": 0.9,
+        "min_days": 7,
+        "pool_rows": 10982,
+        "pool_base_rate": 0.19925291545189505,
+        "static_rule": 0.18,
+        "acceleration_rule": 0.18,
+        "momentum:logistic_regression": 0.32
+      },
+      {
+        "pool_metric": "raw",
+        "threshold": 1.0,
+        "min_days": 3,
+        "pool_rows": 8395,
+        "pool_base_rate": 0.2145666944808678,
+        "static_rule": 0.14,
+        "acceleration_rule": 0.0,
+        "momentum:logistic_regression": 0.3
+      },
+      {
+        "pool_metric": "raw",
+        "threshold": 1.0,
+        "min_days": 5,
+        "pool_rows": 8395,
+        "pool_base_rate": 0.2145666944808678,
+        "static_rule": 0.14,
+        "acceleration_rule": 0.0,
+        "momentum:logistic_regression": 0.3
+      },
+      {
+        "pool_metric": "raw",
+        "threshold": 1.0,
+        "min_days": 7,
+        "pool_rows": 8394,
+        "pool_base_rate": 0.21447305674773487,
+        "static_rule": 0.14,
+        "acceleration_rule": 0.0,
+        "momentum:logistic_regression": 0.3
+      },
+      {
+        "pool_metric": "raw",
+        "threshold": 1.2,
+        "min_days": 3,
+        "pool_rows": 3513,
+        "pool_base_rate": 0.14794754846066135,
+        "static_rule": 0.14,
+        "acceleration_rule": 0.16,
+        "momentum:logistic_regression": 0.34
+      },
+      {
+        "pool_metric": "raw",
+        "threshold": 1.2,
+        "min_days": 5,
+        "pool_rows": 3513,
+        "pool_base_rate": 0.14794754846066135,
+        "static_rule": 0.14,
+        "acceleration_rule": 0.16,
+        "momentum:logistic_regression": 0.34
+      },
+      {
+        "pool_metric": "raw",
+        "threshold": 1.2,
+        "min_days": 7,
+        "pool_rows": 3513,
+        "pool_base_rate": 0.14794754846066135,
+        "static_rule": 0.14,
+        "acceleration_rule": 0.16,
+        "momentum:logistic_regression": 0.34
+      },
+      {
+        "pool_metric": "coverage",
+        "threshold": 0.9,
+        "min_days": 3,
+        "pool_rows": 11012,
+        "pool_base_rate": 0.19998182809376702,
+        "static_rule": 0.18,
+        "acceleration_rule": 0.36,
+        "momentum:logistic_regression": 0.36
+      },
+      {
+        "pool_metric": "coverage",
+        "threshold": 0.9,
+        "min_days": 5,
+        "pool_rows": 11012,
+        "pool_base_rate": 0.19998182809376702,
+        "static_rule": 0.18,
+        "acceleration_rule": 0.36,
+        "momentum:logistic_regression": 0.36
+      },
+      {
+        "pool_metric": "coverage",
+        "threshold": 0.9,
+        "min_days": 7,
+        "pool_rows": 11009,
+        "pool_base_rate": 0.19976370080887032,
+        "static_rule": 0.18,
+        "acceleration_rule": 0.36,
+        "momentum:logistic_regression": 0.34
+      },
+      {
+        "pool_metric": "coverage",
+        "threshold": 1.0,
+        "min_days": 3,
+        "pool_rows": 8439,
+        "pool_base_rate": 0.21380291711134827,
+        "static_rule": 0.14,
+        "acceleration_rule": 0.18,
+        "momentum:logistic_regression": 0.32
+      },
+      {
+        "pool_metric": "coverage",
+        "threshold": 1.0,
+        "min_days": 5,
+        "pool_rows": 8439,
+        "pool_base_rate": 0.21380291711134827,
+        "static_rule": 0.14,
+        "acceleration_rule": 0.18,
+        "momentum:logistic_regression": 0.32
+      },
+      {
+        "pool_metric": "coverage",
+        "threshold": 1.0,
+        "min_days": 7,
+        "pool_rows": 8436,
+        "pool_base_rate": 0.21352313167259787,
+        "static_rule": 0.14,
+        "acceleration_rule": 0.14,
+        "momentum:logistic_regression": 0.32
+      },
+      {
+        "pool_metric": "coverage",
+        "threshold": 1.2,
+        "min_days": 3,
+        "pool_rows": 3512,
+        "pool_base_rate": 0.14684915882520672,
+        "static_rule": 0.14,
+        "acceleration_rule": 0.12,
+        "momentum:logistic_regression": 0.34
+      },
+      {
+        "pool_metric": "coverage",
+        "threshold": 1.2,
+        "min_days": 5,
+        "pool_rows": 3512,
+        "pool_base_rate": 0.14684915882520672,
+        "static_rule": 0.14,
+        "acceleration_rule": 0.12,
+        "momentum:logistic_regression": 0.34
+      },
+      {
+        "pool_metric": "coverage",
+        "threshold": 1.2,
+        "min_days": 7,
+        "pool_rows": 3512,
+        "pool_base_rate": 0.14684915882520672,
+        "static_rule": 0.14,
+        "acceleration_rule": 0.12,
+        "momentum:logistic_regression": 0.34
+      },
+      {
+        "pool_metric": "label_variant_beyond_trajectory",
+        "threshold": 1.0,
+        "min_days": 3,
+        "pool_rows": 8395,
+        "pool_base_rate": 0.018476576469185838,
+        "static_rule": 0.02,
+        "acceleration_rule": 0.0,
+        "momentum:logistic_regression": 0.16
+      }
+    ],
+    "2026-01": [
+      {
+        "pool_metric": "raw",
+        "threshold": 0.9,
+        "min_days": 3,
+        "pool_rows": 17409,
+        "pool_base_rate": 0.10570788066908088,
+        "static_rule": 0.12,
+        "acceleration_rule": 0.16,
+        "momentum:logistic_regression": 0.44
+      },
+      {
+        "pool_metric": "raw",
+        "threshold": 0.9,
+        "min_days": 5,
+        "pool_rows": 17408,
+        "pool_base_rate": 0.10565647275235686,
+        "static_rule": 0.12,
+        "acceleration_rule": 0.16,
+        "momentum:logistic_regression": 0.44
+      },
+      {
+        "pool_metric": "raw",
+        "threshold": 0.9,
+        "min_days": 7,
+        "pool_rows": 17402,
+        "pool_base_rate": 0.10556577736890524,
+        "static_rule": 0.12,
+        "acceleration_rule": 0.16,
+        "momentum:logistic_regression": 0.44
+      },
+      {
+        "pool_metric": "raw",
+        "threshold": 1.0,
+        "min_days": 3,
+        "pool_rows": 15138,
+        "pool_base_rate": 0.09282030940103134,
+        "static_rule": 0.12,
+        "acceleration_rule": 0.14,
+        "momentum:logistic_regression": 0.44
+      },
+      {
+        "pool_metric": "raw",
+        "threshold": 1.0,
+        "min_days": 5,
+        "pool_rows": 15137,
+        "pool_base_rate": 0.09276033057851239,
+        "static_rule": 0.12,
+        "acceleration_rule": 0.14,
+        "momentum:logistic_regression": 0.44
+      },
+      {
+        "pool_metric": "raw",
+        "threshold": 1.0,
+        "min_days": 7,
+        "pool_rows": 15131,
+        "pool_base_rate": 0.09265260234111501,
+        "static_rule": 0.12,
+        "acceleration_rule": 0.14,
+        "momentum:logistic_regression": 0.44
+      },
+      {
+        "pool_metric": "raw",
+        "threshold": 1.2,
+        "min_days": 3,
+        "pool_rows": 8961,
+        "pool_base_rate": 0.08824843610366398,
+        "static_rule": 0.14,
+        "acceleration_rule": 0.08,
+        "momentum:logistic_regression": 0.4
+      },
+      {
+        "pool_metric": "raw",
+        "threshold": 1.2,
+        "min_days": 5,
+        "pool_rows": 8961,
+        "pool_base_rate": 0.08824843610366398,
+        "static_rule": 0.14,
+        "acceleration_rule": 0.08,
+        "momentum:logistic_regression": 0.4
+      },
+      {
+        "pool_metric": "raw",
+        "threshold": 1.2,
+        "min_days": 7,
+        "pool_rows": 8955,
+        "pool_base_rate": 0.08806437192668753,
+        "static_rule": 0.14,
+        "acceleration_rule": 0.08,
+        "momentum:logistic_regression": 0.4
+      },
+      {
+        "pool_metric": "coverage",
+        "threshold": 0.9,
+        "min_days": 3,
+        "pool_rows": 17369,
+        "pool_base_rate": 0.10532380732887762,
+        "static_rule": 0.12,
+        "acceleration_rule": 0.1,
+        "momentum:logistic_regression": 0.42
+      },
+      {
+        "pool_metric": "coverage",
+        "threshold": 0.9,
+        "min_days": 5,
+        "pool_rows": 17368,
+        "pool_base_rate": 0.10527225583405359,
+        "static_rule": 0.12,
+        "acceleration_rule": 0.1,
+        "momentum:logistic_regression": 0.42
+      },
+      {
+        "pool_metric": "coverage",
+        "threshold": 0.9,
+        "min_days": 7,
+        "pool_rows": 17362,
+        "pool_base_rate": 0.1051751959428308,
+        "static_rule": 0.12,
+        "acceleration_rule": 0.1,
+        "momentum:logistic_regression": 0.44
+      },
+      {
+        "pool_metric": "coverage",
+        "threshold": 1.0,
+        "min_days": 3,
+        "pool_rows": 15068,
+        "pool_base_rate": 0.0925212539851222,
+        "static_rule": 0.12,
+        "acceleration_rule": 0.12,
+        "momentum:logistic_regression": 0.44
+      },
+      {
+        "pool_metric": "coverage",
+        "threshold": 1.0,
+        "min_days": 5,
+        "pool_rows": 15067,
+        "pool_base_rate": 0.09246097641979409,
+        "static_rule": 0.12,
+        "acceleration_rule": 0.12,
+        "momentum:logistic_regression": 0.44
+      },
+      {
+        "pool_metric": "coverage",
+        "threshold": 1.0,
+        "min_days": 7,
+        "pool_rows": 15062,
+        "pool_base_rate": 0.09234653202232261,
+        "static_rule": 0.12,
+        "acceleration_rule": 0.12,
+        "momentum:logistic_regression": 0.44
+      },
+      {
+        "pool_metric": "coverage",
+        "threshold": 1.2,
+        "min_days": 3,
+        "pool_rows": 8756,
+        "pool_base_rate": 0.08780153195381274,
+        "static_rule": 0.14,
+        "acceleration_rule": 0.06,
+        "momentum:logistic_regression": 0.4
+      },
+      {
+        "pool_metric": "coverage",
+        "threshold": 1.2,
+        "min_days": 5,
+        "pool_rows": 8755,
+        "pool_base_rate": 0.0876972330208095,
+        "static_rule": 0.14,
+        "acceleration_rule": 0.04,
+        "momentum:logistic_regression": 0.4
+      },
+      {
+        "pool_metric": "coverage",
+        "threshold": 1.2,
+        "min_days": 7,
+        "pool_rows": 8751,
+        "pool_base_rate": 0.08760292772186642,
+        "static_rule": 0.14,
+        "acceleration_rule": 0.04,
+        "momentum:logistic_regression": 0.4
+      },
+      {
+        "pool_metric": "label_variant_beyond_trajectory",
+        "threshold": 1.0,
+        "min_days": 3,
+        "pool_rows": 15138,
+        "pool_base_rate": 0.010247256379743488,
+        "static_rule": 0.0,
+        "acceleration_rule": 0.0,
+        "momentum:logistic_regression": 0.0
+      }
+    ],
+    "2026-02": [
+      {
+        "pool_metric": "raw",
+        "threshold": 0.9,
+        "min_days": 3,
+        "pool_rows": 23260,
+        "pool_base_rate": 0.15379213483146068,
+        "static_rule": 0.16,
+        "acceleration_rule": 0.32,
+        "momentum:logistic_regression": 0.3
+      },
+      {
+        "pool_metric": "raw",
+        "threshold": 0.9,
+        "min_days": 5,
+        "pool_rows": 23260,
+        "pool_base_rate": 0.15379213483146068,
+        "static_rule": 0.16,
+        "acceleration_rule": 0.32,
+        "momentum:logistic_regression": 0.3
+      },
+      {
+        "pool_metric": "raw",
+        "threshold": 0.9,
+        "min_days": 7,
+        "pool_rows": 23258,
+        "pool_base_rate": 0.15376174172592397,
+        "static_rule": 0.16,
+        "acceleration_rule": 0.32,
+        "momentum:logistic_regression": 0.3
+      },
+      {
+        "pool_metric": "raw",
+        "threshold": 1.0,
+        "min_days": 3,
+        "pool_rows": 19781,
+        "pool_base_rate": 0.13956968164697384,
+        "static_rule": 0.14,
+        "acceleration_rule": 0.14,
+        "momentum:logistic_regression": 0.28
+      },
+      {
+        "pool_metric": "raw",
+        "threshold": 1.0,
+        "min_days": 5,
+        "pool_rows": 19781,
+        "pool_base_rate": 0.13956968164697384,
+        "static_rule": 0.14,
+        "acceleration_rule": 0.14,
+        "momentum:logistic_regression": 0.28
+      },
+      {
+        "pool_metric": "raw",
+        "threshold": 1.0,
+        "min_days": 7,
+        "pool_rows": 19779,
+        "pool_base_rate": 0.13953248361628567,
+        "static_rule": 0.14,
+        "acceleration_rule": 0.14,
+        "momentum:logistic_regression": 0.28
+      },
+      {
+        "pool_metric": "raw",
+        "threshold": 1.2,
+        "min_days": 3,
+        "pool_rows": 11640,
+        "pool_base_rate": 0.13408554185253213,
+        "static_rule": 0.16,
+        "acceleration_rule": 0.14,
+        "momentum:logistic_regression": 0.28
+      },
+      {
+        "pool_metric": "raw",
+        "threshold": 1.2,
+        "min_days": 5,
+        "pool_rows": 11640,
+        "pool_base_rate": 0.13408554185253213,
+        "static_rule": 0.16,
+        "acceleration_rule": 0.14,
+        "momentum:logistic_regression": 0.28
+      },
+      {
+        "pool_metric": "raw",
+        "threshold": 1.2,
+        "min_days": 7,
+        "pool_rows": 11638,
+        "pool_base_rate": 0.1340215204269093,
+        "static_rule": 0.16,
+        "acceleration_rule": 0.14,
+        "momentum:logistic_regression": 0.28
+      },
+      {
+        "pool_metric": "coverage",
+        "threshold": 0.9,
+        "min_days": 3,
+        "pool_rows": 23230,
+        "pool_base_rate": 0.15413352085439283,
+        "static_rule": 0.16,
+        "acceleration_rule": 0.28,
+        "momentum:logistic_regression": 0.3
+      },
+      {
+        "pool_metric": "coverage",
+        "threshold": 0.9,
+        "min_days": 5,
+        "pool_rows": 23229,
+        "pool_base_rate": 0.15409634317862167,
+        "static_rule": 0.16,
+        "acceleration_rule": 0.28,
+        "momentum:logistic_regression": 0.3
+      },
+      {
+        "pool_metric": "coverage",
+        "threshold": 0.9,
+        "min_days": 7,
+        "pool_rows": 23227,
+        "pool_base_rate": 0.15406593406593408,
+        "static_rule": 0.16,
+        "acceleration_rule": 0.28,
+        "momentum:logistic_regression": 0.3
+      },
+      {
+        "pool_metric": "coverage",
+        "threshold": 1.0,
+        "min_days": 3,
+        "pool_rows": 19701,
+        "pool_base_rate": 0.13979274611398965,
+        "static_rule": 0.14,
+        "acceleration_rule": 0.28,
+        "momentum:logistic_regression": 0.28
+      },
+      {
+        "pool_metric": "coverage",
+        "threshold": 1.0,
+        "min_days": 5,
+        "pool_rows": 19700,
+        "pool_base_rate": 0.1397481734804912,
+        "static_rule": 0.14,
+        "acceleration_rule": 0.28,
+        "momentum:logistic_regression": 0.28
+      },
+      {
+        "pool_metric": "coverage",
+        "threshold": 1.0,
+        "min_days": 7,
+        "pool_rows": 19698,
+        "pool_base_rate": 0.13971083588122507,
+        "static_rule": 0.14,
+        "acceleration_rule": 0.28,
+        "momentum:logistic_regression": 0.28
+      },
+      {
+        "pool_metric": "coverage",
+        "threshold": 1.2,
+        "min_days": 3,
+        "pool_rows": 11285,
+        "pool_base_rate": 0.1363184977882098,
+        "static_rule": 0.16,
+        "acceleration_rule": 0.12,
+        "momentum:logistic_regression": 0.28
+      },
+      {
+        "pool_metric": "coverage",
+        "threshold": 1.2,
+        "min_days": 5,
+        "pool_rows": 11284,
+        "pool_base_rate": 0.13624052004333695,
+        "static_rule": 0.16,
+        "acceleration_rule": 0.1,
+        "momentum:logistic_regression": 0.28
+      },
+      {
+        "pool_metric": "coverage",
+        "threshold": 1.2,
+        "min_days": 7,
+        "pool_rows": 11282,
+        "pool_base_rate": 0.13617482391186564,
+        "static_rule": 0.16,
+        "acceleration_rule": 0.1,
+        "momentum:logistic_regression": 0.28
+      },
+      {
+        "pool_metric": "label_variant_beyond_trajectory",
+        "threshold": 1.0,
+        "min_days": 3,
+        "pool_rows": 19781,
+        "pool_base_rate": 0.010990144987358754,
+        "static_rule": 0.0,
+        "acceleration_rule": 0.0,
+        "momentum:logistic_regression": 0.2
+      }
+    ],
+    "2026-03": [
+      {
+        "pool_metric": "raw",
+        "threshold": 0.9,
+        "min_days": 3,
+        "pool_rows": 25245,
+        "pool_base_rate": 0.3485004760393526,
+        "static_rule": 0.3,
+        "acceleration_rule": 0.5,
+        "momentum:logistic_regression": 0.44
+      },
+      {
+        "pool_metric": "raw",
+        "threshold": 0.9,
+        "min_days": 5,
+        "pool_rows": 25244,
+        "pool_base_rate": 0.34851430158289365,
+        "static_rule": 0.3,
+        "acceleration_rule": 0.5,
+        "momentum:logistic_regression": 0.44
+      },
+      {
+        "pool_metric": "raw",
+        "threshold": 0.9,
+        "min_days": 7,
+        "pool_rows": 25239,
+        "pool_base_rate": 0.348504086977224,
+        "static_rule": 0.3,
+        "acceleration_rule": 0.5,
+        "momentum:logistic_regression": 0.44
+      },
+      {
+        "pool_metric": "raw",
+        "threshold": 1.0,
+        "min_days": 3,
+        "pool_rows": 20398,
+        "pool_base_rate": 0.3194048905037808,
+        "static_rule": 0.3,
+        "acceleration_rule": 0.48,
+        "momentum:logistic_regression": 0.44
+      },
+      {
+        "pool_metric": "raw",
+        "threshold": 1.0,
+        "min_days": 5,
+        "pool_rows": 20397,
+        "pool_base_rate": 0.3194205745150994,
+        "static_rule": 0.3,
+        "acceleration_rule": 0.48,
+        "momentum:logistic_regression": 0.44
+      },
+      {
+        "pool_metric": "raw",
+        "threshold": 1.0,
+        "min_days": 7,
+        "pool_rows": 20393,
+        "pool_base_rate": 0.31943421246500664,
+        "static_rule": 0.3,
+        "acceleration_rule": 0.48,
+        "momentum:logistic_regression": 0.44
+      },
+      {
+        "pool_metric": "raw",
+        "threshold": 1.2,
+        "min_days": 3,
+        "pool_rows": 11822,
+        "pool_base_rate": 0.2666327654886007,
+        "static_rule": 0.26,
+        "acceleration_rule": 0.32,
+        "momentum:logistic_regression": 0.44
+      },
+      {
+        "pool_metric": "raw",
+        "threshold": 1.2,
+        "min_days": 5,
+        "pool_rows": 11821,
+        "pool_base_rate": 0.2666553653161553,
+        "static_rule": 0.26,
+        "acceleration_rule": 0.32,
+        "momentum:logistic_regression": 0.44
+      },
+      {
+        "pool_metric": "raw",
+        "threshold": 1.2,
+        "min_days": 7,
+        "pool_rows": 11818,
+        "pool_base_rate": 0.26672318779143706,
+        "static_rule": 0.26,
+        "acceleration_rule": 0.32,
+        "momentum:logistic_regression": 0.44
+      },
+      {
+        "pool_metric": "coverage",
+        "threshold": 0.9,
+        "min_days": 3,
+        "pool_rows": 24371,
+        "pool_base_rate": 0.3517521876668995,
+        "static_rule": 0.3,
+        "acceleration_rule": 0.5,
+        "momentum:logistic_regression": 0.46
+      },
+      {
+        "pool_metric": "coverage",
+        "threshold": 0.9,
+        "min_days": 5,
+        "pool_rows": 24370,
+        "pool_base_rate": 0.35176663927691043,
+        "static_rule": 0.3,
+        "acceleration_rule": 0.5,
+        "momentum:logistic_regression": 0.46
+      },
+      {
+        "pool_metric": "coverage",
+        "threshold": 0.9,
+        "min_days": 7,
+        "pool_rows": 24364,
+        "pool_base_rate": 0.3517300895865867,
+        "static_rule": 0.3,
+        "acceleration_rule": 0.48,
+        "momentum:logistic_regression": 0.46
+      },
+      {
+        "pool_metric": "coverage",
+        "threshold": 1.0,
+        "min_days": 3,
+        "pool_rows": 19143,
+        "pool_base_rate": 0.32653274743670224,
+        "static_rule": 0.3,
+        "acceleration_rule": 0.62,
+        "momentum:logistic_regression": 0.42
+      },
+      {
+        "pool_metric": "coverage",
+        "threshold": 1.0,
+        "min_days": 5,
+        "pool_rows": 19142,
+        "pool_base_rate": 0.32654982997645826,
+        "static_rule": 0.3,
+        "acceleration_rule": 0.62,
+        "momentum:logistic_regression": 0.42
+      },
+      {
+        "pool_metric": "coverage",
+        "threshold": 1.0,
+        "min_days": 7,
+        "pool_rows": 19137,
+        "pool_base_rate": 0.32653061224489793,
+        "static_rule": 0.3,
+        "acceleration_rule": 0.6,
+        "momentum:logistic_regression": 0.4
+      },
+      {
+        "pool_metric": "coverage",
+        "threshold": 1.2,
+        "min_days": 3,
+        "pool_rows": 10204,
+        "pool_base_rate": 0.28654167075684694,
+        "static_rule": 0.26,
+        "acceleration_rule": 0.46,
+        "momentum:logistic_regression": 0.4
+      },
+      {
+        "pool_metric": "coverage",
+        "threshold": 1.2,
+        "min_days": 5,
+        "pool_rows": 10203,
+        "pool_base_rate": 0.2865698016885922,
+        "static_rule": 0.26,
+        "acceleration_rule": 0.46,
+        "momentum:logistic_regression": 0.4
+      },
+      {
+        "pool_metric": "coverage",
+        "threshold": 1.2,
+        "min_days": 7,
+        "pool_rows": 10199,
+        "pool_base_rate": 0.28658416813985466,
+        "static_rule": 0.26,
+        "acceleration_rule": 0.46,
+        "momentum:logistic_regression": 0.4
+      },
+      {
+        "pool_metric": "label_variant_beyond_trajectory",
+        "threshold": 1.0,
+        "min_days": 3,
+        "pool_rows": 20398,
+        "pool_base_rate": 0.026907591083177845,
+        "static_rule": 0.02,
+        "acceleration_rule": 0.0,
+        "momentum:logistic_regression": 0.1
+      }
+    ],
+    "2026-04": [
+      {
+        "pool_metric": "raw",
+        "threshold": 0.9,
+        "min_days": 3,
+        "pool_rows": 25295,
+        "pool_base_rate": 0.5176555368724478,
+        "static_rule": 0.4,
+        "acceleration_rule": 0.56,
+        "momentum:logistic_regression": 0.72
+      },
+      {
+        "pool_metric": "raw",
+        "threshold": 0.9,
+        "min_days": 5,
+        "pool_rows": 25293,
+        "pool_base_rate": 0.5176762621611883,
+        "static_rule": 0.4,
+        "acceleration_rule": 0.56,
+        "momentum:logistic_regression": 0.72
+      },
+      {
+        "pool_metric": "raw",
+        "threshold": 0.9,
+        "min_days": 7,
+        "pool_rows": 25276,
+        "pool_base_rate": 0.5175259383888154,
+        "static_rule": 0.4,
+        "acceleration_rule": 0.56,
+        "momentum:logistic_regression": 0.72
+      },
+      {
+        "pool_metric": "raw",
+        "threshold": 1.0,
+        "min_days": 3,
+        "pool_rows": 19850,
+        "pool_base_rate": 0.5167118800225213,
+        "static_rule": 0.36,
+        "acceleration_rule": 0.64,
+        "momentum:logistic_regression": 0.66
+      },
+      {
+        "pool_metric": "raw",
+        "threshold": 1.0,
+        "min_days": 5,
+        "pool_rows": 19849,
+        "pool_base_rate": 0.5167118800225213,
+        "static_rule": 0.36,
+        "acceleration_rule": 0.64,
+        "momentum:logistic_regression": 0.66
+      },
+      {
+        "pool_metric": "raw",
+        "threshold": 1.0,
+        "min_days": 7,
+        "pool_rows": 19835,
+        "pool_base_rate": 0.5165685019206145,
+        "static_rule": 0.36,
+        "acceleration_rule": 0.64,
+        "momentum:logistic_regression": 0.66
+      },
+      {
+        "pool_metric": "raw",
+        "threshold": 1.2,
+        "min_days": 3,
+        "pool_rows": 11092,
+        "pool_base_rate": 0.5354725030140035,
+        "static_rule": 0.44,
+        "acceleration_rule": 0.4,
+        "momentum:logistic_regression": 0.64
+      },
+      {
+        "pool_metric": "raw",
+        "threshold": 1.2,
+        "min_days": 5,
+        "pool_rows": 11091,
+        "pool_base_rate": 0.5354725030140035,
+        "static_rule": 0.44,
+        "acceleration_rule": 0.4,
+        "momentum:logistic_regression": 0.64
+      },
+      {
+        "pool_metric": "raw",
+        "threshold": 1.2,
+        "min_days": 7,
+        "pool_rows": 11082,
+        "pool_base_rate": 0.5353563474387528,
+        "static_rule": 0.44,
+        "acceleration_rule": 0.4,
+        "momentum:logistic_regression": 0.64
+      },
+      {
+        "pool_metric": "coverage",
+        "threshold": 0.9,
+        "min_days": 3,
+        "pool_rows": 25014,
+        "pool_base_rate": 0.5187434215852967,
+        "static_rule": 0.4,
+        "acceleration_rule": 0.54,
+        "momentum:logistic_regression": 0.72
+      },
+      {
+        "pool_metric": "coverage",
+        "threshold": 0.9,
+        "min_days": 5,
+        "pool_rows": 25011,
+        "pool_base_rate": 0.5187644224930165,
+        "static_rule": 0.4,
+        "acceleration_rule": 0.56,
+        "momentum:logistic_regression": 0.72
+      },
+      {
+        "pool_metric": "coverage",
+        "threshold": 0.9,
+        "min_days": 7,
+        "pool_rows": 24987,
+        "pool_base_rate": 0.5185575364667747,
+        "static_rule": 0.4,
+        "acceleration_rule": 0.56,
+        "momentum:logistic_regression": 0.72
+      },
+      {
+        "pool_metric": "coverage",
+        "threshold": 1.0,
+        "min_days": 3,
+        "pool_rows": 19467,
+        "pool_base_rate": 0.5196283148882856,
+        "static_rule": 0.36,
+        "acceleration_rule": 0.54,
+        "momentum:logistic_regression": 0.64
+      },
+      {
+        "pool_metric": "coverage",
+        "threshold": 1.0,
+        "min_days": 5,
+        "pool_rows": 19464,
+        "pool_base_rate": 0.5196554424432263,
+        "static_rule": 0.36,
+        "acceleration_rule": 0.56,
+        "momentum:logistic_regression": 0.64
+      },
+      {
+        "pool_metric": "coverage",
+        "threshold": 1.0,
+        "min_days": 7,
+        "pool_rows": 19445,
+        "pool_base_rate": 0.5194628768483202,
+        "static_rule": 0.36,
+        "acceleration_rule": 0.56,
+        "momentum:logistic_regression": 0.64
+      },
+      {
+        "pool_metric": "coverage",
+        "threshold": 1.2,
+        "min_days": 3,
+        "pool_rows": 10533,
+        "pool_base_rate": 0.5496578690127077,
+        "static_rule": 0.42,
+        "acceleration_rule": 0.4,
+        "momentum:logistic_regression": 0.66
+      },
+      {
+        "pool_metric": "coverage",
+        "threshold": 1.2,
+        "min_days": 5,
+        "pool_rows": 10530,
+        "pool_base_rate": 0.5497116042623913,
+        "static_rule": 0.42,
+        "acceleration_rule": 0.42,
+        "momentum:logistic_regression": 0.66
+      },
+      {
+        "pool_metric": "coverage",
+        "threshold": 1.2,
+        "min_days": 7,
+        "pool_rows": 10521,
+        "pool_base_rate": 0.549598904324007,
+        "static_rule": 0.42,
+        "acceleration_rule": 0.42,
+        "momentum:logistic_regression": 0.66
+      },
+      {
+        "pool_metric": "label_variant_beyond_trajectory",
+        "threshold": 1.0,
+        "min_days": 3,
+        "pool_rows": 19850,
+        "pool_base_rate": 0.05661053385883196,
+        "static_rule": 0.02,
+        "acceleration_rule": 0.06,
+        "momentum:logistic_regression": 0.32
+      }
+    ]
+  },
+  "receipt_path": "work\\outputs\\onset_screening.json"
+}
