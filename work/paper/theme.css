@@ -47,7 +47,7 @@
   --maxw: 1180px;
   --textw: 720px;
   --gutter: 24px;
-  --topbar-h: 56px;
+  --topbar-h: 64px;
 
   /* Grid */
   --left-col: 280px;  /* TOC / nav width */
@@ -73,15 +73,16 @@ code{font-family:var(--mono);background:var(--canvas-tint);padding:.08em .32em;b
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 
 /* ---------- layout: two-column paper + right rail ---------- */
-.layout{display:grid;grid-template-columns:1fr var(--left-col);gap:28px;align-items:start}
-.article{min-width:0}
+/* Match the hero, KPI row and navigation container. The page has no right rail, so use one article column. */
+.layout{width:100%;max-width:var(--maxw);margin:0 auto;padding:0 var(--gutter);display:grid;grid-template-columns:minmax(0,1fr);gap:0;align-items:start}
+.article{min-width:0;width:100%}
 .rail{position:sticky;top:calc(var(--topbar-h) + 16px);align-self:start;display:flex;flex-direction:column;gap:14px}
 .rail-sticky{position:sticky;top:calc(var(--topbar-h) + 16px)}
 .rail-sticky .card{position:relative}
 
 /* ---------- sticky section nav (TOC) ---------- */
 .toc{
-  position:sticky;top:var(--topbar-h);z-index:40;
+  position:sticky;top:0;z-index:40;
   background:rgba(255,255,255,0.96);backdrop-filter:blur(8px);
   border-bottom:1px solid var(--rule);
 }
@@ -89,12 +90,12 @@ code{font-family:var(--mono);background:var(--canvas-tint);padding:.08em .32em;b
   max-width:var(--maxw);margin:0 auto;
   padding:0 var(--gutter);
   height:var(--topbar-h);
-  display:flex;align-items:center;gap:20px;
+  display:flex;align-items:center;gap:24px;
   overflow-x:auto;scrollbar-width:none;
 }
 .toc-inner::-webkit-scrollbar{display:none}
 .toc-inner a{
-  font-family:var(--sans);font-size:12.5px;font-weight:500;letter-spacing:.025em;
+  font-family:var(--sans);font-size:15px;font-weight:600;letter-spacing:.015em;
   color:var(--ink-soft);white-space:nowrap;border:0;
   padding:4px 0;border-bottom:1.5px solid transparent;
 }
@@ -151,7 +152,7 @@ code{font-family:var(--mono);background:var(--canvas-tint);padding:.08em .32em;b
   border-radius:12px;
 }
 .chart h2{
-  font-family:var(--mono);font-size:11px;font-weight:500;
+  font-family:var(--mono);font-size:13px;font-weight:500;
   letter-spacing:.13em;text-transform:uppercase;color:var(--ink-soft);
   margin:0 0 12px;
 }
@@ -170,20 +171,21 @@ code{font-family:var(--mono);background:var(--canvas-tint);padding:.08em .32em;b
 
 /* ---------- section headers ---------- */
 .sec{
-  display:flex;align-items:baseline;gap:12px;
+  display:flex;align-items:baseline;gap:14px;
   border-top:1px solid var(--rule);
-  padding-top:22px;margin:64px 0 22px;
+  padding-top:24px;margin:68px 0 24px;
+  font-family:var(--sans);font-size:clamp(25px,2.2vw,30px);font-weight:600;letter-spacing:-.012em;
   scroll-margin-top:calc(var(--topbar-h) + 20px);
 }
 .secnum{
-  font-family:var(--mono);font-size:12px;font-weight:500;letter-spacing:.10em;
+  font-family:var(--mono);font-size:13px;font-weight:500;letter-spacing:.10em;
   color:var(--ink-soft);border:1px solid var(--rule);
   border-radius:var(--radius-tag);padding:2px 9px;background:var(--canvas-soft);
   flex-shrink:0;
 }
-.sec h2{font-family:var(--sans);font-size:20px;font-weight:600;letter-spacing:-.012em;flex:1;margin:0}
+.sec h2{font-family:var(--sans);font-size:inherit;font-weight:inherit;letter-spacing:inherit;flex:1;margin:0}
 .backtop{
-  font-family:var(--mono);font-size:11px;letter-spacing:.05em;color:var(--ink-soft);
+  font-family:var(--mono);font-size:12px;letter-spacing:.05em;color:var(--ink-soft);
   border:0;text-transform:uppercase;
 }
 .backtop:hover{color:var(--blue)}
@@ -193,7 +195,7 @@ code{font-family:var(--mono);background:var(--canvas-tint);padding:.08em .32em;b
   background:var(--canvas-soft);border:1px solid var(--rule);border-radius:12px;
   padding:22px 26px;
 }
-.tldr h2{font-family:var(--sans);font-size:17px;font-weight:600;margin:0 0 12px}
+.tldr h2{font-family:var(--sans);font-size:20px;font-weight:600;margin:0 0 14px}
 .tldr dl{margin:0;display:grid;grid-template-columns:120px 1fr;gap:10px 16px}
 .tldr dt{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);padding-top:4px}
 .tldr dd{margin:0;font-family:var(--sans);font-size:15px;line-height:1.62;color:var(--ink)}
@@ -227,7 +229,7 @@ code{font-family:var(--mono);background:var(--canvas-tint);padding:.08em .32em;b
   margin:16px 0 8px;padding:20px 22px;
   background:var(--canvas-soft);border:1px solid var(--rule);border-radius:12px;
 }
-.funnel h3{font-family:var(--sans);font-size:13px;font-weight:600;margin:0 0 12px;color:var(--ink)}
+.funnel h3{font-family:var(--sans);font-size:15px;font-weight:600;margin:0 0 12px;color:var(--ink)}
 .steps{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 .step{
   display:flex;align-items:center;gap:8px;
@@ -315,7 +317,7 @@ table.spec tr:last-child th,table.spec tr:last-child td{border-bottom:0}
   background:var(--canvas-soft);border:1px solid var(--rule);border-radius:12px;
   padding:20px 24px;margin:16px 0;
 }
-.gloss h2{font-family:var(--sans);font-size:15px;font-weight:600;margin:0 0 12px}
+.gloss h2{font-family:var(--sans);font-size:18px;font-weight:600;margin:0 0 12px}
 .gloss ul{margin:0;padding-left:18px;font-family:var(--sans);font-size:13px;color:var(--ink-soft);line-height:1.62}
 .caveat{border-left:3px solid var(--red);background:var(--red-soft);padding:12px 16px;border-radius:0 8px 8px 0;margin:12px 0;font-family:var(--sans);font-size:12.5px;color:var(--ink-soft)}
 .note{border-left:3px solid var(--blue);background:var(--blue-soft);padding:12px 16px;border-radius:0 8px 8px 0;margin:12px 0;font-family:var(--sans);font-size:12.5px;color:var(--ink-soft)}
@@ -384,7 +386,7 @@ footer .credit{font-family:var(--mono);font-size:11px;letter-spacing:.05em;color
    Small label components carried over with the paper's current copy
    (sidebar cards + inline pills), expressed in this design's tokens. */
 .card-header{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}
-.card-header h3{margin:0;font-family:var(--sans);font-size:13px;font-weight:600}
+.card-header h3{margin:0;font-family:var(--sans);font-size:15px;font-weight:600}
 .card-footer{margin-top:12px;padding-top:10px;border-top:1px solid var(--rule);font-family:var(--mono);font-size:11px;letter-spacing:.05em}
 .pill{display:inline-block;font-family:var(--mono);font-size:10.5px;font-weight:600;padding:2px 8px;border-radius:999px;background:var(--canvas-tint);color:var(--ink)}
 .pill.info{background:var(--blue-soft);color:var(--blue-dark)}
